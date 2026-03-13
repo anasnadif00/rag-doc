@@ -16,6 +16,10 @@ class Settings:
     openai_api_key: str
     qdrant_url: str
     qdrant_collection: str
+    embedding_model: str
+    dataset_name: str
+    dataset_language: str
+    top_k: int
 
     @property
     def missing_required_env(self) -> list[str]:
@@ -35,6 +39,10 @@ def get_settings() -> Settings:
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
+        embedding_model=os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en"),
+        dataset_name=os.getenv("DATASET_NAME", "wikimedia/wikipedia"),
+        dataset_language=os.getenv("DATASET_LANGUAGE", "en"),
+        top_k=int(os.getenv("TOP_K", "5")),
     )
 
 

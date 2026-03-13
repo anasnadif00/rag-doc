@@ -2,15 +2,15 @@
 
 from fastapi import FastAPI
 
-from app.core.config import settings
-
-app = FastAPI(title="rag-doc API", version="0.1.0")
+from app.api.routes import health_router, ingest_router
 
 
-@app.get("/health", tags=["health"])
-def health() -> dict[str, object]:
-    return {
-        "status": "ok",
-        "service": "rag-doc",
-        "missing_env": settings.missing_required_env,
-    }
+def create_app() -> FastAPI:
+    """Build and configure the FastAPI application."""
+    app = FastAPI(title="rag-doc API", version="0.1.0")
+    app.include_router(health_router)
+    app.include_router(ingest_router)
+    return app
+
+
+app = create_app()

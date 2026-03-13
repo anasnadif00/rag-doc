@@ -16,3 +16,11 @@ class IngestResponse(BaseModel):
     documents_loaded: int
     documents_processed: int
     chunks_created: int
+
+class SourceDocument(BaseModel):
+    doc_id: str
+    title: str
+    text: str
+    source: str
+    language: str
+    category: str | None = None

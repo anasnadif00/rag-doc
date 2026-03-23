@@ -17,6 +17,7 @@ class Settings:
     qdrant_url: str
     qdrant_collection: str
     embedding_model: str
+    generation_model: str
     dataset_name: str
     dataset_language: str
     top_k: int
@@ -40,6 +41,7 @@ def get_settings() -> Settings:
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
         embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
+        generation_model=os.getenv("GENERATION_MODEL", "gpt-4o-mini"),
         dataset_name=os.getenv("DATASET_NAME", "wikimedia/wikipedia"),
         dataset_language=os.getenv("DATASET_LANGUAGE", "en"),
         top_k=int(os.getenv("TOP_K", "5")),

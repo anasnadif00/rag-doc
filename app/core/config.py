@@ -39,7 +39,7 @@ def get_settings() -> Settings:
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
-        embedding_model=os.getenv("EMBEDDING_MODEL", "BAAI/bge-small-en"),
+        embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
         dataset_name=os.getenv("DATASET_NAME", "wikimedia/wikipedia"),
         dataset_language=os.getenv("DATASET_LANGUAGE", "en"),
         top_k=int(os.getenv("TOP_K", "5")),

@@ -3,9 +3,9 @@
 from app.core.config import Settings
 from app.domain.schemas import IngestRequest, IngestResponse
 from app.ingestion.dataset_loader import DatasetLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.schema import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Qdrant
 
 
@@ -16,7 +16,7 @@ class IngestService:
         
         # Initialize chunking and embedding models once
         self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
-        self.embeddings = HuggingFaceEmbeddings(model_name=self.settings.embedding_model)
+        self.embeddings = OpenAIEmbeddings(model=self.settings.embedding_model, api_key=self.settings.openai_api_key)
 
     def run(self, request: IngestRequest) -> IngestResponse:
         # Load source documents

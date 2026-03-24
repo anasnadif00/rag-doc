@@ -11,6 +11,6 @@ router = APIRouter(tags=["ingest"])
 
 @router.post("/ingest", response_model=IngestResponse)
 def ingest(request: IngestRequest) -> IngestResponse:
-    """Trigger the dataset ingestion pipeline."""
+    """Trigger the ERP knowledge-base ingestion pipeline."""
     service = IngestService(settings=settings)
     return service.run(request)

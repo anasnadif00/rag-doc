@@ -1,0 +1,19 @@
+{
+  "doc_id": "faq-articoli-errori",
+  "title": "Errori comuni in Articoli",
+  "doc_type": "faq",
+  "module": "Logistica",
+  "submenu": "Magazzino",
+  "screen_id": "ART-001",
+  "screen_title": "Articoli",
+  "tab_name": "Anagrafica",
+  "task_tags": ["errori", "validazione"],
+  "error_codes": ["ART-VAL-001"],
+  "erp_version": "REL231",
+  "sections": [
+    {
+      "title": "Campo Articolo mancante",
+      "text": "Se il campo Articolo e' vuoto, il salvataggio viene bloccato. Inserisci un codice articolo univoco prima di salvare."
+    }
+  ]
+}

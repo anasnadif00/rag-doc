@@ -13,5 +13,7 @@ def health() -> dict[str, object]:
     return {
         "status": "ok",
         "service": "rag-doc",
+        "erp_version": settings.erp_version,
+        "knowledge_base_path": settings.knowledge_base_path,
         "missing_env": settings.missing_required_env,
     }

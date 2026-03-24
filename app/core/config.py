@@ -1,4 +1,4 @@
-"""Configuration loading for the application."""
+"""Configuration loading for the ERP copilot application."""
 
 from __future__ import annotations
 
@@ -11,6 +11,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def _parse_csv_env(name: str) -> tuple[str, ...]:
+    value = os.getenv(name, "")
+    if not value:
+        return ()
+    return tuple(item.strip() for item in value.split(",") if item.strip())
+
+
 @dataclass(frozen=True)
 class Settings:
     openai_api_key: str
@@ -18,9 +25,16 @@ class Settings:
     qdrant_collection: str
     embedding_model: str
     generation_model: str
-    dataset_name: str
-    dataset_language: str
+    knowledge_base_path: str
+    default_locale: str
+    erp_version: str
     top_k: int
+    max_context_chars: int
+    lexical_index_path: str
+    dense_candidate_limit: int
+    lexical_candidate_limit: int
+    redaction_allowlist: tuple[str, ...]
+    redaction_denylist: tuple[str, ...]
 
     @property
     def missing_required_env(self) -> list[str]:
@@ -36,15 +50,26 @@ class Settings:
 
 @lru_cache
 def get_settings() -> Settings:
+    knowledge_base_path = os.getenv("KNOWLEDGE_BASE_PATH", "knowledge-base")
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
         embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
         generation_model=os.getenv("GENERATION_MODEL", "gpt-4o-mini"),
-        dataset_name=os.getenv("DATASET_NAME", "wikimedia/wikipedia"),
-        dataset_language=os.getenv("DATASET_LANGUAGE", "en"),
+        knowledge_base_path=knowledge_base_path,
+        default_locale=os.getenv("DEFAULT_LOCALE", "it"),
+        erp_version=os.getenv("ERP_VERSION", "REL231"),
         top_k=int(os.getenv("TOP_K", "5")),
+        max_context_chars=int(os.getenv("MAX_CONTEXT_CHARS", "6000")),
+        lexical_index_path=os.getenv(
+            "LEXICAL_INDEX_PATH",
+            os.path.join(knowledge_base_path, ".artifacts", "lexical_index.json"),
+        ),
+        dense_candidate_limit=int(os.getenv("DENSE_CANDIDATE_LIMIT", "20")),
+        lexical_candidate_limit=int(os.getenv("LEXICAL_CANDIDATE_LIMIT", "20")),
+        redaction_allowlist=_parse_csv_env("REDACTION_ALLOWLIST"),
+        redaction_denylist=_parse_csv_env("REDACTION_DENYLIST"),
     )
 
 

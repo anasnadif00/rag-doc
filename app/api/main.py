@@ -1,9 +1,7 @@
 """FastAPI application entrypoint."""
 
 from fastapi import FastAPI
-
 from app.api.routes import health_router, ingest_router, query_router
-
 
 def create_app() -> FastAPI:
     """Build and configure the FastAPI application."""
@@ -12,6 +10,5 @@ def create_app() -> FastAPI:
     app.include_router(ingest_router)
     app.include_router(query_router)
     return app
-
 
 app = create_app()

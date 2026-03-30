@@ -8,7 +8,6 @@ from app.services.query_service import QueryService
 
 router = APIRouter(tags=["query"])
 
-
 @router.post("/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
     """Retrieve relevant chunks and generate a grounded answer."""

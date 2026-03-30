@@ -8,7 +8,6 @@ from app.services.ingest_service import IngestService
 
 router = APIRouter(tags=["ingest"])
 
-
 @router.post("/ingest", response_model=IngestResponse)
 def ingest(request: IngestRequest) -> IngestResponse:
     """Trigger the ERP knowledge-base ingestion pipeline."""

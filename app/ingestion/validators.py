@@ -52,6 +52,7 @@ def normalize_string_list(value: Any) -> list[str]:
     return [item.strip() for item in str(value).split(",") if item.strip()]
 
 
+# gets the metadata from the markdown file, the payload and list of errors if found
 def parse_yaml_front_matter(path: Path, raw_text: str) -> tuple[dict[str, Any], str, list[KBValidationError]]:
     if path.suffix.lower() != ".md":
         return {}, raw_text.strip(), []

@@ -15,99 +15,105 @@ fake = Faker('it_IT')
 ERP_MODULES = ["Magazzino", "Contabilità", "Fatturazione", "Risorse Umane", "Produzione", "Logistica", "Acquisti", "Vendite"]
 ERP_ISSUES = ["Errore 500", "Timeout Database", "Credenziali non valide", "Crash applicativo", "Spazio su disco esaurito", "Connessione rifiutata", "VPN disconnessa"]
 
-def generate_how_to(file_path):
-    module = random.choice(ERP_MODULES)
-    title = f"Come configurare il modulo {module}: {fake.catch_phrase()}"
-    
+def generate_yaml_front_matter(title, doc_kind, domain, feature):
+    return f"""---
+title: "{title}"
+doc_kind: "{doc_kind}"
+domain: "{domain}"
+feature: "{feature}"
+keywords: ["erp", "mock", "test"]
+task_tags: ["synthetic"]
+erp_versions: ["v1.0"]
+role_scope: ["all"]
+review_status: "approved"
+---
+"""
+
+def generate_how_to(file_path, domain, feature):
+    title = f"Come configurare {feature} in {domain}"
     with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(generate_yaml_front_matter(title, "how_to", domain, feature))
         f.write(f"# {title}\n\n")
-        
         f.write("## Panoramica\n")
-        f.write(f"Questa procedura illustra i passaggi per la corretta configurazione di {module}. {fake.paragraph(nb_sentences=3)}\n\n")
-        
+        f.write(f"Questa procedura illustra i passaggi d'uso. {fake.paragraph(nb_sentences=3)}\n\n")
         f.write("## Prerequisiti\n")
         for _ in range(random.randint(2, 4)):
             f.write(f"- {fake.sentence()}\n")
         f.write("\n")
-        
         f.write("## Procedura\n")
-        f.write(f"Assicurarsi di seguire le istruzioni nell'ordine corretto per il modulo {module}.\n")
+        f.write(f"Istruzioni operative per {feature}.\n")
         for i in range(1, random.randint(4, 9)):
             f.write(f"{(i)}. {fake.sentence()}\n")
         f.write("\n")
-        
         f.write("## Verifiche finali\n")
         f.write(f"{fake.paragraph(nb_sentences=2)}\n")
 
-def generate_troubleshooting(file_path):
-    module = random.choice(ERP_MODULES)
+def generate_troubleshooting(file_path, domain, feature):
     issue = random.choice(ERP_ISSUES)
-    title = f"Risoluzione problema {issue} in {module}"
+    title = f"Risoluzione problema {issue} in {feature}"
     
     with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(generate_yaml_front_matter(title, "troubleshooting", domain, feature))
         f.write(f"# {title}\n\n")
-        
         f.write("## Sintomo\n")
-        f.write(f"L'utente riscontra il seguente comportamento anomalo: {fake.paragraph(nb_sentences=3)}\n\n")
-        
+        f.write(f"Comportamento anomalo: {fake.paragraph(nb_sentences=3)}\n\n")
         f.write("## Cause probabili\n")
         for _ in range(random.randint(2, 4)):
             f.write(f"- {fake.sentence()}\n")
         f.write("\n")
-        
         f.write("## Risoluzione\n")
-        f.write("Applicare la seguente sequenza di ripristino:\n")
+        f.write("Sequenza di ripristino:\n")
         for i in range(1, random.randint(3, 6)):
             f.write(f"{(i)}. {fake.sentence()}\n")
         f.write("\n")
-        
         f.write("## Quando escalare\n")
-        f.write(f"Se l'errore persiste dopo la risoluzione: {fake.sentence()}\n")
+        f.write(f"Se l'errore persiste: {fake.sentence()}\n")
 
-def generate_reference(file_path):
-    module = random.choice(ERP_MODULES)
-    title = f"Riferimento Tecnico: Tabelle e Regole di {module}"
+def generate_reference(file_path, domain, feature):
+    title = f"Riferimento Tecnico per {feature}"
     
     with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(generate_yaml_front_matter(title, "reference", domain, feature))
         f.write(f"# {title}\n\n")
-        
-        f.write("Queste sono le specifiche tecniche per le entità di dominio.\n\n")
-        
+        f.write("Specifiche tecniche.\n\n")
         f.write("## Campi\n")
         for _ in range(random.randint(2, 4)):
-            field_name = fake.word().capitalize()
-            f.write(f"### {field_name}\n")
-            f.write(f"**Tipo:** {random.choice(['String', 'Integer', 'Boolean', 'Date', 'Float'])}\n")
+            f.write(f"### {fake.word().capitalize()}\n")
+            f.write(f"**Tipo:** {random.choice(['String', 'Integer', 'Boolean'])}\n")
             f.write(f"**Descrizione:** {fake.sentence()}\n\n")
-        
         f.write("## Regole\n")
         for _ in range(random.randint(2, 4)):
-            rule_name = f"Regola {fake.word().capitalize()}"
-            f.write(f"### {rule_name}\n")
+            f.write(f"### Regola {fake.word().capitalize()}\n")
             f.write(f"**Condizione:** {fake.sentence()}\n")
-            f.write(f"**Validazione:** {fake.paragraph(nb_sentences=2)}\n\n")
+            f.write(f"**Validazione:** {fake.paragraph()}\n\n")
 
 def main():
     parser = argparse.ArgumentParser(description="Generate synthetic Markdown knowledge base files.")
-    parser.add_argument("--count", type=int, default=50, help="Number of files to generate (default: 50)")
-    parser.add_argument("--outdir", type=str, default="mock_knowledge_base", help="Output directory (default: mock_knowledge_base)")
+    parser.add_argument("--count", type=int, default=50, help="Number of files to generate")
+    parser.add_argument("--outdir", type=str, default="mock_knowledge_base", help="Output directory")
     args = parser.parse_args()
 
-    os.makedirs(args.outdir, exist_ok=True)
-    
     generators = [
-        ("howto", generate_how_to),
-        ("ts", generate_troubleshooting),
-        ("ref", generate_reference)
+        ("how_to", generate_how_to),
+        ("troubleshooting", generate_troubleshooting),
+        ("reference", generate_reference)
     ]
     
     print(f"Generating {args.count} mock documents in '{args.outdir}'...")
+    features = ["auth", "report", "database", "ui", "export"]
     
     for i in range(args.count):
-        prefix, generator_func = random.choice(generators)
-        filename = f"{prefix}_{fake.uuid4()[:8]}.md"
-        file_path = os.path.join(args.outdir, filename)
-        generator_func(file_path)
+        doc_kind, generator_func = random.choice(generators)
+        domain = random.choice(ERP_MODULES).lower().replace(" ", "_")
+        feature = random.choice(features)
+        
+        # Le cartelle devono rispettare layout v2: outdir/<domain>/<feature>/<doc_kind>/
+        target_dir = os.path.join(args.outdir, domain, feature, doc_kind)
+        os.makedirs(target_dir, exist_ok=True)
+        
+        filename = f"{doc_kind}_{fake.uuid4()[:8]}.md"
+        file_path = os.path.join(target_dir, filename)
+        generator_func(file_path, domain, feature)
         
     print(f"✅ Fatto! Generati {args.count} file in {args.outdir}")
 

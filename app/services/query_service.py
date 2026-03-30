@@ -12,6 +12,7 @@ from app.domain.schemas import (
     QueryRequest,
     QueryResponse,
     QuerySource,
+    RetrievalDiagnostics,
 )
 from app.llm import AnswerGenerator
 from app.retrieval import QdrantRetriever, RetrievalRouter
@@ -57,6 +58,7 @@ class QueryService:
             request=normalized_request,
             screen_context=redaction.screen_context,
         )
+        diagnostics = getattr(self.retrieval_router, "last_diagnostics", None)
 
         logger.info(
             "ERP query processed",
@@ -68,8 +70,18 @@ class QueryService:
                 "retrieved_chunks": len(sources),
                 "redacted_fields": len(redaction.redacted_fields),
                 "top_retrieval_reasons": sources[0].retrieval_reasons if sources else [],
+                "retrieval_filters": query_plan.hard_filters,
+                "returned_chunk_ids": diagnostics.returned_chunk_ids if diagnostics else [],
             },
         )
+        if diagnostics and logger.isEnabledFor(logging.DEBUG):
+            logger.debug(
+                "ERP retrieval diagnostics",
+                extra={
+                    "conversation_id": normalized_request.conversation_id,
+                    "retrieval_diagnostics": diagnostics.model_dump(),
+                },
+            )
 
         if not sources:
             return QueryResponse(
@@ -85,6 +97,7 @@ class QueryService:
                 redaction_notice=redaction.notice,
                 answer_mode="clarification",
                 inference_notice=None,
+                retrieval_diagnostics=self._maybe_include_diagnostics(normalized_request, diagnostics),
             )
 
         generated = self.generator.generate(
@@ -119,6 +132,7 @@ class QueryService:
             redaction_notice=redaction.notice,
             answer_mode=answer_mode,
             inference_notice=generated.inference_notice,
+            retrieval_diagnostics=self._maybe_include_diagnostics(normalized_request, diagnostics),
         )
 
     def _to_citation(self, source: QuerySource) -> KnowledgeCitation:
@@ -176,6 +190,15 @@ class QueryService:
         if generated.confidence is None:
             return round(retrieval_confidence, 2)
         return round(min(1.0, (0.65 * retrieval_confidence) + (0.35 * generated.confidence)), 2)
+
+    def _maybe_include_diagnostics(
+        self,
+        request: QueryRequest,
+        diagnostics: RetrievalDiagnostics | None,
+    ) -> RetrievalDiagnostics | None:
+        if not request.retrieval_options or not request.retrieval_options.include_debug_info:
+            return None
+        return diagnostics
 
     def _validate_settings(self) -> None:
         missing = self.settings.missing_required_env

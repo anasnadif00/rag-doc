@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import re
+import unicodedata
+
 from app.domain.schemas import (
     FieldContext,
     QueryRequest,
@@ -12,6 +15,49 @@ from app.domain.schemas import (
     TaskIntent,
     UserContext,
 )
+
+SEARCH_TOKEN_PATTERN = re.compile(r"[a-z0-9_]+")
+ITALIAN_STOPWORDS = {
+    "a",
+    "ad",
+    "ai",
+    "al",
+    "alla",
+    "alle",
+    "allo",
+    "cosa",
+    "cos",
+    "da",
+    "dal",
+    "dalla",
+    "delle",
+    "dello",
+    "dei",
+    "del",
+    "della",
+    "di",
+    "e",
+    "ed",
+    "gli",
+    "i",
+    "il",
+    "in",
+    "l",
+    "la",
+    "le",
+    "lo",
+    "nei",
+    "nel",
+    "nella",
+    "o",
+    "per",
+    "su",
+    "tra",
+    "un",
+    "una",
+    "uno",
+}
+STEM_SUFFIXES = ("mente", "zione", "zioni")
 
 
 def _clean_text(value: str | None) -> str | None:
@@ -28,6 +74,69 @@ def _clean_list(values: list[str]) -> list[str]:
         if item and item not in cleaned:
             cleaned.append(item)
     return cleaned
+
+
+def normalize_search_text(value: str | None) -> str | None:
+    cleaned = _clean_text(value)
+    if cleaned is None:
+        return None
+
+    normalized = unicodedata.normalize("NFKD", cleaned.casefold())
+    flattened = "".join(char for char in normalized if not unicodedata.combining(char))
+    flattened = flattened.replace("’", " ").replace("'", " ")
+    flattened = re.sub(r"[^a-z0-9_]+", " ", flattened)
+    compacted = " ".join(flattened.split())
+    return compacted or None
+
+
+def tokenize_search_text(value: str | None, dedupe: bool = True) -> list[str]:
+    normalized = normalize_search_text(value)
+    if not normalized:
+        return []
+
+    tokens: list[str] = []
+    seen: set[str] = set()
+    for token in SEARCH_TOKEN_PATTERN.findall(normalized):
+        if len(token) < 2 or token in ITALIAN_STOPWORDS:
+            continue
+        for variant in _token_variants(token):
+            if dedupe:
+                if variant in seen:
+                    continue
+                seen.add(variant)
+            tokens.append(variant)
+    return tokens
+
+
+def normalize_search_list(values: list[str]) -> list[str]:
+    normalized: list[str] = []
+    for value in values:
+        item = normalize_search_text(value)
+        if item and item not in normalized:
+            normalized.append(item)
+    return normalized
+
+
+def _token_variants(token: str) -> list[str]:
+    variants = [token]
+    stem = _stem_token(token)
+    if stem and stem not in variants:
+        variants.append(stem)
+    return variants
+
+
+def _stem_token(token: str) -> str | None:
+    if len(token) < 5:
+        return None
+
+    for suffix in STEM_SUFFIXES:
+        if token.endswith(suffix) and len(token) - len(suffix) >= 4:
+            return token[: -len(suffix)]
+
+    if token.endswith(("i", "e", "o", "a")) and len(token) >= 5:
+        return token[:-1]
+
+    return None
 
 
 def normalize_query_request(request: QueryRequest, default_locale: str) -> QueryRequest:
@@ -112,7 +221,7 @@ def normalize_query_request(request: QueryRequest, default_locale: str) -> Query
 
 
 def infer_task_intent(message: str, screen_context: ScreenContext) -> TaskIntent:
-    lowered = message.lower()
+    lowered = normalize_search_text(message) or ""
     label = "general_guidance"
     hints: list[str] = []
 

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import re
 
+from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
 from app.domain.schemas import QueryPlan, QueryRequest, ResolvedSearchScope, ScreenContext
 
-TOKEN_PATTERN = re.compile(r"[A-Za-z0-9_]+")
 ERROR_CODE_PATTERN = re.compile(r"\b[A-Z]{2,}(?:-[A-Z0-9]+)+\b")
 
 
@@ -17,10 +17,18 @@ class QueryPlanner:
 
     def build(self, request: QueryRequest, screen_context: ScreenContext) -> QueryPlan:
         message = request.message.strip()
-        lowered = message.lower()
+        lowered = normalize_search_text(message) or ""
         error_codes = self._extract_error_codes(message, screen_context)
 
-        if error_codes or screen_context.error_messages or any(field.validation_error for field in screen_context.fields):
+        if (
+            error_codes
+            or screen_context.error_messages
+            or any(field.validation_error for field in screen_context.fields)
+            or any(
+                token in lowered
+                for token in ("errore", "problema", "anomalia", "squadrat", "risolv", "blocc", "fallisc")
+            )
+        ):
             intent_label = "troubleshooting"
             preferred_doc_kinds = ["troubleshooting", "reference", "how_to"]
         elif any(token in lowered for token in ("crea", "nuov", "annulla", "registra", "salva", "modifica", "aggiorna")):
@@ -56,7 +64,7 @@ class QueryPlanner:
             "aliases": self._compact(*screen_context.breadcrumb),
         }
 
-        lexical_terms = self._tokenize(
+        lexical_terms = tokenize_search_text(
             " ".join(
                 [
                     message,
@@ -119,14 +127,6 @@ class QueryPlanner:
                 if match not in found:
                     found.append(match)
         return found
-
-    def _tokenize(self, value: str) -> list[str]:
-        tokens: list[str] = []
-        for token in TOKEN_PATTERN.findall(value.lower()):
-            if len(token) < 2 or token in tokens:
-                continue
-            tokens.append(token)
-        return tokens
 
     def _compact(self, *values: str | None) -> list[str]:
         compacted: list[str] = []

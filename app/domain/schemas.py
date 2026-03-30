@@ -139,6 +139,7 @@ class RetrievalOptions(BaseModel):
     search_scope: SearchScope = "auto"
     score_threshold: float | None = None
     allow_inferred_guidance: bool = True
+    include_debug_info: bool = False
 
 
 class TaskIntent(BaseModel):
@@ -248,6 +249,40 @@ class RedactionResult(BaseModel):
     notice: str | None = None
 
 
+class RetrievalCandidateDebug(BaseModel):
+    chunk_id: str
+    title: str
+    doc_kind: DocType | None = None
+    source_uri: str | None = None
+    scope: ResolvedSearchScope
+    score: float
+    dense_score: float
+    lexical_score: float
+    exact_match_score: float
+    normalized_dense: float
+    normalized_lexical: float
+    normalized_exact: float
+    doc_kind_match: float
+    scope_specificity: float
+    role_match: float
+    version_match: float
+    selected: bool
+    selection_reason: str | None = None
+    retrieval_reasons: list[str] = Field(default_factory=list)
+
+
+class RetrievalDiagnostics(BaseModel):
+    query_plan: QueryPlan
+    active_filters: dict[str, list[str] | str] = Field(default_factory=dict)
+    semantic_query: str
+    lexical_index_path: str | None = None
+    candidate_count: int = 0
+    returned_count: int = 0
+    score_floor: float | None = None
+    returned_chunk_ids: list[str] = Field(default_factory=list)
+    candidates: list[RetrievalCandidateDebug] = Field(default_factory=list)
+
+
 class QueryResponse(BaseModel):
     answer: str
     steps: list[str]
@@ -258,6 +293,7 @@ class QueryResponse(BaseModel):
     redaction_notice: str | None
     answer_mode: AnswerMode = "grounded"
     inference_notice: str | None = None
+    retrieval_diagnostics: RetrievalDiagnostics | None = None
 
 
 class KBValidationError(BaseModel):
@@ -322,10 +358,15 @@ class RetrievalCandidate(BaseModel):
     dense_score: float = 0.0
     lexical_score: float = 0.0
     exact_match_score: float = 0.0
+    normalized_dense: float = 0.0
+    normalized_lexical: float = 0.0
+    normalized_exact: float = 0.0
     doc_kind_match: float = 0.0
     scope_specificity: float = 0.0
     role_match: float = 0.0
     version_match: float = 0.0
     final_score: float = 0.0
     scope: ResolvedSearchScope = "global"
+    selected: bool = False
+    selection_reason: str | None = None
     retrieval_reasons: list[str] = Field(default_factory=list)

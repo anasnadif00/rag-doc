@@ -43,6 +43,8 @@ class Settings:
     lexical_index_path: str
     dense_candidate_limit: int
     lexical_candidate_limit: int
+    retrieval_min_score: float
+    retrieval_relative_score_floor: float
     redaction_allowlist: tuple[str, ...]
     redaction_denylist: tuple[str, ...]
 
@@ -81,6 +83,8 @@ def get_settings() -> Settings:
         ),
         dense_candidate_limit=int(os.getenv("DENSE_CANDIDATE_LIMIT", "20")),
         lexical_candidate_limit=int(os.getenv("LEXICAL_CANDIDATE_LIMIT", "20")),
+        retrieval_min_score=float(os.getenv("RETRIEVAL_MIN_SCORE", "0.2")),
+        retrieval_relative_score_floor=float(os.getenv("RETRIEVAL_RELATIVE_SCORE_FLOOR", "0.75")),
         redaction_allowlist=_parse_csv_env("REDACTION_ALLOWLIST"),
         redaction_denylist=_parse_csv_env("REDACTION_DENYLIST"),
     )

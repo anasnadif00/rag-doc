@@ -25,6 +25,8 @@ def make_settings(**overrides) -> Settings:
         lexical_index_path=str((Path("knowledge-base") / ".artifacts" / "lexical_index.json").resolve()),
         dense_candidate_limit=20,
         lexical_candidate_limit=20,
+        retrieval_min_score=0.2,
+        retrieval_relative_score_floor=0.75,
         redaction_allowlist=(),
         redaction_denylist=("iban", "email"),
     )

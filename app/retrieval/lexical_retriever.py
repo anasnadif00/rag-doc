@@ -4,14 +4,12 @@ from __future__ import annotations
 
 import json
 import math
-import re
 from pathlib import Path
 from typing import Any
 
+from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
 from app.domain.schemas import QueryPlan, QuerySource, RetrievalCandidate, ResolvedSearchScope
-
-TOKEN_PATTERN = re.compile(r"[A-Za-z0-9_]+")
 
 
 class LexicalRetriever:
@@ -63,11 +61,11 @@ class LexicalRetriever:
     ) -> list[RetrievalCandidate]:
         entries = [entry for entry in self._load_entries() if self._matches_filters(entry, plan, scope)]
         signals = {
-            "error_codes": {value.lower() for value in plan.soft_signals.get("error_codes", [])},
-            "screen_id": {value.lower() for value in plan.soft_signals.get("screen_id", [])},
-            "screen_title": {value.lower() for value in plan.soft_signals.get("screen_title", [])},
-            "tab_name": {value.lower() for value in plan.soft_signals.get("tab_name", [])},
-            "aliases": {value.lower() for value in plan.soft_signals.get("aliases", [])},
+            "error_codes": self._normalized_set(plan.soft_signals.get("error_codes", [])),
+            "screen_id": self._normalized_set(plan.soft_signals.get("screen_id", [])),
+            "screen_title": self._normalized_set(plan.soft_signals.get("screen_title", [])),
+            "tab_name": self._normalized_set(plan.soft_signals.get("tab_name", [])),
+            "aliases": self._normalized_set(plan.soft_signals.get("aliases", [])),
         }
 
         candidates: list[RetrievalCandidate] = []
@@ -79,9 +77,10 @@ class LexicalRetriever:
                     continue
                 actual_values = entry.get(field_name)
                 if isinstance(actual_values, list):
-                    normalized_actual = {str(value).lower() for value in actual_values}
+                    normalized_actual = self._normalized_set(actual_values)
                 else:
-                    normalized_actual = {str(actual_values).lower()} if actual_values else set()
+                    normalized_value = normalize_search_text(str(actual_values)) if actual_values else None
+                    normalized_actual = {normalized_value} if normalized_value else set()
                 matched = expected_values & normalized_actual
                 if matched:
                     exact_score += 0.5 if field_name in {"screen_title", "tab_name", "aliases"} else 1.0
@@ -147,17 +146,17 @@ class LexicalRetriever:
         if scope == "global":
             return True
 
-        module_values = {value.lower() for value in plan.soft_signals.get("module", [])}
-        submenu_values = {value.lower() for value in plan.soft_signals.get("submenu", [])}
-        screen_ids = {value.lower() for value in plan.soft_signals.get("screen_id", [])}
-        screen_titles = {value.lower() for value in plan.soft_signals.get("screen_title", [])}
-        tab_names = {value.lower() for value in plan.soft_signals.get("tab_name", [])}
+        module_values = self._normalized_set(plan.soft_signals.get("module", []))
+        submenu_values = self._normalized_set(plan.soft_signals.get("submenu", []))
+        screen_ids = self._normalized_set(plan.soft_signals.get("screen_id", []))
+        screen_titles = self._normalized_set(plan.soft_signals.get("screen_title", []))
+        tab_names = self._normalized_set(plan.soft_signals.get("tab_name", []))
 
-        entry_module = str(entry.get("module") or "").lower()
-        entry_submenu = str(entry.get("submenu") or "").lower()
-        entry_screen_id = str(entry.get("screen_id") or "").lower()
-        entry_screen_title = str(entry.get("screen_title") or "").lower()
-        entry_tab = str(entry.get("tab_name") or "").lower()
+        entry_module = normalize_search_text(str(entry.get("module") or ""))
+        entry_submenu = normalize_search_text(str(entry.get("submenu") or ""))
+        entry_screen_id = normalize_search_text(str(entry.get("screen_id") or ""))
+        entry_screen_title = normalize_search_text(str(entry.get("screen_title") or ""))
+        entry_tab = normalize_search_text(str(entry.get("tab_name") or ""))
 
         if scope == "module":
             if module_values and entry_module and entry_module in module_values:
@@ -202,9 +201,7 @@ class LexicalRetriever:
         ]
         tokens: list[str] = []
         for value in values:
-            for token in TOKEN_PATTERN.findall(value.lower()):
-                if len(token) >= 2:
-                    tokens.append(token)
+            tokens.extend(tokenize_search_text(value, dedupe=False))
         return tokens
 
     def _document_length(self, entry: dict[str, Any]) -> int:
@@ -239,6 +236,14 @@ class LexicalRetriever:
     def _as_list(self, value: Any) -> list[str]:
         if value is None:
             return []
-        if isinstance(value, list):
+        if isinstance(value, (list, tuple, set)):
             return [str(item) for item in value if str(item).strip()]
         return [str(value)]
+
+    def _normalized_set(self, values: list[str] | tuple[str, ...] | set[str] | Any) -> set[str]:
+        normalized: set[str] = set()
+        for value in self._as_list(values):
+            item = normalize_search_text(value)
+            if item:
+                normalized.add(item)
+        return normalized

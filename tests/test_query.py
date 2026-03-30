@@ -14,6 +14,7 @@ from app.domain.schemas import (
     QueryRequest,
     QueryResponse,
     QuerySource,
+    RetrievalDiagnostics,
     RetrievalOptions,
     ScreenContext,
     ScreenContextSummary,
@@ -42,6 +43,8 @@ def make_settings(**overrides) -> Settings:
         lexical_index_path="knowledge-base/.artifacts/lexical_index.json",
         dense_candidate_limit=20,
         lexical_candidate_limit=20,
+        retrieval_min_score=0.2,
+        retrieval_relative_score_floor=0.75,
         redaction_allowlist=(),
         redaction_denylist=("iban", "email"),
     )
@@ -251,6 +254,41 @@ def test_query_service_returns_partial_inference_when_generator_flags_it():
         assert response.inference_notice is not None
 
 
+def test_query_service_includes_retrieval_diagnostics_when_requested():
+    settings = make_settings()
+    source = make_query_source(role_scope=[])
+    request = make_query_request(retrieval_options=RetrievalOptions(include_debug_info=True))
+
+    with patch("app.services.query_service.QdrantRetriever"), patch(
+        "app.services.query_service.RetrievalRouter"
+    ) as mock_router_class, patch("app.services.query_service.AnswerGenerator") as mock_generator_class:
+        mock_router = mock_router_class.return_value
+        mock_router.search.return_value = (make_query_plan(), [source])
+        mock_router.last_diagnostics = RetrievalDiagnostics(
+            query_plan=make_query_plan(),
+            active_filters=make_query_plan().hard_filters,
+            semantic_query=make_query_plan().semantic_query,
+            lexical_index_path="knowledge-base/.artifacts/lexical_index.json",
+            candidate_count=1,
+            returned_count=1,
+            score_floor=0.2,
+            returned_chunk_ids=[source.chunk_id],
+            candidates=[],
+        )
+        mock_generator_class.return_value.generate.return_value = GeneratedAnswer(
+            answer="Compila Cliente e Data documento.",
+            steps=["Compila Cliente e Data documento"],
+            confidence=0.9,
+            answer_mode="grounded",
+        )
+
+        service = QueryService(settings=settings)
+        response = service.run(request)
+
+        assert response.retrieval_diagnostics is not None
+        assert response.retrieval_diagnostics.returned_chunk_ids == [source.chunk_id]
+
+
 def test_query_service_forces_clarification_when_inference_not_allowed():
     settings = make_settings()
     source = make_query_source(score=0.22)
@@ -291,6 +329,28 @@ def test_retrieval_router_prefers_screen_how_to_over_global_doc(tmp_path: Path):
 
     assert results[0].chunk_id == "screen"
     assert retriever.search.call_count == 3
+
+
+def test_retrieval_router_applies_relative_score_cutoff(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(lexical_path, [])
+    retriever = Mock()
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    retriever.settings = settings
+    retriever.search.side_effect = [
+        [make_query_source(chunk_id="top", score=0.95, retrieval_reasons=[])],
+        [],
+        [make_query_source(chunk_id="tail", score=0.35, screen_id=None, screen_title=None, tab_name=None, retrieval_reasons=[])],
+    ]
+    router = RetrievalRouter(settings=settings, retriever=retriever)
+
+    _, results = router.search(request=make_query_request(), screen_context=make_query_request().screen_context)
+
+    assert [result.chunk_id for result in results] == ["top"]
+    assert router.last_diagnostics is not None
+    excluded = next(item for item in router.last_diagnostics.candidates if item.chunk_id == "tail")
+    assert excluded.selected is False
+    assert "below floor" in (excluded.selection_reason or "")
 
 
 def test_retrieval_router_exact_error_code_prioritizes_troubleshooting(tmp_path: Path):

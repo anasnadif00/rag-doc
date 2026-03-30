@@ -5,7 +5,15 @@ from __future__ import annotations
 from qdrant_client.http.models import FieldCondition, Filter, MatchAny, MatchValue
 
 from app.core.config import Settings
-from app.domain.schemas import QueryPlan, QueryRequest, QuerySource, RetrievalCandidate, ScreenContext
+from app.domain.schemas import (
+    QueryPlan,
+    QueryRequest,
+    QuerySource,
+    RetrievalCandidate,
+    RetrievalCandidateDebug,
+    RetrievalDiagnostics,
+    ScreenContext,
+)
 from app.retrieval.lexical_retriever import LexicalRetriever
 from app.retrieval.qdrant_retriever import QdrantRetriever
 from app.retrieval.query_planner import QueryPlanner
@@ -23,6 +31,7 @@ class RetrievalRouter:
         self.retriever = retriever
         self.lexical_retriever = lexical_retriever or LexicalRetriever(settings=settings)
         self.query_planner = query_planner or QueryPlanner(settings=settings)
+        self.last_diagnostics: RetrievalDiagnostics | None = None
 
     def search(
         self,
@@ -64,7 +73,15 @@ class RetrievalRouter:
                 self._merge_candidate(candidate_map, candidate)
 
         ranked = self._rerank(list(candidate_map.values()), plan)
-        return plan, [candidate.source for candidate in ranked[:final_limit]]
+        score_floor, eligible = self._apply_score_cutoff(ranked)
+        returned = self._apply_result_limit(eligible, final_limit)
+        self.last_diagnostics = self._build_diagnostics(
+            plan=plan,
+            ranked=ranked,
+            returned=returned,
+            score_floor=score_floor,
+        )
+        return plan, [candidate.source for candidate in returned]
 
     def _build_dense_filter(self, plan: QueryPlan, scope: str) -> Filter | None:
         conditions: list[FieldCondition] = [
@@ -162,6 +179,9 @@ class RetrievalRouter:
             normalized_dense = self._normalize(candidate.dense_score, dense_scores)
             normalized_lexical = self._normalize(candidate.lexical_score, lexical_scores)
             normalized_exact = self._normalize(candidate.exact_match_score, exact_scores)
+            candidate.normalized_dense = normalized_dense
+            candidate.normalized_lexical = normalized_lexical
+            candidate.normalized_exact = normalized_exact
             candidate.doc_kind_match = self._doc_kind_match(candidate.source, plan)
             candidate.scope_specificity = {
                 "screen": 1.0,
@@ -179,9 +199,9 @@ class RetrievalRouter:
 
             exact_bonus = 0.25 * normalized_exact
             candidate.final_score = (
-                0.45 * normalized_dense
+                0.40 * normalized_dense
                 + 0.25 * normalized_lexical
-                + 0.10 * candidate.doc_kind_match
+                + 0.15 * candidate.doc_kind_match
                 + 0.10 * candidate.scope_specificity
                 + 0.05 * candidate.role_match
                 + 0.05 * candidate.version_match
@@ -192,6 +212,111 @@ class RetrievalRouter:
 
         candidates.sort(key=lambda item: item.final_score, reverse=True)
         return candidates
+
+    def _apply_score_cutoff(self, candidates: list[RetrievalCandidate]) -> tuple[float | None, list[RetrievalCandidate]]:
+        if not candidates:
+            return None, []
+
+        top_score = candidates[0].final_score
+        if top_score < self.settings.retrieval_min_score:
+            reason = (
+                f"top score {top_score:.4f} below minimum "
+                f"{self.settings.retrieval_min_score:.4f}"
+            )
+            for candidate in candidates:
+                candidate.selected = False
+                candidate.selection_reason = reason
+            return self.settings.retrieval_min_score, []
+
+        score_floor = max(
+            self.settings.retrieval_min_score,
+            top_score * self.settings.retrieval_relative_score_floor,
+        )
+        eligible: list[RetrievalCandidate] = []
+        for index, candidate in enumerate(candidates):
+            if index == 0:
+                candidate.selected = True
+                candidate.selection_reason = "top ranked candidate"
+                eligible.append(candidate)
+                continue
+
+            if candidate.exact_match_score > 0 and candidate.final_score >= self.settings.retrieval_min_score:
+                candidate.selected = True
+                candidate.selection_reason = "passed exact-match safeguard"
+                eligible.append(candidate)
+                continue
+
+            if candidate.final_score >= score_floor:
+                candidate.selected = True
+                candidate.selection_reason = f"score {candidate.final_score:.4f} above floor {score_floor:.4f}"
+                eligible.append(candidate)
+                continue
+
+            candidate.selected = False
+            candidate.selection_reason = f"score {candidate.final_score:.4f} below floor {score_floor:.4f}"
+        return score_floor, eligible
+
+    def _apply_result_limit(
+        self,
+        candidates: list[RetrievalCandidate],
+        final_limit: int,
+    ) -> list[RetrievalCandidate]:
+        returned: list[RetrievalCandidate] = []
+        for index, candidate in enumerate(candidates):
+            if index < final_limit:
+                candidate.selected = True
+                if candidate.selection_reason != "top ranked candidate":
+                    candidate.selection_reason = (
+                        candidate.selection_reason or f"returned in top_k {final_limit}"
+                    )
+                returned.append(candidate)
+                continue
+
+            candidate.selected = False
+            candidate.selection_reason = f"trimmed by top_k {final_limit}"
+        return returned
+
+    def _build_diagnostics(
+        self,
+        plan: QueryPlan,
+        ranked: list[RetrievalCandidate],
+        returned: list[RetrievalCandidate],
+        score_floor: float | None,
+    ) -> RetrievalDiagnostics:
+        return RetrievalDiagnostics(
+            query_plan=plan,
+            active_filters=plan.hard_filters,
+            semantic_query=plan.semantic_query,
+            lexical_index_path=self.settings.lexical_index_path,
+            candidate_count=len(ranked),
+            returned_count=len(returned),
+            score_floor=round(score_floor, 4) if score_floor is not None else None,
+            returned_chunk_ids=[candidate.source.chunk_id for candidate in returned],
+            candidates=[
+                RetrievalCandidateDebug(
+                    chunk_id=candidate.source.chunk_id,
+                    title=candidate.source.title,
+                    doc_kind=candidate.source.doc_kind,
+                    source_uri=candidate.source.source_uri,
+                    scope=candidate.scope,
+                    score=round(candidate.final_score, 4),
+                    dense_score=round(candidate.dense_score, 4),
+                    lexical_score=round(candidate.lexical_score, 4),
+                    exact_match_score=round(candidate.exact_match_score, 4),
+                    normalized_dense=round(candidate.normalized_dense, 4),
+                    normalized_lexical=round(candidate.normalized_lexical, 4),
+                    normalized_exact=round(candidate.normalized_exact, 4),
+                    doc_kind_match=round(candidate.doc_kind_match, 4),
+                    scope_specificity=round(candidate.scope_specificity, 4),
+                    role_match=round(candidate.role_match, 4),
+                    version_match=round(candidate.version_match, 4),
+                    selected=candidate.selected,
+                    selection_reason=candidate.selection_reason,
+                    retrieval_reasons=candidate.source.retrieval_reasons,
+                )
+                for candidate in ranked
+            ],
+        )
 
     def _doc_kind_match(self, source: QuerySource, plan: QueryPlan) -> float:
         if source.doc_kind not in plan.preferred_doc_kinds:

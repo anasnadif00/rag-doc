@@ -1,0 +1,65 @@
+[
+  {
+    "id": "overview-brogliaccio",
+    "message": "Cos'è il brogliaccio?",
+    "expected_source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "expected_doc_kind": "overview"
+  },
+  {
+    "id": "overview-accentless",
+    "message": "A cosa serve il brogliaccio di contabilita?",
+    "expected_source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "expected_doc_kind": "overview"
+  },
+  {
+    "id": "how-to-prima-nota",
+    "message": "Come registro una prima nota?",
+    "expected_source_uri": "contabilità/registrazioni/how_to/registra-prima-nota.md",
+    "expected_doc_kind": "how_to"
+  },
+  {
+    "id": "how-to-movimenti-plural",
+    "message": "Come verifico i movimenti prima di salvare la prima nota?",
+    "expected_source_uri": "contabilità/registrazioni/how_to/registra-prima-nota.md",
+    "expected_doc_kind": "how_to"
+  },
+  {
+    "id": "reference-causale",
+    "message": "Cosa significa il campo causale?",
+    "expected_source_uri": "contabilità/registrazioni/reference/campo-causale.md",
+    "expected_doc_kind": "reference"
+  },
+  {
+    "id": "reference-causali-singularized",
+    "message": "Il campo causali e obbligatorio?",
+    "expected_source_uri": "contabilità/registrazioni/reference/campo-causale.md",
+    "expected_doc_kind": "reference"
+  },
+  {
+    "id": "troubleshooting-error-code",
+    "message": "Ricevo errore PN-SQ-001 durante il salvataggio",
+    "screen_context": {
+      "module": "Contabilita",
+      "submenu": "Registrazioni",
+      "screen_id": "PN-001",
+      "screen_title": "Prima nota",
+      "tab_name": "Movimenti",
+      "error_messages": ["Errore PN-SQ-001"],
+      "fields": []
+    },
+    "expected_source_uri": "contabilità/registrazioni/troubleshooting/errore-squadratura-prima-nota.md",
+    "expected_doc_kind": "troubleshooting"
+  },
+  {
+    "id": "troubleshooting-squadrature",
+    "message": "Come risolvo le squadrature in prima nota?",
+    "screen_context": {
+      "module": "Contabilità",
+      "submenu": "Registrazioni",
+      "screen_title": "Prima nota",
+      "fields": []
+    },
+    "expected_source_uri": "contabilità/registrazioni/troubleshooting/errore-squadratura-prima-nota.md",
+    "expected_doc_kind": "troubleshooting"
+  }
+]

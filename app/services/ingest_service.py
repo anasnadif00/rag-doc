@@ -6,7 +6,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from langchain_community.vectorstores import Qdrant
+from langchain_qdrant import QdrantVectorStore
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient
@@ -59,7 +59,7 @@ class IngestService:
         ingested_at = datetime.now(timezone.utc).isoformat()
         chunk_records = self.chunker.chunk_documents(source_documents, ingested_at=ingested_at)
         langchain_documents = self._to_langchain_documents(chunk_records)
-        Qdrant.from_documents(
+        QdrantVectorStore.from_documents(
             langchain_documents,
             self.embeddings,
             url=self.settings.qdrant_url,

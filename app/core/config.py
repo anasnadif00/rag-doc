@@ -5,10 +5,13 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 
 from dotenv import load_dotenv
 
 load_dotenv()
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def _parse_csv_env(name: str) -> tuple[str, ...]:
@@ -16,6 +19,13 @@ def _parse_csv_env(name: str) -> tuple[str, ...]:
     if not value:
         return ()
     return tuple(item.strip() for item in value.split(",") if item.strip())
+
+
+def _resolve_project_path(value: str) -> str:
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        path = PROJECT_ROOT / path
+    return str(path.resolve())
 
 
 @dataclass(frozen=True)
@@ -50,7 +60,8 @@ class Settings:
 
 @lru_cache
 def get_settings() -> Settings:
-    knowledge_base_path = os.getenv("KNOWLEDGE_BASE_PATH", "knowledge-base")
+    knowledge_base_path = _resolve_project_path(os.getenv("KNOWLEDGE_BASE_PATH", "knowledge-base"))
+    lexical_index_default = str(Path(knowledge_base_path) / ".artifacts" / "lexical_index.json")
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
@@ -62,9 +73,11 @@ def get_settings() -> Settings:
         erp_version=os.getenv("ERP_VERSION", "REL231"),
         top_k=int(os.getenv("TOP_K", "5")),
         max_context_chars=int(os.getenv("MAX_CONTEXT_CHARS", "6000")),
-        lexical_index_path=os.getenv(
-            "LEXICAL_INDEX_PATH",
-            os.path.join(knowledge_base_path, ".artifacts", "lexical_index.json"),
+        lexical_index_path=_resolve_project_path(
+            os.getenv(
+                "LEXICAL_INDEX_PATH",
+                lexical_index_default,
+            )
         ),
         dense_candidate_limit=int(os.getenv("DENSE_CANDIDATE_LIMIT", "20")),
         lexical_candidate_limit=int(os.getenv("LEXICAL_CANDIDATE_LIMIT", "20")),

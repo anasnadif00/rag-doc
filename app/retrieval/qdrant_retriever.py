@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from langchain_community.vectorstores import Qdrant
+from langchain_qdrant import QdrantVectorStore
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Filter
@@ -19,10 +19,10 @@ class QdrantRetriever:
             model=settings.embedding_model,
             api_key=settings.openai_api_key,
         )
-        self.vector_store = Qdrant(
+        self.vector_store = QdrantVectorStore(
             client=self.client,
             collection_name=settings.qdrant_collection,
-            embeddings=self.embeddings,
+            embedding=self.embeddings,
         )
 
     def search(

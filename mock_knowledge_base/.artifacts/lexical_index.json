@@ -1,0 +1,6798 @@
+[
+  {
+    "chunk_id": "acquisti/ui/how_to/how_to_46c94a05.md::panoramica",
+    "doc_id": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "title": "Come configurare ui in acquisti",
+    "text": "- Caldo inverno signora tra.\n- Amore vestito città.\n- Continuo medio bisognare vita.\n- Ritenere immaginare esempio freddo classe.",
+    "source": "lexical_index.json",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": ".artifacts/lexical_index.json",
+    "domain": "acquisti",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare ui in acquisti",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "token_estimate": 32,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/reference/reference_8660d459.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "acquisti/auth/reference/reference_8660d459.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_8660d459.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "acquisti/auth/reference/reference_8660d459.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/reference/reference_8660d459.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/reference/reference_8660d459.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "acquisti/auth/reference/reference_8660d459.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_8660d459.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "acquisti/auth/reference/reference_8660d459.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/reference/reference_8660d459.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md::sintomo.cause-probabili",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "title": "Risoluzione problema Errore 500 in auth",
+    "text": "Comportamento anomalo: Parecchio numeroso nulla sentire sognare. Sentire russo uso stabilire unire circa piuttosto.\n\n- Esprimere eccellenza se.\n- Conto inutile li uguale.",
+    "source": "troubleshooting_264ba693.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "token_estimate": 42,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md::risoluzione",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "title": "Risoluzione problema Errore 500 in auth",
+    "text": "Sequenza di ripristino:\n1. Poeta esprimere straordinario poco pubblicare.\n2. Spirito completamente ufficio base arte processo.\n3. Corpo imporre straniero diritto capitare.\n4. Limitare superare avvertire.",
+    "source": "troubleshooting_264ba693.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "token_estimate": 50,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md::quando-escalare",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "title": "Risoluzione problema Errore 500 in auth",
+    "text": "Se l'errore persiste: Pezzo importare piantare commercio comporre attesa sorridere gettare.",
+    "source": "troubleshooting_264ba693.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_264ba693.md",
+    "token_estimate": 22,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md::sintomo.cause-probabili",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "title": "Risoluzione problema Credenziali non valide in auth",
+    "text": "Comportamento anomalo: Pericoloso esempio diffondere ogni fame repubblica. Certo accendere forse accendere meno atteggiamento speciale. Prato indietro peggio niente sogno religioso giardino scherzare.\n\n- Comune fatica capitare origine togliere sede dichiarare.\n- Ma naturale passione.\n- Infatti dipendere tenere.\n- Divenire volere chiedere programma.",
+    "source": "troubleshooting_85150930.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "token_estimate": 87,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md::risoluzione",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "title": "Risoluzione problema Credenziali non valide in auth",
+    "text": "Sequenza di ripristino:\n1. Diffondere si volare loro svegliare venire ridurre macchina.\n2. Ripetere rivelare qui.",
+    "source": "troubleshooting_85150930.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "token_estimate": 28,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md::quando-escalare",
+    "doc_id": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "title": "Risoluzione problema Credenziali non valide in auth",
+    "text": "Se l'errore persiste: Passato superare tuttavia tranquillo comune ascoltare azione.",
+    "source": "troubleshooting_85150930.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "domain": "acquisti",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/auth/troubleshooting/troubleshooting_85150930.md",
+    "token_estimate": 20,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md::sintomo.cause-probabili",
+    "doc_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in database",
+    "text": "Comportamento anomalo: Collina addosso ricordo punta superare giorno. Pane pronto interno inizio subito.\n\n- Riguardare cucina partito potere gruppo bisognare paura.\n- Festa merito chiedere affare continuo ferire fuggire.\n- Pieno concetto visita mettere merito fondare.",
+    "source": "troubleshooting_7fd4f749.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "domain": "acquisti",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "token_estimate": 67,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md::risoluzione",
+    "doc_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in database",
+    "text": "Sequenza di ripristino:\n1. Salvare visita ufficio potere attenzione insomma.\n2. Quadro verso cavallo smettere spingere uso riferire indicare.",
+    "source": "troubleshooting_7fd4f749.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "domain": "acquisti",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "token_estimate": 35,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md::quando-escalare",
+    "doc_id": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in database",
+    "text": "Se l'errore persiste: Ammazzare freddo operazione europeo.",
+    "source": "troubleshooting_7fd4f749.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "domain": "acquisti",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/database/troubleshooting/troubleshooting_7fd4f749.md",
+    "token_estimate": 14,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/report/reference/reference_9d713079.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "acquisti/report/reference/reference_9d713079.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_9d713079.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "acquisti/report/reference/reference_9d713079.md",
+    "domain": "acquisti",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/report/reference/reference_9d713079.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/report/reference/reference_9d713079.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "acquisti/report/reference/reference_9d713079.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_9d713079.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "acquisti/report/reference/reference_9d713079.md",
+    "domain": "acquisti",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/report/reference/reference_9d713079.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/ui/how_to/how_to_46c94a05.md::panoramica",
+    "doc_id": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "title": "Come configurare ui in acquisti",
+    "text": "- Caldo inverno signora tra.\n- Amore vestito città.\n- Continuo medio bisognare vita.\n- Ritenere immaginare esempio freddo classe.",
+    "source": "how_to_46c94a05.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "domain": "acquisti",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare ui in acquisti",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "token_estimate": 32,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/ui/how_to/how_to_46c94a05.md::procedura.steps-1-3",
+    "doc_id": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "title": "Come configurare ui in acquisti",
+    "text": "1. Noi papà malattia amore.\n2. Strada pietà affrontare apparire.\n3. Scomparire tagliare scorrere stanco salvare davanti.",
+    "source": "how_to_46c94a05.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "domain": "acquisti",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "token_estimate": 30,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/ui/how_to/how_to_46c94a05.md::procedura.steps-4-5",
+    "doc_id": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "title": "Come configurare ui in acquisti",
+    "text": "4. Aggiungere ponte né difficile accanto sforzo nemico.\n5. Fianco internazionale divenire.",
+    "source": "how_to_46c94a05.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "domain": "acquisti",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 5,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "token_estimate": 22,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "acquisti/ui/how_to/how_to_46c94a05.md::verifiche-finali",
+    "doc_id": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "title": "Come configurare ui in acquisti",
+    "text": "Ritorno tono concludere abitare sala pronto ringraziare corso. Mestiere aspettare maniera concludere.",
+    "source": "how_to_46c94a05.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "domain": "acquisti",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "acquisti/ui/how_to/how_to_46c94a05.md",
+    "token_estimate": 25,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/how_to/how_to_9e21306a.md::panoramica",
+    "doc_id": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "title": "Come configurare auth in contabilità",
+    "text": "- Avanzare peso lanciare dipendere nemico.\n- Grosso assumere bastare insistere partito ospedale.\n- Biondo bianco intanto intenzione conto genere proposta.",
+    "source": "how_to_9e21306a.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare auth in contabilità",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "token_estimate": 38,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/how_to/how_to_9e21306a.md::procedura.steps-1-3",
+    "doc_id": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "title": "Come configurare auth in contabilità",
+    "text": "1. Cioè testa tagliare servizio.\n2. Tranquillo ritornare politica servire basso papà ferro.\n3. Ricevere camera metro tardi.",
+    "source": "how_to_9e21306a.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "token_estimate": 30,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/how_to/how_to_9e21306a.md::procedura.steps-4-6",
+    "doc_id": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "title": "Come configurare auth in contabilità",
+    "text": "4. Sede rivedere forma ritrovare descrivere.\n5. Pane addirittura scoprire nazione sogno.\n6. Via accogliere ah preparare aspetto campo.",
+    "source": "how_to_9e21306a.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "token_estimate": 33,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/how_to/how_to_9e21306a.md::procedura.steps-7-8",
+    "doc_id": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "title": "Come configurare auth in contabilità",
+    "text": "7. Ritornare confronto possibile.\n8. Giudicare freddo riprendere testa.",
+    "source": "how_to_9e21306a.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 7,
+    "step_end": 8,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "token_estimate": 17,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/how_to/how_to_9e21306a.md::verifiche-finali",
+    "doc_id": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "title": "Come configurare auth in contabilità",
+    "text": "Alcuno cuore ancora bocca innamorare male acqua. Letto normale colpire zona neanche capire qua.",
+    "source": "how_to_9e21306a.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/how_to/how_to_9e21306a.md",
+    "token_estimate": 23,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/reference/reference_139d9720.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "contabilità/auth/reference/reference_139d9720.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_139d9720.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/auth/reference/reference_139d9720.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/reference/reference_139d9720.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/reference/reference_139d9720.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "contabilità/auth/reference/reference_139d9720.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_139d9720.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/auth/reference/reference_139d9720.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/reference/reference_139d9720.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md::sintomo.cause-probabili",
+    "doc_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "title": "Risoluzione problema Timeout Database in auth",
+    "text": "Comportamento anomalo: Maestro azione inoltre medico ora nascere giustizia.\n\n- Infatti avvocato costruzione nascere medio mamma contadino.\n- Chiaro punto tranquillo spesa politico straordinario greco.\n- Qualunque fatto maggiore toccare tedesco ufficiale aggiungere.\n- Polizia lanciare costruire eh scienza arma.",
+    "source": "troubleshooting_c5939348.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "token_estimate": 77,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md::risoluzione",
+    "doc_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "title": "Risoluzione problema Timeout Database in auth",
+    "text": "Sequenza di ripristino:\n1. Letto contro studio impedire valore chilometro strano ricco.\n2. Mente fiume peggio contare.\n3. Qua cucina fatto maggio.\n4. Attenzione luce procedere soltanto ricordare effetto nero felice.",
+    "source": "troubleshooting_c5939348.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "token_estimate": 53,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md::quando-escalare",
+    "doc_id": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "title": "Risoluzione problema Timeout Database in auth",
+    "text": "Se l'errore persiste: Rivolgere desiderio classe montagna abbastanza sede affare.",
+    "source": "troubleshooting_c5939348.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "domain": "contabilità",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/auth/troubleshooting/troubleshooting_c5939348.md",
+    "token_estimate": 20,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/how_to/how_to_808d8220.md::panoramica",
+    "doc_id": "contabilità/export/how_to/how_to_808d8220.md",
+    "title": "Come configurare export in contabilità",
+    "text": "- Direzione cattolico parola andare bellezza aria.\n- Succedere istante qualche pubblico distruggere.",
+    "source": "how_to_808d8220.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/export/how_to/how_to_808d8220.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare export in contabilità",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/how_to/how_to_808d8220.md",
+    "token_estimate": 25,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/how_to/how_to_808d8220.md::procedura.steps-1-3",
+    "doc_id": "contabilità/export/how_to/how_to_808d8220.md",
+    "title": "Come configurare export in contabilità",
+    "text": "1. Calcio ultimo domani migliore.\n2. Fissare brutto piangere.\n3. Interessante risposta accendere avanzare condurre giro prodotto.",
+    "source": "how_to_808d8220.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/export/how_to/how_to_808d8220.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/how_to/how_to_808d8220.md",
+    "token_estimate": 32,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/how_to/how_to_808d8220.md::verifiche-finali",
+    "doc_id": "contabilità/export/how_to/how_to_808d8220.md",
+    "title": "Come configurare export in contabilità",
+    "text": "Fratello differenza sorriso aggiungere sostenere perfetto.",
+    "source": "how_to_808d8220.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/export/how_to/how_to_808d8220.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/how_to/how_to_808d8220.md",
+    "token_estimate": 14,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/reference/reference_bf4041cf.md::riferimento-tecnico-per-export.campi",
+    "doc_id": "contabilità/export/reference/reference_bf4041cf.md",
+    "title": "Riferimento Tecnico per export",
+    "text": "",
+    "source": "reference_bf4041cf.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/export/reference/reference_bf4041cf.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per export",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/reference/reference_bf4041cf.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/reference/reference_bf4041cf.md::riferimento-tecnico-per-export.regole",
+    "doc_id": "contabilità/export/reference/reference_bf4041cf.md",
+    "title": "Riferimento Tecnico per export",
+    "text": "",
+    "source": "reference_bf4041cf.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/export/reference/reference_bf4041cf.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per export",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/reference/reference_bf4041cf.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md::sintomo.cause-probabili",
+    "doc_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in export",
+    "text": "Comportamento anomalo: Comunicazione ritrovare continuare ufficiale terreno potenza. Cadere permettere nulla scala coprire autorità ponte.\n\n- Grado maniera studio distinguere aiuto.\n- Simile mettere causa affare esistere.\n- Alzare perfino muro sopra.",
+    "source": "troubleshooting_533e09e6.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "token_estimate": 62,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md::risoluzione",
+    "doc_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in export",
+    "text": "Sequenza di ripristino:\n1. Assicurare vostro cattivo intanto russo gente.\n2. Discutere lira musica classe volontà.\n3. Usare resto messa parola proposta dopo patria.",
+    "source": "troubleshooting_533e09e6.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "token_estimate": 41,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md::quando-escalare",
+    "doc_id": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in export",
+    "text": "Se l'errore persiste: Dedicare luogo zio roba favore posare enorme.",
+    "source": "troubleshooting_533e09e6.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "domain": "contabilità",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/export/troubleshooting/troubleshooting_533e09e6.md",
+    "token_estimate": 16,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/stampe/overview/brogliaccio-contabile.md::brogliaccio-contabile",
+    "doc_id": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "title": "Brogliaccio contabile",
+    "text": "Il **brogliaccio** è una stampa contabile che contiene il dettaglio completo dei movimenti.\n\nNon è una stampa orientata alla presentazione estetica, ma uno strumento tecnico di controllo.",
+    "source": "brogliaccio-contabile.md",
+    "language": "it",
+    "doc_type": "overview",
+    "doc_kind": "overview",
+    "kb_path": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "domain": "contabilità",
+    "feature": "stampe",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Brogliaccio contabile",
+    "heading_path": [
+      "Brogliaccio contabile"
+    ],
+    "chunk_kind": "section",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "controllo contabile",
+      "verifica errori"
+    ],
+    "keywords": [
+      "brogliaccio",
+      "stampa contabile",
+      "controllo contabilità",
+      "consolidamento",
+      "giornale"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "amministrazione",
+      "contabilità"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "token_estimate": 46,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/stampe/overview/brogliaccio-contabile.md::brogliaccio-contabile.funzione-principale",
+    "doc_id": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "title": "Brogliaccio contabile",
+    "text": "Il brogliaccio serve per:\n\n- Analizzare tutti i movimenti contabili\n- Individuare errori o anomalie\n- Verificare la correttezza dei dati prima delle fasi successive",
+    "source": "brogliaccio-contabile.md",
+    "language": "it",
+    "doc_type": "overview",
+    "doc_kind": "overview",
+    "kb_path": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "domain": "contabilità",
+    "feature": "stampe",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Funzione principale",
+    "heading_path": [
+      "Brogliaccio contabile",
+      "Funzione principale"
+    ],
+    "chunk_kind": "section",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "controllo contabile",
+      "verifica errori"
+    ],
+    "keywords": [
+      "brogliaccio",
+      "stampa contabile",
+      "controllo contabilità",
+      "consolidamento",
+      "giornale"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "amministrazione",
+      "contabilità"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "token_estimate": 41,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/stampe/overview/brogliaccio-contabile.md::brogliaccio-contabile.utilizzo-nel-processo-contabile",
+    "doc_id": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "title": "Brogliaccio contabile",
+    "text": "Il brogliaccio è **propedeutico** a:\n\n- Consolidamento dei movimenti\n- Eventuale stampa del giornale\n\nViene quindi utilizzato come passaggio di controllo prima delle elaborazioni ufficiali.",
+    "source": "brogliaccio-contabile.md",
+    "language": "it",
+    "doc_type": "overview",
+    "doc_kind": "overview",
+    "kb_path": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "domain": "contabilità",
+    "feature": "stampe",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Utilizzo nel processo contabile",
+    "heading_path": [
+      "Brogliaccio contabile",
+      "Utilizzo nel processo contabile"
+    ],
+    "chunk_kind": "section",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "controllo contabile",
+      "verifica errori"
+    ],
+    "keywords": [
+      "brogliaccio",
+      "stampa contabile",
+      "controllo contabilità",
+      "consolidamento",
+      "giornale"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "amministrazione",
+      "contabilità"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "token_estimate": 47,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/stampe/overview/brogliaccio-contabile.md::brogliaccio-contabile.controllo-errori",
+    "doc_id": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "title": "Brogliaccio contabile",
+    "text": "Uno degli scopi principali è permettere la verifica di:\n\n- Errori presenti nei movimenti\n- Potenziali anomalie contabili\n\nLe verifiche si basano sulle regole definite nella gestione **Errori di contabilità**.",
+    "source": "brogliaccio-contabile.md",
+    "language": "it",
+    "doc_type": "overview",
+    "doc_kind": "overview",
+    "kb_path": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "domain": "contabilità",
+    "feature": "stampe",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Controllo errori",
+    "heading_path": [
+      "Brogliaccio contabile",
+      "Controllo errori"
+    ],
+    "chunk_kind": "section",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "controllo contabile",
+      "verifica errori"
+    ],
+    "keywords": [
+      "brogliaccio",
+      "stampa contabile",
+      "controllo contabilità",
+      "consolidamento",
+      "giornale"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "amministrazione",
+      "contabilità"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/stampe/overview/brogliaccio-contabile.md",
+    "token_estimate": 52,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/how_to/how_to_743f7b22.md::panoramica",
+    "doc_id": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "title": "Come configurare ui in contabilità",
+    "text": "- Mamma male scoppiare povero vento teatro.\n- Condizione amare matrimonio stare.",
+    "source": "how_to_743f7b22.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare ui in contabilità",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "token_estimate": 20,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/how_to/how_to_743f7b22.md::procedura.steps-1-3",
+    "doc_id": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "title": "Come configurare ui in contabilità",
+    "text": "1. Pianura smettere ricevere.\n2. Silenzio altro adesso noto guardare.\n3. Pesare tu strumento poco grosso.",
+    "source": "how_to_743f7b22.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "token_estimate": 26,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/how_to/how_to_743f7b22.md::procedura.steps-4-4",
+    "doc_id": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "title": "Come configurare ui in contabilità",
+    "text": "4. Indietro coloro posto chiamare.",
+    "source": "how_to_743f7b22.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 4,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "token_estimate": 8,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/how_to/how_to_743f7b22.md::verifiche-finali",
+    "doc_id": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "title": "Come configurare ui in contabilità",
+    "text": "Avanti valle onore verde circa.",
+    "source": "how_to_743f7b22.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/how_to/how_to_743f7b22.md",
+    "token_estimate": 7,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/reference/reference_7c75ff08.md::riferimento-tecnico-per-ui.campi",
+    "doc_id": "contabilità/ui/reference/reference_7c75ff08.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_7c75ff08.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/ui/reference/reference_7c75ff08.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/reference/reference_7c75ff08.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "contabilità/ui/reference/reference_7c75ff08.md::riferimento-tecnico-per-ui.regole",
+    "doc_id": "contabilità/ui/reference/reference_7c75ff08.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_7c75ff08.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "contabilità/ui/reference/reference_7c75ff08.md",
+    "domain": "contabilità",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "contabilità/ui/reference/reference_7c75ff08.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/how_to/how_to_3f78e188.md::panoramica",
+    "doc_id": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "title": "Come configurare database in fatturazione",
+    "text": "- Intanto poesia coloro parlare.\n- Segreto francese italiano russo parete sede.\n- Indicare interessare quello ombra ogni.\n- Per faccia scuola contenere appartenere maggio chiudere.",
+    "source": "how_to_3f78e188.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare database in fatturazione",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "token_estimate": 45,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/how_to/how_to_3f78e188.md::procedura.steps-1-3",
+    "doc_id": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "title": "Come configurare database in fatturazione",
+    "text": "1. Latte ampio aiutare mezzo campagna scuola.\n2. Superare argomento padrone merito.\n3. Nero destro accettare intero prima bambina molto commercio.",
+    "source": "how_to_3f78e188.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "token_estimate": 36,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/how_to/how_to_3f78e188.md::procedura.steps-4-6",
+    "doc_id": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "title": "Come configurare database in fatturazione",
+    "text": "4. Particolare ferro cucina udire.\n5. Segreto escludere aggiungere consentire commissione esporre.\n6. Grazie intorno possibilità brutto immagine dente.",
+    "source": "how_to_3f78e188.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "token_estimate": 37,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/how_to/how_to_3f78e188.md::verifiche-finali",
+    "doc_id": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "title": "Come configurare database in fatturazione",
+    "text": "Desiderio grosso spesso proporre voltare modo indicare. Sopra pericolo frase.",
+    "source": "how_to_3f78e188.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/how_to/how_to_3f78e188.md",
+    "token_estimate": 19,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_10c1232a.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "fatturazione/database/reference/reference_10c1232a.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_10c1232a.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_10c1232a.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_10c1232a.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_10c1232a.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "fatturazione/database/reference/reference_10c1232a.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_10c1232a.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_10c1232a.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_10c1232a.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_1c590f2c.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "fatturazione/database/reference/reference_1c590f2c.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_1c590f2c.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_1c590f2c.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_1c590f2c.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_1c590f2c.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "fatturazione/database/reference/reference_1c590f2c.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_1c590f2c.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_1c590f2c.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_1c590f2c.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_fee85571.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "fatturazione/database/reference/reference_fee85571.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_fee85571.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_fee85571.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_fee85571.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/reference/reference_fee85571.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "fatturazione/database/reference/reference_fee85571.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_fee85571.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/database/reference/reference_fee85571.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/reference/reference_fee85571.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md::sintomo.cause-probabili",
+    "doc_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "title": "Risoluzione problema Timeout Database in database",
+    "text": "Comportamento anomalo: Tagliare punta contenere rivolgere importante che.\n\n- Scherzare atto dopo.\n- Anno famiglia autorità chi solo.\n- Nobile concetto accorgersi nascondere giungere notizia continuo vestito.",
+    "source": "troubleshooting_efadf899.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "token_estimate": 51,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md::risoluzione",
+    "doc_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "title": "Risoluzione problema Timeout Database in database",
+    "text": "Sequenza di ripristino:\n1. Con ombra rompere.\n2. Bruciare superiore ammettere accettare sino.\n3. Civiltà confronto assistere capitare generale.\n4. Eccellenza scrivere esame costruzione cambiare.\n5. Stella angolo avvicinare cultura girare.",
+    "source": "troubleshooting_efadf899.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "token_estimate": 59,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md::quando-escalare",
+    "doc_id": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "title": "Risoluzione problema Timeout Database in database",
+    "text": "Se l'errore persiste: Appoggiare azione aspetto leggere svegliare questione triste.",
+    "source": "troubleshooting_efadf899.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "domain": "fatturazione",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/database/troubleshooting/troubleshooting_efadf899.md",
+    "token_estimate": 20,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/export/how_to/how_to_bd798d46.md::panoramica",
+    "doc_id": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "title": "Come configurare export in fatturazione",
+    "text": "- Tirare amare salvare mettere.\n- Valle eh battaglia.\n- Avere parte anno attore stampa opporre intanto.\n- Desiderio naturale moglie perfino elettrico pomeriggio.",
+    "source": "how_to_bd798d46.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "domain": "fatturazione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare export in fatturazione",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "token_estimate": 40,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/export/how_to/how_to_bd798d46.md::procedura.steps-1-3",
+    "doc_id": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "title": "Come configurare export in fatturazione",
+    "text": "1. Provvedere isola ammazzare memoria sala segretario.\n2. Amare intero paura invitare tutto matrimonio.\n3. Stesso particolare istituto pieno.",
+    "source": "how_to_bd798d46.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "domain": "fatturazione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "token_estimate": 35,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/export/how_to/how_to_bd798d46.md::procedura.steps-4-4",
+    "doc_id": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "title": "Come configurare export in fatturazione",
+    "text": "4. Fino folla offendere.",
+    "source": "how_to_bd798d46.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "domain": "fatturazione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 4,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "token_estimate": 6,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/export/how_to/how_to_bd798d46.md::verifiche-finali",
+    "doc_id": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "title": "Come configurare export in fatturazione",
+    "text": "Soldato vivere porto seguito serie maniera meritare.",
+    "source": "how_to_bd798d46.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "domain": "fatturazione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/export/how_to/how_to_bd798d46.md",
+    "token_estimate": 13,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_59fc9e31.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "fatturazione/report/reference/reference_59fc9e31.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_59fc9e31.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_59fc9e31.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_59fc9e31.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_59fc9e31.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "fatturazione/report/reference/reference_59fc9e31.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_59fc9e31.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_59fc9e31.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_59fc9e31.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_6335a53d.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "fatturazione/report/reference/reference_6335a53d.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_6335a53d.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_6335a53d.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_6335a53d.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_6335a53d.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "fatturazione/report/reference/reference_6335a53d.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_6335a53d.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_6335a53d.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_6335a53d.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_7b130afd.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "fatturazione/report/reference/reference_7b130afd.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_7b130afd.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_7b130afd.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_7b130afd.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "fatturazione/report/reference/reference_7b130afd.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "fatturazione/report/reference/reference_7b130afd.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_7b130afd.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "fatturazione/report/reference/reference_7b130afd.md",
+    "domain": "fatturazione",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "fatturazione/report/reference/reference_7b130afd.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_a425f91b.md::panoramica",
+    "doc_id": "logistica/database/how_to/how_to_a425f91b.md",
+    "title": "Come configurare database in logistica",
+    "text": "- Rompere anima causa alto medico.\n- Funzione tardi accorgersi dolce.\n- Grave durare coloro.\n- Calcio cristiano tranquillo pranzo sognare.",
+    "source": "how_to_a425f91b.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_a425f91b.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare database in logistica",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_a425f91b.md",
+    "token_estimate": 34,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_a425f91b.md::procedura.steps-1-3",
+    "doc_id": "logistica/database/how_to/how_to_a425f91b.md",
+    "title": "Come configurare database in logistica",
+    "text": "1. Folla dottore cortile centrale spingere.\n2. Presidente saltare direttore controllo politica ma.\n3. Appoggiare pesare mente possibilità.",
+    "source": "how_to_a425f91b.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_a425f91b.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_a425f91b.md",
+    "token_estimate": 34,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_a425f91b.md::procedura.steps-4-6",
+    "doc_id": "logistica/database/how_to/how_to_a425f91b.md",
+    "title": "Come configurare database in logistica",
+    "text": "4. Domanda serie cantare vista.\n5. Istituto tuttavia famoso possibile meglio malattia mio.\n6. Partito vi controllo vicino disposizione monte.",
+    "source": "how_to_a425f91b.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_a425f91b.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_a425f91b.md",
+    "token_estimate": 35,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_a425f91b.md::procedura.steps-7-7",
+    "doc_id": "logistica/database/how_to/how_to_a425f91b.md",
+    "title": "Come configurare database in logistica",
+    "text": "7. Chiave notizia contenere contare sereno.",
+    "source": "how_to_a425f91b.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_a425f91b.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 7,
+    "step_end": 7,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_a425f91b.md",
+    "token_estimate": 10,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_a425f91b.md::verifiche-finali",
+    "doc_id": "logistica/database/how_to/how_to_a425f91b.md",
+    "title": "Come configurare database in logistica",
+    "text": "Diverso odore privato badare corso nemico accorgersi. Espressione cane difficoltà bambina piccolo madre.",
+    "source": "how_to_a425f91b.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_a425f91b.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_a425f91b.md",
+    "token_estimate": 26,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_d94a232c.md::panoramica",
+    "doc_id": "logistica/database/how_to/how_to_d94a232c.md",
+    "title": "Come configurare database in logistica",
+    "text": "- Toccare cuore vasto modo ognuno.\n- Particolare crescere madre davanti attorno rifiutare.",
+    "source": "how_to_d94a232c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_d94a232c.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare database in logistica",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_d94a232c.md",
+    "token_estimate": 22,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_d94a232c.md::procedura.steps-1-3",
+    "doc_id": "logistica/database/how_to/how_to_d94a232c.md",
+    "title": "Come configurare database in logistica",
+    "text": "1. Voltare giudicare serie peso.\n2. Tono isola buono scoprire motivo prevedere sera.\n3. Pensiero quindi sì.",
+    "source": "how_to_d94a232c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_d94a232c.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_d94a232c.md",
+    "token_estimate": 26,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_d94a232c.md::procedura.steps-4-6",
+    "doc_id": "logistica/database/how_to/how_to_d94a232c.md",
+    "title": "Come configurare database in logistica",
+    "text": "4. Sentire eccellenza diretto necessità riunire cittadino.\n5. Impossibile come origine stamattina vi cattolico.\n6. Proprio padrone terreno terreno.",
+    "source": "how_to_d94a232c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_d94a232c.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_d94a232c.md",
+    "token_estimate": 36,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/how_to/how_to_d94a232c.md::verifiche-finali",
+    "doc_id": "logistica/database/how_to/how_to_d94a232c.md",
+    "title": "Come configurare database in logistica",
+    "text": "Da avvenire dito privato. Signora riprendere provincia stazione dopo.",
+    "source": "how_to_d94a232c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "logistica/database/how_to/how_to_d94a232c.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/how_to/how_to_d94a232c.md",
+    "token_estimate": 17,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md::sintomo.cause-probabili",
+    "doc_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "title": "Risoluzione problema Credenziali non valide in database",
+    "text": "Comportamento anomalo: Lavoro lì scorrere capire. Giustizia eccetera cattivo porta. Valore scuola preciso sala direzione coscienza scrivere ringraziare. Notare dietro aiuto oppure.\n\n- Giudicare metà termine noto fronte.\n- Internazionale spegnere notevole.\n- Stampa acqua seguito assai parlare centrale serie.",
+    "source": "troubleshooting_854b97e0.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "token_estimate": 77,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md::risoluzione",
+    "doc_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "title": "Risoluzione problema Credenziali non valide in database",
+    "text": "Sequenza di ripristino:\n1. Raccogliere pianura patria povero ne fino accadere.\n2. Molto polizia affrontare lira aspettare.",
+    "source": "troubleshooting_854b97e0.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "token_estimate": 30,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md::quando-escalare",
+    "doc_id": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "title": "Risoluzione problema Credenziali non valide in database",
+    "text": "Se l'errore persiste: Giovanotto recare fronte sonno forma.",
+    "source": "troubleshooting_854b97e0.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "domain": "logistica",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/database/troubleshooting/troubleshooting_854b97e0.md",
+    "token_estimate": 14,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/ui/reference/reference_d222a4b7.md::riferimento-tecnico-per-ui.campi",
+    "doc_id": "logistica/ui/reference/reference_d222a4b7.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_d222a4b7.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "logistica/ui/reference/reference_d222a4b7.md",
+    "domain": "logistica",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/ui/reference/reference_d222a4b7.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/ui/reference/reference_d222a4b7.md::riferimento-tecnico-per-ui.regole",
+    "doc_id": "logistica/ui/reference/reference_d222a4b7.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_d222a4b7.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "logistica/ui/reference/reference_d222a4b7.md",
+    "domain": "logistica",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/ui/reference/reference_d222a4b7.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md::sintomo.cause-probabili",
+    "doc_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "title": "Risoluzione problema Errore 500 in ui",
+    "text": "Comportamento anomalo: Iniziare peccato mare mano bambina. Lotta profondo neanche teatro linea chiudere preferire lui. Giornale assicurare luce loro.\n\n- Nemico mettere muovere davvero grado.\n- Scegliere suo almeno tacere.\n- Spesa rispondere soldato lira.",
+    "source": "troubleshooting_47be0dbe.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "domain": "logistica",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "token_estimate": 63,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md::risoluzione",
+    "doc_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "title": "Risoluzione problema Errore 500 in ui",
+    "text": "Sequenza di ripristino:\n1. Come mattino sole esso assai fuori secolo posto.\n2. Problema notizia stupido invece mente mare.\n3. Età chiave dichiarare gente dente fine subito rompere.\n4. Importante carattere medio medico terreno.",
+    "source": "troubleshooting_47be0dbe.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "domain": "logistica",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "token_estimate": 56,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md::quando-escalare",
+    "doc_id": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "title": "Risoluzione problema Errore 500 in ui",
+    "text": "Se l'errore persiste: Cui diverso confessare sala giallo capire provincia.",
+    "source": "troubleshooting_47be0dbe.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "domain": "logistica",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "logistica/ui/troubleshooting/troubleshooting_47be0dbe.md",
+    "token_estimate": 18,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/auth/how_to/how_to_04eedacf.md::panoramica",
+    "doc_id": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "title": "Come configurare auth in magazzino",
+    "text": "- Mattino resistere greco tranquillo davvero ammazzare.\n- Notare fatica baciare frase fantasia scoprire.\n- Cambiare avvertire ringraziare realtà pubblico.\n- Proposito casa svegliare sociale.",
+    "source": "how_to_04eedacf.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "domain": "magazzino",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare auth in magazzino",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "token_estimate": 47,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/auth/how_to/how_to_04eedacf.md::procedura.steps-1-3",
+    "doc_id": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "title": "Come configurare auth in magazzino",
+    "text": "1. Aiuto dio controllo chiaro fuggire riempire lavorare.\n2. Continuare indicare vita cercare ciò.\n3. Ascoltare a industria fuoco.",
+    "source": "how_to_04eedacf.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "domain": "magazzino",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "token_estimate": 32,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/auth/how_to/how_to_04eedacf.md::procedura.steps-4-5",
+    "doc_id": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "title": "Come configurare auth in magazzino",
+    "text": "4. Don insieme vuoto accompagnare insegnare dormire accettare.\n5. Allora tavolo non pubblico ne situazione.",
+    "source": "how_to_04eedacf.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "domain": "magazzino",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 5,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "token_estimate": 26,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/auth/how_to/how_to_04eedacf.md::verifiche-finali",
+    "doc_id": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "title": "Come configurare auth in magazzino",
+    "text": "Raccontare giardino finire meno. Contrario contatto rivolgere perciò.",
+    "source": "how_to_04eedacf.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "domain": "magazzino",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/auth/how_to/how_to_04eedacf.md",
+    "token_estimate": 17,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_065ced01.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "magazzino/database/reference/reference_065ced01.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_065ced01.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_065ced01.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_065ced01.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_065ced01.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "magazzino/database/reference/reference_065ced01.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_065ced01.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_065ced01.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_065ced01.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_983a7b56.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "magazzino/database/reference/reference_983a7b56.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_983a7b56.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_983a7b56.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_983a7b56.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_983a7b56.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "magazzino/database/reference/reference_983a7b56.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_983a7b56.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_983a7b56.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_983a7b56.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_c40c6a62.md::riferimento-tecnico-per-database.campi",
+    "doc_id": "magazzino/database/reference/reference_c40c6a62.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_c40c6a62.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_c40c6a62.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_c40c6a62.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/database/reference/reference_c40c6a62.md::riferimento-tecnico-per-database.regole",
+    "doc_id": "magazzino/database/reference/reference_c40c6a62.md",
+    "title": "Riferimento Tecnico per database",
+    "text": "",
+    "source": "reference_c40c6a62.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "magazzino/database/reference/reference_c40c6a62.md",
+    "domain": "magazzino",
+    "feature": "database",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per database",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/database/reference/reference_c40c6a62.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/how_to/how_to_c882219c.md::panoramica",
+    "doc_id": "magazzino/ui/how_to/how_to_c882219c.md",
+    "title": "Come configurare ui in magazzino",
+    "text": "- Anima ragione tanto studiare cattivo fermo.\n- Padre ufficiale chiesa idea pregare ecco cosa governo.",
+    "source": "how_to_c882219c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/ui/how_to/how_to_c882219c.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare ui in magazzino",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/how_to/how_to_c882219c.md",
+    "token_estimate": 25,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/how_to/how_to_c882219c.md::procedura.steps-1-3",
+    "doc_id": "magazzino/ui/how_to/how_to_c882219c.md",
+    "title": "Come configurare ui in magazzino",
+    "text": "1. Problema attore che passato appoggiare.\n2. Direzione pericoloso rivoluzione acqua accendere bosco.\n3. Morale cui convincere bisogno.",
+    "source": "how_to_c882219c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/ui/how_to/how_to_c882219c.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/how_to/how_to_c882219c.md",
+    "token_estimate": 33,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/how_to/how_to_c882219c.md::procedura.steps-4-6",
+    "doc_id": "magazzino/ui/how_to/how_to_c882219c.md",
+    "title": "Come configurare ui in magazzino",
+    "text": "4. Cura padrone serie nemmeno finestra errore lingua.\n5. Parecchio dente consiglio.\n6. Senso porre epoca.",
+    "source": "how_to_c882219c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/ui/how_to/how_to_c882219c.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/how_to/how_to_c882219c.md",
+    "token_estimate": 26,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/how_to/how_to_c882219c.md::procedura.steps-7-7",
+    "doc_id": "magazzino/ui/how_to/how_to_c882219c.md",
+    "title": "Come configurare ui in magazzino",
+    "text": "7. Pomeriggio centro prezzo io bene altro esame.",
+    "source": "how_to_c882219c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/ui/how_to/how_to_c882219c.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 7,
+    "step_end": 7,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/how_to/how_to_c882219c.md",
+    "token_estimate": 12,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/how_to/how_to_c882219c.md::verifiche-finali",
+    "doc_id": "magazzino/ui/how_to/how_to_c882219c.md",
+    "title": "Come configurare ui in magazzino",
+    "text": "Proposta cultura preferire.",
+    "source": "how_to_c882219c.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "magazzino/ui/how_to/how_to_c882219c.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/how_to/how_to_c882219c.md",
+    "token_estimate": 6,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md::sintomo.cause-probabili",
+    "doc_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "title": "Risoluzione problema Credenziali non valide in ui",
+    "text": "Comportamento anomalo: Aprire scomparire finire superiore appartenere. Riuscire principe titolo età don.\n\n- Passo distanza bastare acqua fianco provocare.\n- Articolo neanche viaggio militare principale milione interessante soffrire.\n- Tranquillo e divertire durante bestia regione.",
+    "source": "troubleshooting_1be3fee8.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "token_estimate": 70,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md::risoluzione",
+    "doc_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "title": "Risoluzione problema Credenziali non valide in ui",
+    "text": "Sequenza di ripristino:\n1. A accompagnare peccato.\n2. Parola classe parete rispetto.",
+    "source": "troubleshooting_1be3fee8.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "token_estimate": 21,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md::quando-escalare",
+    "doc_id": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "title": "Risoluzione problema Credenziali non valide in ui",
+    "text": "Se l'errore persiste: Campagna tardi gamba libertà testa accendere.",
+    "source": "troubleshooting_1be3fee8.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "domain": "magazzino",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "magazzino/ui/troubleshooting/troubleshooting_1be3fee8.md",
+    "token_estimate": 16,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/auth/reference/reference_266bf4c9.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "produzione/auth/reference/reference_266bf4c9.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_266bf4c9.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "produzione/auth/reference/reference_266bf4c9.md",
+    "domain": "produzione",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/auth/reference/reference_266bf4c9.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/auth/reference/reference_266bf4c9.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "produzione/auth/reference/reference_266bf4c9.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_266bf4c9.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "produzione/auth/reference/reference_266bf4c9.md",
+    "domain": "produzione",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/auth/reference/reference_266bf4c9.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/export/reference/reference_ab6e39a7.md::riferimento-tecnico-per-export.campi",
+    "doc_id": "produzione/export/reference/reference_ab6e39a7.md",
+    "title": "Riferimento Tecnico per export",
+    "text": "",
+    "source": "reference_ab6e39a7.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "produzione/export/reference/reference_ab6e39a7.md",
+    "domain": "produzione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per export",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/export/reference/reference_ab6e39a7.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/export/reference/reference_ab6e39a7.md::riferimento-tecnico-per-export.regole",
+    "doc_id": "produzione/export/reference/reference_ab6e39a7.md",
+    "title": "Riferimento Tecnico per export",
+    "text": "",
+    "source": "reference_ab6e39a7.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "produzione/export/reference/reference_ab6e39a7.md",
+    "domain": "produzione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per export",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/export/reference/reference_ab6e39a7.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md::sintomo.cause-probabili",
+    "doc_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "title": "Risoluzione problema Credenziali non valide in export",
+    "text": "Comportamento anomalo: Vasto uccidere sentimento corso giovanotto fornire grigio. Quello migliore estero guardia mano davanti. Lira villa animale capo elemento.\n\n- Importanza triste determinare.\n- Accorgersi accanto controllo.\n- Piantare possibilità peso ognuno.",
+    "source": "troubleshooting_69772f5b.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "domain": "produzione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "token_estimate": 65,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md::risoluzione",
+    "doc_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "title": "Risoluzione problema Credenziali non valide in export",
+    "text": "Sequenza di ripristino:\n1. Meglio comodo storico amico no presidente.\n2. Personaggio sociale che tentare vincere straordinario.\n3. Sacro fermo pace continuare distruggere comprendere presente.",
+    "source": "troubleshooting_69772f5b.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "domain": "produzione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "token_estimate": 48,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md::quando-escalare",
+    "doc_id": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "title": "Risoluzione problema Credenziali non valide in export",
+    "text": "Se l'errore persiste: Gioia oggetto allora domani tardi estendere.",
+    "source": "troubleshooting_69772f5b.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "domain": "produzione",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "produzione/export/troubleshooting/troubleshooting_69772f5b.md",
+    "token_estimate": 16,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md::sintomo.cause-probabili",
+    "doc_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in auth",
+    "text": "Comportamento anomalo: Mestiere piuttosto concludere giorno idea dietro. Vicino denaro attività tranquillo incontrare appunto uguale. Giovanotto dividere territorio male passo don.\n\n- Distruggere rendere certamente aiutare.\n- Semplice che come.\n- Infatti quale assumere voltare.",
+    "source": "troubleshooting_30ab5971.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "domain": "risorse_umane",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "token_estimate": 69,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md::risoluzione",
+    "doc_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in auth",
+    "text": "Sequenza di ripristino:\n1. Nulla cortile peso riferire guidare povero.\n2. Vedere marito tra indietro su corrente.",
+    "source": "troubleshooting_30ab5971.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "domain": "risorse_umane",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "token_estimate": 28,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md::quando-escalare",
+    "doc_id": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "title": "Risoluzione problema Spazio su disco esaurito in auth",
+    "text": "Se l'errore persiste: Ognuno comunque merito scopo università interesse rimettere.",
+    "source": "troubleshooting_30ab5971.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "domain": "risorse_umane",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/auth/troubleshooting/troubleshooting_30ab5971.md",
+    "token_estimate": 20,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/report/reference/reference_45d94452.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "risorse_umane/report/reference/reference_45d94452.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_45d94452.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "risorse_umane/report/reference/reference_45d94452.md",
+    "domain": "risorse_umane",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/report/reference/reference_45d94452.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/report/reference/reference_45d94452.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "risorse_umane/report/reference/reference_45d94452.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_45d94452.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "risorse_umane/report/reference/reference_45d94452.md",
+    "domain": "risorse_umane",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/report/reference/reference_45d94452.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/ui/reference/reference_832ebc30.md::riferimento-tecnico-per-ui.campi",
+    "doc_id": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_832ebc30.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "domain": "risorse_umane",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "risorse_umane/ui/reference/reference_832ebc30.md::riferimento-tecnico-per-ui.regole",
+    "doc_id": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_832ebc30.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "domain": "risorse_umane",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "risorse_umane/ui/reference/reference_832ebc30.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_2264fa78.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "vendite/auth/reference/reference_2264fa78.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_2264fa78.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_2264fa78.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_2264fa78.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_2264fa78.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "vendite/auth/reference/reference_2264fa78.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_2264fa78.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_2264fa78.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_2264fa78.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_9109b8a0.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "vendite/auth/reference/reference_9109b8a0.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_9109b8a0.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_9109b8a0.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_9109b8a0.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_9109b8a0.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "vendite/auth/reference/reference_9109b8a0.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_9109b8a0.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_9109b8a0.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_9109b8a0.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_a03e9330.md::riferimento-tecnico-per-auth.campi",
+    "doc_id": "vendite/auth/reference/reference_a03e9330.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_a03e9330.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_a03e9330.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_a03e9330.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/reference/reference_a03e9330.md::riferimento-tecnico-per-auth.regole",
+    "doc_id": "vendite/auth/reference/reference_a03e9330.md",
+    "title": "Riferimento Tecnico per auth",
+    "text": "",
+    "source": "reference_a03e9330.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/auth/reference/reference_a03e9330.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per auth",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/reference/reference_a03e9330.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md::sintomo.cause-probabili",
+    "doc_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "title": "Risoluzione problema Connessione rifiutata in auth",
+    "text": "Comportamento anomalo: Testa descrivere padre cui attendere unico attore vostro. Luce vedere intenzione sottile sviluppo.\n\n- Quadro voglia tentare avvenire tacere.\n- Oltre filo oggi tagliare mancare.\n- Opinione figura civile principio.\n- Poesia scrivere abito.",
+    "source": "troubleshooting_5153f17a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "token_estimate": 65,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md::risoluzione",
+    "doc_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "title": "Risoluzione problema Connessione rifiutata in auth",
+    "text": "Sequenza di ripristino:\n1. Crisi comunicazione abitare spirito occorrere lanciare rispetto principe.\n2. Problema mancare università modo.",
+    "source": "troubleshooting_5153f17a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "token_estimate": 34,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md::quando-escalare",
+    "doc_id": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "title": "Risoluzione problema Connessione rifiutata in auth",
+    "text": "Se l'errore persiste: Verde mare lì continuo ragazzo.",
+    "source": "troubleshooting_5153f17a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "domain": "vendite",
+    "feature": "auth",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/auth/troubleshooting/troubleshooting_5153f17a.md",
+    "token_estimate": 13,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_02bc87af.md::panoramica",
+    "doc_id": "vendite/export/how_to/how_to_02bc87af.md",
+    "title": "Come configurare export in vendite",
+    "text": "- Sembrare sistema soltanto circa a caso chiudere.\n- Intenzione proposito invitare maniera impressione tono dovere tuttavia.\n- Principe bruciare promettere godere epoca roba eccetera desiderio.\n- Signorina scuola cominciare pregare uscire volto controllo.",
+    "source": "how_to_02bc87af.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_02bc87af.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare export in vendite",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_02bc87af.md",
+    "token_estimate": 63,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_02bc87af.md::procedura.steps-1-3",
+    "doc_id": "vendite/export/how_to/how_to_02bc87af.md",
+    "title": "Come configurare export in vendite",
+    "text": "1. Tentare essere gridare fratello quindi davanti.\n2. Dedicare porta situazione almeno anno.\n3. Comprendere uno rientrare alcuno parete maggio.",
+    "source": "how_to_02bc87af.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_02bc87af.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_02bc87af.md",
+    "token_estimate": 35,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_02bc87af.md::procedura.steps-4-4",
+    "doc_id": "vendite/export/how_to/how_to_02bc87af.md",
+    "title": "Come configurare export in vendite",
+    "text": "4. Estero bene ciascuno.",
+    "source": "how_to_02bc87af.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_02bc87af.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 4,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_02bc87af.md",
+    "token_estimate": 6,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_02bc87af.md::verifiche-finali",
+    "doc_id": "vendite/export/how_to/how_to_02bc87af.md",
+    "title": "Come configurare export in vendite",
+    "text": "Perfino calcio politica.",
+    "source": "how_to_02bc87af.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_02bc87af.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_02bc87af.md",
+    "token_estimate": 6,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_c22585f7.md::panoramica",
+    "doc_id": "vendite/export/how_to/how_to_c22585f7.md",
+    "title": "Come configurare export in vendite",
+    "text": "- Perfino conservare ospedale croce.\n- Bello gamba tra escludere.\n- Sposare tirare vista fiducia interessare coraggio.",
+    "source": "how_to_c22585f7.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_c22585f7.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare export in vendite",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_c22585f7.md",
+    "token_estimate": 29,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_c22585f7.md::procedura.steps-1-3",
+    "doc_id": "vendite/export/how_to/how_to_c22585f7.md",
+    "title": "Come configurare export in vendite",
+    "text": "1. Mezzo volgere sonno sinistro giugno maestro qui signore.\n2. Comprendere più periodo filo sorriso esprimere cominciare scoppiare.\n3. Cominciare nuovo venire signora lato.",
+    "source": "how_to_c22585f7.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_c22585f7.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_c22585f7.md",
+    "token_estimate": 43,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_c22585f7.md::procedura.steps-4-6",
+    "doc_id": "vendite/export/how_to/how_to_c22585f7.md",
+    "title": "Come configurare export in vendite",
+    "text": "4. Odore fantasia ancora avere donna latte.\n5. Posto mercato ringraziare libero monte quarto.\n6. Elettrico pubblico staccare energia.",
+    "source": "how_to_c22585f7.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_c22585f7.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 4,
+    "step_end": 6,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_c22585f7.md",
+    "token_estimate": 33,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_c22585f7.md::procedura.steps-7-8",
+    "doc_id": "vendite/export/how_to/how_to_c22585f7.md",
+    "title": "Come configurare export in vendite",
+    "text": "7. Nave testa zia opera.\n8. Stasera processo preoccupare gatto portare sviluppo volare.",
+    "source": "how_to_c22585f7.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_c22585f7.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 7,
+    "step_end": 8,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_c22585f7.md",
+    "token_estimate": 21,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/export/how_to/how_to_c22585f7.md::verifiche-finali",
+    "doc_id": "vendite/export/how_to/how_to_c22585f7.md",
+    "title": "Come configurare export in vendite",
+    "text": "Lontano volta sì porre. Abito infine genere.",
+    "source": "how_to_c22585f7.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/export/how_to/how_to_c22585f7.md",
+    "domain": "vendite",
+    "feature": "export",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/export/how_to/how_to_c22585f7.md",
+    "token_estimate": 11,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/report/reference/reference_45af42ea.md::riferimento-tecnico-per-report.campi",
+    "doc_id": "vendite/report/reference/reference_45af42ea.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_45af42ea.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/report/reference/reference_45af42ea.md",
+    "domain": "vendite",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/report/reference/reference_45af42ea.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/report/reference/reference_45af42ea.md::riferimento-tecnico-per-report.regole",
+    "doc_id": "vendite/report/reference/reference_45af42ea.md",
+    "title": "Riferimento Tecnico per report",
+    "text": "",
+    "source": "reference_45af42ea.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/report/reference/reference_45af42ea.md",
+    "domain": "vendite",
+    "feature": "report",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per report",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/report/reference/reference_45af42ea.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/how_to/how_to_9e7810aa.md::panoramica",
+    "doc_id": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "title": "Come configurare ui in vendite",
+    "text": "- Grazia signorina volgere classe grigio presente fuoco parere.\n- Causa rimanere presto.\n- Salutare stazione nessuno tentare piccolo.\n- Destro accadere dividere naturale sbagliare partire ecco.",
+    "source": "how_to_9e7810aa.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Come configurare ui in vendite",
+    "heading_path": [
+      "Panoramica"
+    ],
+    "chunk_kind": "overview",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "token_estimate": 48,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/how_to/how_to_9e7810aa.md::procedura.steps-1-3",
+    "doc_id": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "title": "Come configurare ui in vendite",
+    "text": "1. Correre spesa controllo ma.\n2. Tale odore rendere.\n3. Albero immaginare cavallo formare ne incontrare comunicazione.",
+    "source": "how_to_9e7810aa.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Procedura",
+    "heading_path": [
+      "Procedura"
+    ],
+    "chunk_kind": "procedure",
+    "step_start": 1,
+    "step_end": 3,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "token_estimate": 29,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/how_to/how_to_9e7810aa.md::verifiche-finali",
+    "doc_id": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "title": "Come configurare ui in vendite",
+    "text": "Nave costruire sognare metro parte enorme.",
+    "source": "how_to_9e7810aa.md",
+    "language": "it",
+    "doc_type": "how_to",
+    "doc_kind": "how_to",
+    "kb_path": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Verifiche finali",
+    "heading_path": [
+      "Verifiche finali"
+    ],
+    "chunk_kind": "verification",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/how_to/how_to_9e7810aa.md",
+    "token_estimate": 10,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/reference/reference_7bfb557d.md::riferimento-tecnico-per-ui.campi",
+    "doc_id": "vendite/ui/reference/reference_7bfb557d.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_7bfb557d.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/ui/reference/reference_7bfb557d.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Campi",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Campi"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/reference/reference_7bfb557d.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/reference/reference_7bfb557d.md::riferimento-tecnico-per-ui.regole",
+    "doc_id": "vendite/ui/reference/reference_7bfb557d.md",
+    "title": "Riferimento Tecnico per ui",
+    "text": "",
+    "source": "reference_7bfb557d.md",
+    "language": "it",
+    "doc_type": "reference",
+    "doc_kind": "reference",
+    "kb_path": "vendite/ui/reference/reference_7bfb557d.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Regole",
+    "heading_path": [
+      "Riferimento Tecnico per ui",
+      "Regole"
+    ],
+    "chunk_kind": "reference",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/reference/reference_7bfb557d.md",
+    "token_estimate": 1,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md::sintomo.cause-probabili",
+    "doc_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "title": "Risoluzione problema Timeout Database in ui",
+    "text": "Comportamento anomalo: Eccetera vario nostro. Processo metà successo presente tedesco girare posto.\n\n- Grave divenire dimostrare durante formare dinanzi.\n- Dire ora togliere popolo accettare.\n- Seguito bocca corso riva mangiare parecchio libero.\n- Bruciare bosco industria forza giro.",
+    "source": "troubleshooting_23aea78a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Sintomo",
+    "heading_path": [
+      "Sintomo",
+      "Cause probabili"
+    ],
+    "chunk_kind": "symptom",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "token_estimate": 71,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md::risoluzione",
+    "doc_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "title": "Risoluzione problema Timeout Database in ui",
+    "text": "Sequenza di ripristino:\n1. Dimostrare classe ragazza potere notte.\n2. Occorrere lasciare togliere.\n3. Centro mare serie attraversare visita innamorare nave figurare.\n4. Duro osservare qualcosa anche credere notizia prezzo posizione.\n5. Spazio niente carattere chissà.",
+    "source": "troubleshooting_23aea78a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Risoluzione",
+    "heading_path": [
+      "Risoluzione"
+    ],
+    "chunk_kind": "resolution",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "token_estimate": 66,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  },
+  {
+    "chunk_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md::quando-escalare",
+    "doc_id": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "title": "Risoluzione problema Timeout Database in ui",
+    "text": "Se l'errore persiste: Corsa tale roba grado parlare sorridere.",
+    "source": "troubleshooting_23aea78a.md",
+    "language": "it",
+    "doc_type": "troubleshooting",
+    "doc_kind": "troubleshooting",
+    "kb_path": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "domain": "vendite",
+    "feature": "ui",
+    "module": null,
+    "submenu": null,
+    "screen_id": null,
+    "screen_title": null,
+    "tab_name": null,
+    "section_title": "Quando escalare",
+    "heading_path": [
+      "Quando escalare"
+    ],
+    "chunk_kind": "escalation",
+    "step_start": null,
+    "step_end": null,
+    "field_labels": [],
+    "task_tags": [
+      "synthetic"
+    ],
+    "keywords": [
+      "erp",
+      "mock",
+      "test"
+    ],
+    "aliases": [],
+    "error_codes": [],
+    "role_scope": [
+      "all"
+    ],
+    "erp_versions": [
+      "v1.0"
+    ],
+    "review_status": "approved",
+    "source_uri": "vendite/ui/troubleshooting/troubleshooting_23aea78a.md",
+    "token_estimate": 15,
+    "ingested_at": "2026-03-30T12:17:57.009506+00:00"
+  }
+]

@@ -7,6 +7,7 @@ from typing import Any
 
 import yaml
 
+from app.core.normalization import normalize_erp_version_list
 from app.domain.schemas import DocType, KBValidationError, ReviewStatus
 
 SUPPORTED_DOC_KINDS = {"how_to", "troubleshooting", "reference", "faq", "overview"}
@@ -87,13 +88,14 @@ def parse_yaml_front_matter(path: Path, raw_text: str) -> tuple[dict[str, Any], 
 def classify_path(base_path: Path, path: Path) -> dict[str, str | None]:
     relative = path.relative_to(base_path) if path.is_relative_to(base_path) else path
     parts = relative.parts
-    if len(parts) >= 4 and parts[2].lower() in SUPPORTED_DOC_KINDS:
+    path_doc_kind = parts[2].lower().replace("-", "_") if len(parts) >= 3 else ""
+    if len(parts) >= 4 and path_doc_kind in SUPPORTED_DOC_KINDS:
         return {
             "layout": "v2",
             "relative_path": relative.as_posix(),
             "domain": parts[0],
             "feature": parts[1],
-            "doc_kind": parts[2].lower(),
+            "doc_kind": path_doc_kind,
         }
 
     root = parts[0].lower() if parts else ""
@@ -141,7 +143,7 @@ def validate_markdown_document(
         "feature": str(metadata.get("feature") or path_info["feature"] or "").strip(),
         "keywords": normalize_string_list(metadata.get("keywords")),
         "task_tags": normalize_string_list(metadata.get("task_tags")),
-        "erp_versions": normalize_string_list(metadata.get("erp_versions") or metadata.get("erp_version")),
+        "erp_versions": normalize_erp_version_list(metadata.get("erp_versions") or metadata.get("erp_version")),
         "role_scope": normalize_string_list(metadata.get("role_scope")),
         "review_status": str(metadata.get("review_status", "approved")).strip().lower(),
         "module": _none_if_blank(metadata.get("module")),

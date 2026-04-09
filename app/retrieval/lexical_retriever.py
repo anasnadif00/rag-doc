@@ -9,6 +9,7 @@ from typing import Any
 
 from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
+from app.core.normalization import normalize_erp_version
 from app.domain.schemas import QueryPlan, QuerySource, RetrievalCandidate, ResolvedSearchScope
 
 
@@ -126,8 +127,8 @@ class LexicalRetriever:
         if doc_kinds and str(entry.get("doc_kind", entry.get("doc_type", ""))).lower() not in doc_kinds:
             return False
 
-        requested_versions = {value.lower() for value in self._as_list(plan.hard_filters.get("erp_versions"))}
-        entry_versions = {value.lower() for value in self._as_list(entry.get("erp_versions"))}
+        requested_versions = self._normalized_erp_versions(plan.hard_filters.get("erp_versions"))
+        entry_versions = self._normalized_erp_versions(entry.get("erp_versions"))
         if requested_versions and entry_versions and not (requested_versions & entry_versions):
             return False
 
@@ -244,6 +245,14 @@ class LexicalRetriever:
         normalized: set[str] = set()
         for value in self._as_list(values):
             item = normalize_search_text(value)
+            if item:
+                normalized.add(item)
+        return normalized
+
+    def _normalized_erp_versions(self, values: list[str] | tuple[str, ...] | set[str] | Any) -> set[str]:
+        normalized: set[str] = set()
+        for value in self._as_list(values):
+            item = normalize_erp_version(value)
             if item:
                 normalized.add(item)
         return normalized

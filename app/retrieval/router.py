@@ -5,6 +5,7 @@ from __future__ import annotations
 from qdrant_client.http.models import FieldCondition, Filter, MatchAny, MatchValue
 
 from app.core.config import Settings
+from app.core.normalization import normalize_erp_version
 from app.domain.schemas import (
     QueryPlan,
     QueryRequest,
@@ -142,8 +143,8 @@ class RetrievalRouter:
         return Filter(must=conditions) if conditions else None
 
     def _matches_post_filters(self, source: QuerySource, plan: QueryPlan) -> bool:
-        requested_versions = {value.lower() for value in self._as_list(plan.hard_filters.get("erp_versions"))}
-        source_versions = {value.lower() for value in source.erp_versions}
+        requested_versions = self._normalized_erp_versions(plan.hard_filters.get("erp_versions"))
+        source_versions = self._normalized_erp_versions(source.erp_versions)
         if requested_versions and source_versions and not (requested_versions & source_versions):
             return False
 
@@ -192,7 +193,7 @@ class RetrievalRouter:
                 candidate.source.role_scope,
                 self._as_list(plan.hard_filters.get("role_scope")),
             )
-            candidate.version_match = 1.0 if not candidate.source.erp_versions else self._intersects(
+            candidate.version_match = 1.0 if not candidate.source.erp_versions else self._version_intersects(
                 candidate.source.erp_versions,
                 self._as_list(plan.hard_filters.get("erp_versions")),
             )
@@ -347,3 +348,18 @@ class RetrievalRouter:
         if isinstance(value, list):
             return [str(item) for item in value if str(item).strip()]
         return [str(value)]
+
+    def _normalized_erp_versions(self, value: list[str] | str | None) -> set[str]:
+        normalized: set[str] = set()
+        for item in self._as_list(value):
+            version = normalize_erp_version(item)
+            if version:
+                normalized.add(version)
+        return normalized
+
+    def _version_intersects(self, left: list[str], right: list[str]) -> float:
+        normalized_left = self._normalized_erp_versions(left)
+        normalized_right = self._normalized_erp_versions(right)
+        if not normalized_left or not normalized_right:
+            return 1.0
+        return 1.0 if normalized_left & normalized_right else 0.0

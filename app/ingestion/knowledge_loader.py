@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from app.core.config import Settings
+from app.core.normalization import normalize_erp_version, normalize_erp_version_list
 from app.domain.schemas import DocType, KBValidationError, ReviewStatus, SourceDocument
 from app.ingestion.validators import (
     classify_path,
@@ -51,7 +52,7 @@ class KnowledgeBaseLoader:
             return [], [], 0
 
         requested_doc_types = set(doc_types or [])
-        requested_version = erp_version or self.settings.erp_version
+        requested_version = normalize_erp_version(erp_version or self.settings.erp_version)
         requested_review_statuses = set(review_statuses or ["approved"])
         documents: list[SourceDocument] = []
         validation_errors: list[KBValidationError] = []
@@ -73,7 +74,8 @@ class KnowledgeBaseLoader:
                 if requested_review_statuses and document.review_status not in requested_review_statuses:
                     skipped_documents += 1
                     continue
-                if document.erp_versions and requested_version and requested_version not in document.erp_versions:
+                document_versions = normalize_erp_version_list(document.erp_versions)
+                if document_versions and requested_version and requested_version not in document_versions:
                     skipped_documents += 1
                     continue
                 documents.append(document)
@@ -124,7 +126,7 @@ class KnowledgeBaseLoader:
             aliases=normalized["aliases"],
             error_codes=normalized["error_codes"],
             role_scope=normalized["role_scope"],
-            erp_versions=normalized["erp_versions"] or [self.settings.erp_version],
+            erp_versions=normalized["erp_versions"] or self._default_erp_versions(),
             review_status=normalize_review_status(normalized["review_status"]),
             source_uri=str(metadata.get("source_uri") or relative.as_posix()),
             source_transcript_id=normalized["source_transcript_id"],
@@ -174,7 +176,7 @@ class KnowledgeBaseLoader:
             feature=path_info.get("feature"),
             section_title=path.stem,
             heading_path=[path.stem],
-            erp_versions=[self.settings.erp_version],
+            erp_versions=self._default_erp_versions(),
             review_status="approved",
             source_uri=relative.as_posix(),
         )
@@ -208,8 +210,8 @@ class KnowledgeBaseLoader:
             "aliases": normalize_string_list(entry.get("aliases")),
             "error_codes": normalize_string_list(entry.get("error_codes")),
             "role_scope": normalize_string_list(entry.get("role_scope")),
-            "erp_versions": normalize_string_list(entry.get("erp_versions") or entry.get("erp_version"))
-            or [self.settings.erp_version],
+            "erp_versions": normalize_erp_version_list(entry.get("erp_versions") or entry.get("erp_version"))
+            or self._default_erp_versions(),
             "review_status": normalize_review_status(entry.get("review_status")),
             "source_uri": str(entry.get("source_uri") or relative.as_posix()),
             "source_transcript_id": self._none_if_blank(entry.get("source_transcript_id")),
@@ -257,3 +259,6 @@ class KnowledgeBaseLoader:
     def _none_if_blank(self, value: Any) -> str | None:
         text = str(value or "").strip()
         return text or None
+
+    def _default_erp_versions(self) -> list[str]:
+        return normalize_erp_version_list(self.settings.erp_version) or [self.settings.erp_version]

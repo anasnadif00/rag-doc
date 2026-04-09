@@ -444,6 +444,42 @@ Controlla il totale.
     assert documents[0].domain == "contabilita"
 
 
+def test_knowledge_base_loader_accepts_hyphenated_how_to_paths_and_normalized_versions(tmp_path: Path):
+    file_path = tmp_path / "commerciale" / "offerte" / "how-to" / "crea-ordine-da-offerta.md"
+    file_path.parent.mkdir(parents=True)
+    file_path.write_text(
+        """---
+title: Creare un ordine da un'offerta
+doc_kind: how_to
+domain: commerciale
+feature: offerte
+keywords: [crea ordine, ordine da offerta]
+task_tags: [creazione ordine]
+erp_versions: [v.1.0]
+role_scope: [sales]
+review_status: approved
+module: Offerte
+submenu: Navigazione offerta
+screen_title: Crea Ordine
+---
+# Creare un ordine da un'offerta
+## Procedura
+1. Aprire l'offerta confermata.
+2. Selezionare Crea Ordine.
+""",
+        encoding="utf-8",
+    )
+
+    loader = KnowledgeBaseLoader(settings=make_settings(knowledge_base_path=str(tmp_path), erp_version="v1.0"))
+    documents, errors, skipped = loader.load_documents_with_report(erp_version="v1.0")
+
+    assert not errors
+    assert skipped == 0
+    assert len(documents) == 1
+    assert documents[0].doc_kind == "how_to"
+    assert documents[0].source_uri == "commerciale/offerte/how-to/crea-ordine-da-offerta.md"
+
+
 def test_knowledge_base_loader_rejects_path_yaml_mismatch(tmp_path: Path):
     file_path = tmp_path / "contabilita" / "fatture" / "how_to" / "crea_fattura.md"
     file_path.parent.mkdir(parents=True)
@@ -562,6 +598,45 @@ def test_markdown_chunker_preserves_how_to_step_ranges():
     procedure_chunk = next(chunk for chunk in chunks if chunk.chunk_kind == "procedure")
     assert procedure_chunk.step_start == 1
     assert procedure_chunk.step_end == 3
+
+
+def test_retrieval_router_matches_normalized_erp_versions(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(lexical_path, [])
+    settings = make_settings(lexical_index_path=str(lexical_path), erp_version="v1.0")
+    retriever = Mock()
+    retriever.settings = settings
+    retriever.search.side_effect = [
+        [
+            make_query_source(
+                chunk_id="ordine-da-offerta",
+                title="Creare un ordine da un'offerta",
+                source="crea-ordine-da-offerta.md",
+                source_uri="commerciale/offerte/how-to/crea-ordine-da-offerta.md",
+                domain="commerciale",
+                feature="offerte",
+                module="Offerte",
+                submenu="Navigazione offerta",
+                screen_id=None,
+                screen_title="Crea Ordine",
+                tab_name=None,
+                erp_versions=["v.1.0"],
+                retrieval_reasons=[],
+                score=0.82,
+            )
+        ],
+        [],
+        [],
+    ]
+    router = RetrievalRouter(settings=settings, retriever=retriever)
+    request = make_query_request(
+        message="Come si crea un ordine cliente da offerta cliente",
+        screen_context=ScreenContext(),
+    )
+
+    _, results = router.search(request=request, screen_context=request.screen_context)
+
+    assert [result.chunk_id for result in results] == ["ordine-da-offerta"]
 
 
 def test_redaction_masks_free_text_and_error_messages():

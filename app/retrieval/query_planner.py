@@ -6,6 +6,7 @@ import re
 
 from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
+from app.core.normalization import normalize_erp_version
 from app.domain.schemas import QueryPlan, QueryRequest, ResolvedSearchScope, ScreenContext
 
 ERROR_CODE_PATTERN = re.compile(r"\b[A-Z]{2,}(?:-[A-Z0-9]+)+\b")
@@ -93,6 +94,7 @@ class QueryPlanner:
                 *screen_context.error_messages,
             )
         )
+        requested_version = normalize_erp_version(self.settings.erp_version)
 
         return QueryPlan(
             intent_label=intent_label,  # type: ignore[arg-type]
@@ -101,7 +103,7 @@ class QueryPlanner:
             lexical_query_terms=lexical_terms,
             hard_filters={
                 "review_status": ["approved"],
-                "erp_versions": [self.settings.erp_version],
+                "erp_versions": [requested_version] if requested_version else [],
                 "role_scope": role_scope,
                 "doc_kinds": preferred_doc_kinds,
             },

@@ -1,5 +1,6 @@
 fastapi
 uvicorn
+websockets
 langchain
 langchain-community
 langchain-qdrant
@@ -12,3 +13,9 @@ datasets
 python-dotenv
 pydantic
 PyYAML
+sqlalchemy
+psycopg[binary]
+redis
+PyJWT
+cryptography
+argon2-cffi

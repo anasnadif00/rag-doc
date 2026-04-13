@@ -7,6 +7,8 @@ __pycache__/
 # venv
 .venv/
 venv/
+admin-ui/node_modules/
+admin-ui/dist/
 
 # env
 .env

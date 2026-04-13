@@ -241,6 +241,8 @@ class GeneratedAnswer(BaseModel):
     confidence: float | None = None
     answer_mode: AnswerMode = "grounded"
     inference_notice: str | None = None
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
 
 
 class RedactionResult(BaseModel):

@@ -5,6 +5,7 @@ from __future__ import annotations
 from langchain_qdrant import QdrantVectorStore
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient
+from qdrant_client.http.exceptions import UnexpectedResponse
 from qdrant_client.http.models import Filter
 
 from app.core.config import Settings
@@ -12,18 +13,27 @@ from app.domain.schemas import QuerySource
 
 
 class QdrantRetriever:
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, collection_name: str | None = None) -> None:
         self.settings = settings
+        self.collection_name = collection_name or settings.qdrant_collection
         self.client = QdrantClient(url=settings.qdrant_url)
         self.embeddings = OpenAIEmbeddings(
             model=settings.embedding_model,
             api_key=settings.openai_api_key,
         )
-        self.vector_store = QdrantVectorStore(
-            client=self.client,
-            collection_name=settings.qdrant_collection,
-            embedding=self.embeddings,
-        )
+        self._vector_stores: dict[str, QdrantVectorStore] = {}
+
+    def _get_vector_store(self, collection_name: str | None = None) -> QdrantVectorStore:
+        active_collection = collection_name or self.collection_name
+        store = self._vector_stores.get(active_collection)
+        if store is None:
+            store = QdrantVectorStore(
+                client=self.client,
+                collection_name=active_collection,
+                embedding=self.embeddings,
+            )
+            self._vector_stores[active_collection] = store
+        return store
 
     def search(
         self,
@@ -31,13 +41,21 @@ class QdrantRetriever:
         limit: int,
         metadata_filter: Filter | None = None,
         score_threshold: float | None = None,
+        collection_name: str | None = None,
     ) -> list[QuerySource]:
-        matches = self.vector_store.similarity_search_with_relevance_scores(
-            query_text,
-            k=limit,
-            filter=metadata_filter,
-            score_threshold=score_threshold,
-        )
+        active_collection = collection_name or self.collection_name
+        try:
+            matches = self._get_vector_store(active_collection).similarity_search_with_relevance_scores(
+                query_text,
+                k=limit,
+                filter=metadata_filter,
+                score_threshold=score_threshold,
+            )
+        except UnexpectedResponse as exc:
+            status_code = getattr(exc, "status_code", None)
+            if status_code == 404:
+                return []
+            raise
         sources: list[QuerySource] = []
 
         for document, score in matches:

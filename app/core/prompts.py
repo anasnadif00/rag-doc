@@ -70,20 +70,37 @@ def _format_sources(sources: list[QuerySource], max_context_chars: int) -> str:
     return "\n\n".join(rendered)
 
 
+def _format_history(conversation_history: list[dict[str, str]] | None) -> str:
+    if not conversation_history:
+        return " - Nessuna cronologia disponibile"
+
+    rendered: list[str] = []
+    for item in conversation_history:
+        role = item.get("role", "unknown")
+        content = item.get("content", "").strip()
+        if not content:
+            continue
+        rendered.append(f" - {role}: {content}")
+    return "\n".join(rendered) or " - Nessuna cronologia disponibile"
+
+
 def build_user_prompt(
     message: str,
     screen_context: ScreenContext,
     query_plan: QueryPlan,
     sources: list[QuerySource],
     max_context_chars: int,
+    conversation_history: list[dict[str, str]] | None = None,
 ) -> str:
     breadcrumb = " > ".join(screen_context.breadcrumb) if screen_context.breadcrumb else "-"
     errors = "\n".join(f" - {item}" for item in screen_context.error_messages) or " - Nessun errore"
     source_context = _format_sources(sources, max_context_chars)
+    history = _format_history(conversation_history)
 
     return "\n\n".join(
         [
             f"Messaggio utente:\n{message}",
+            f"Cronologia recente:\n{history}",
             "Contesto schermata:\n"
             f"Applicazione: {screen_context.application or '-'}\n"
             f"Modulo: {screen_context.module or '-'}\n"

@@ -22,6 +22,7 @@ class AnswerGenerator:
         screen_context: ScreenContext,
         query_plan: QueryPlan,
         sources: list[QuerySource],
+        conversation_history: list[dict[str, str]] | None = None,
     ) -> GeneratedAnswer:
         prompt = build_user_prompt(
             message=message,
@@ -29,6 +30,7 @@ class AnswerGenerator:
             query_plan=query_plan,
             sources=sources,
             max_context_chars=self.settings.max_context_chars,
+            conversation_history=conversation_history,
         )
         completion = self.client.chat.completions.create(
             model=self.settings.generation_model,
@@ -42,9 +44,20 @@ class AnswerGenerator:
             ],
         )
         message = completion.choices[0].message.content
-        return self._parse_response(message or "")
+        usage = getattr(completion, "usage", None)
+        return self._parse_response(
+            message or "",
+            prompt_tokens=getattr(usage, "prompt_tokens", 0) or 0,
+            completion_tokens=getattr(usage, "completion_tokens", 0) or 0,
+        )
 
-    def _parse_response(self, raw_message: str) -> GeneratedAnswer:
+    def _parse_response(
+        self,
+        raw_message: str,
+        *,
+        prompt_tokens: int = 0,
+        completion_tokens: int = 0,
+    ) -> GeneratedAnswer:
         content = raw_message.strip()
         if content.startswith("```"):
             content = content.strip("`")
@@ -54,7 +67,13 @@ class AnswerGenerator:
         try:
             payload = json.loads(content)
         except json.JSONDecodeError:
-            return GeneratedAnswer(answer=raw_message.strip(), steps=[], answer_mode="grounded")
+            return GeneratedAnswer(
+                answer=raw_message.strip(),
+                steps=[],
+                answer_mode="grounded",
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+            )
 
         confidence = payload.get("confidence")
         if confidence is not None:
@@ -74,4 +93,6 @@ class AnswerGenerator:
             confidence=confidence,
             answer_mode=answer_mode,  # type: ignore[arg-type]
             inference_notice=payload.get("inference_notice"),
+            prompt_tokens=prompt_tokens,
+            completion_tokens=completion_tokens,
         )

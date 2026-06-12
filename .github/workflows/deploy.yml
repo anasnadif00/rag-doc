@@ -1,0 +1,58 @@
+name: Deploy
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+# Never let two deploys race on the same box.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+          # 192.168.103.7 is a LAN IP, so the runner must pull in the
+          # subnet route advertised by your Tailscale subnet router.
+          args: --accept-routes
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 192.168.103.7
+          username: root
+          password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
+          # Reach the box via its LAN IP over the tailnet.
+          command_timeout: 30m
+          script: |
+            set -euo pipefail
+            cd /opt/docker/rag-doc
+
+            echo "==> Fetching ${{ github.sha }}"
+            git fetch origin --prune
+            # Match the box exactly to the pushed commit.
+            # reset --hard only touches tracked files, so an untracked
+            # .env on the box (with your real secrets) is preserved.
+            git reset --hard ${{ github.sha }}
+
+            echo "==> Rebuilding & restarting the stack"
+            if docker compose version >/dev/null 2>&1; then
+              DC="docker compose"
+            else
+              DC="docker-compose"
+            fi
+            $DC up -d --build --remove-orphans
+
+            echo "==> Pruning dangling images"
+            docker image prune -f
+
+            echo "==> Done. Current state:"
+            $DC ps

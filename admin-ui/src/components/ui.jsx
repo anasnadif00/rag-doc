@@ -116,13 +116,13 @@ export function ToggleField({ label, checked, onChange }) {
       <button
         type="button"
         onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-7 w-12 items-center rounded-full border transition ${
+        className={`relative inline-flex h-7 w-13 items-center rounded-full border transition ${
           checked ? 'border-emerald-300/30 bg-emerald-300/20' : 'border-white/10 bg-white/10'
         }`}
       >
         <span
-          className={`h-5 w-5 rounded-full bg-stone-50 transition ${
-            checked ? 'translate-x-6' : 'translate-x-1'
+          className={`h-5 w-10 rounded-full bg-stone-50 transition ${
+            checked ? 'translate-x-3' : 'translate-x-1'
           }`}
         />
       </button>

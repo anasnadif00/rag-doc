@@ -118,7 +118,7 @@ def get_settings() -> Settings:
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
         embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
-        generation_model=os.getenv("GENERATION_MODEL", "gpt-4o-mini"),
+        generation_model=os.getenv("GENERATION_MODEL", "gpt-5.2"),
         knowledge_base_path=knowledge_base_path,
         default_locale=os.getenv("DEFAULT_LOCALE", "it"),
         erp_version=os.getenv("ERP_VERSION", "REL231"),

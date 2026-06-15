@@ -1,6 +1,6 @@
 param(
-    [string]$SourcePath = "E:\annalisa\file-redatti",
-    [string]$TargetRoot = "E:\annalisa\knowledge-base",
+    [string]$SourcePath = "C:\Users\anasn\OneDrive\Desktop\OneDrive_1_12-06-2026\FINANCE",
+    [string]$TargetRoot = "C:\Users\anasn\OneDrive\Desktop\OneDrive_1_12-06-2026\final-kb",
     [switch]$WhatIf
 )
 
@@ -97,8 +97,14 @@ function Get-NormalizedFileName {
     return $name
 }
 
-$files = Get-ChildItem -LiteralPath $SourcePath -File |
-    Where-Object { $_.Name -match '\.md(\.md)?$' }
+$resolvedTargetRoot = [System.IO.Path]::GetFullPath($TargetRoot).TrimEnd('\', '/')
+
+$files = Get-ChildItem -LiteralPath $SourcePath -File -Recurse |
+    Where-Object {
+        $filePath = [System.IO.Path]::GetFullPath($_.FullName)
+        $_.Name -match '\.md(\.md)?$' -and
+        -not $filePath.StartsWith("$resolvedTargetRoot\", [System.StringComparison]::OrdinalIgnoreCase)
+    }
 
 foreach ($file in $files) {
     try {

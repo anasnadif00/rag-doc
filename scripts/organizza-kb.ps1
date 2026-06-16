@@ -1,6 +1,6 @@
 param(
-    [string]$SourcePath = "C:\Users\anasn\OneDrive\Desktop\OneDrive_1_12-06-2026\FINANCE",
-    [string]$TargetRoot = "C:\Users\anasn\OneDrive\Desktop\OneDrive_1_12-06-2026\final-kb",
+    [string]$SourcePath = "C:\Users\anasn\OneDrive\Desktop\COMMERCIALE 2\COMMERCIALE",
+    [string]$TargetRoot = "C:\Users\anasn\OneDrive\Desktop\kb",
     [switch]$WhatIf
 )
 

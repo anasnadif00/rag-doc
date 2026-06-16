@@ -12,7 +12,7 @@ module: Offerte
 submenu: Stampe  
 screen_title: Offerte  
 aliases: [stampa offerte dal menu, invio offerte clienti via mail]  
-field_labels: [Numero, Anno, Apri, Stampa, "@e-mail"]  
+field_labels: [Numero, Anno, Apri, Stampa, @e-mail]  
 ---
 # Stampare e inviare offerte dal menu principale
 

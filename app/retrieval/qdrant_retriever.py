@@ -84,6 +84,7 @@ class QdrantRetriever:
                     chunk_kind=metadata.get("chunk_kind"),
                     step_start=metadata.get("step_start"),
                     step_end=metadata.get("step_end"),
+                    field_labels=list(metadata.get("field_labels", [])),
                     task_tags=list(metadata.get("task_tags", [])),
                     keywords=list(metadata.get("keywords", [])),
                     aliases=list(metadata.get("aliases", [])),

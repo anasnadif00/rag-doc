@@ -402,6 +402,100 @@ def test_retrieval_router_exact_error_code_prioritizes_troubleshooting(tmp_path:
     assert results[0].doc_kind == "troubleshooting"
 
 
+def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(
+        lexical_path,
+        [
+            make_query_source(
+                chunk_id="offerte-codice-articolo",
+                title="Inserire righe articoli in un'offerta",
+                text="10. Posizionati sul campo **Codice articolo** e inserisci l'articolo.",
+                module="Offerte",
+                screen_title="Offerte",
+                source_uri="commerciale/offerte/how-to/inserire-righe-articoli-offerta.md",
+                keywords=["codice articolo", "offerta"],
+                role_scope=[],
+                retrieval_reasons=[],
+            ).model_dump(),
+            make_query_source(
+                chunk_id="nazioni-codice-iso",
+                title="Campi della tabella Nazioni",
+                doc_type="reference",
+                doc_kind="reference",
+                text="### Codice ISO2\nContiene il codice univoco di due caratteri della nazione.",
+                module="Tabelle",
+                screen_title="Nazioni",
+                source_uri="configurazione/nazioni/reference/campi-tabella-nazioni.md",
+                keywords=["codice ISO2", "nazioni"],
+                role_scope=[],
+                retrieval_reasons=[],
+            ).model_dump(),
+        ],
+    )
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    retriever = Mock()
+    retriever.settings = settings
+    retriever.search.return_value = []
+    router = RetrievalRouter(settings=settings, retriever=retriever)
+    request = make_query_request(
+        message="Come inserire codice ISO?",
+        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+        retrieval_options=RetrievalOptions(top_k=5, include_debug_info=True),
+    )
+
+    plan, results = router.search(request=request, screen_context=request.screen_context)
+
+    assert "ISO" in plan.soft_signals["must_match_terms"]
+    assert [result.source_uri for result in results] == [
+        "configurazione/nazioni/reference/campi-tabella-nazioni.md"
+    ]
+    assert all("ISO" in result.text for result in results)
+    assert router.last_diagnostics is not None
+    excluded = next(item for item in router.last_diagnostics.candidates if item.chunk_id == "offerte-codice-articolo")
+    assert excluded.selected is False
+    assert "required key term" in (excluded.selection_reason or "")
+
+
+def test_retrieval_router_returns_no_sources_when_required_key_term_is_absent(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(
+        lexical_path,
+        [
+            make_query_source(
+                chunk_id="offerte-codice-articolo",
+                title="Inserire righe articoli in un'offerta",
+                text="10. Posizionati sul campo **Codice articolo** e inserisci l'articolo.",
+                module="Offerte",
+                screen_title="Offerte",
+                source_uri="commerciale/offerte/how-to/inserire-righe-articoli-offerta.md",
+                keywords=["codice articolo", "offerta"],
+                role_scope=[],
+                retrieval_reasons=[],
+            ).model_dump(),
+        ],
+    )
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    retriever = Mock()
+    retriever.settings = settings
+    retriever.search.return_value = []
+    router = RetrievalRouter(settings=settings, retriever=retriever)
+    request = make_query_request(
+        message="Come inserire codice ISO?",
+        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+        retrieval_options=RetrievalOptions(top_k=5, include_debug_info=True),
+    )
+
+    _, results = router.search(request=request, screen_context=request.screen_context)
+
+    assert results == []
+    assert router.last_diagnostics is not None
+    assert router.last_diagnostics.returned_chunk_ids == []
+    assert "no candidate matched required key terms" in (
+        router.last_diagnostics.candidates[0].selection_reason or ""
+    )
+
+
 def test_knowledge_base_loader_parses_valid_v2_markdown(tmp_path: Path):
     file_path = tmp_path / "contabilita" / "fatture" / "how_to" / "crea_fattura.md"
     file_path.parent.mkdir(parents=True)
@@ -598,6 +692,47 @@ def test_markdown_chunker_preserves_how_to_step_ranges():
     procedure_chunk = next(chunk for chunk in chunks if chunk.chunk_kind == "procedure")
     assert procedure_chunk.step_start == 1
     assert procedure_chunk.step_end == 3
+
+
+def test_markdown_chunker_keeps_nested_numbered_items_with_parent_step():
+    source_document = KnowledgeBaseLoader(settings=make_settings())._entry_to_documents(
+        {
+            "doc_id": "commerciale/offerte/how-to/inserire-righe-articoli-offerta.md",
+            "title": "Inserire righe articoli in un'offerta",
+            "doc_kind": "how_to",
+            "domain": "commerciale",
+            "feature": "offerte",
+            "module": "Offerte",
+            "screen_title": "Offerte",
+            "keywords": ["codice articolo"],
+            "task_tags": ["inserimento righe offerta"],
+            "erp_versions": ["REL231"],
+            "role_scope": ["commerciale"],
+            "review_status": "approved",
+            "text": (
+                "# Inserire righe articoli in un'offerta\n"
+                "## Procedura\n"
+                "1. Apri l'offerta.\n"
+                "2. Posizionati sul campo **Codice articolo** e inserisci l'articolo:\n"
+                "   1. digitando direttamente il codice;\n"
+                "   2. digitando una parte del codice;\n"
+                "   3. digitando una parte della descrizione.\n"
+                "3. Conferma la riga."
+            ),
+        },
+        Path("knowledge-base/commerciale/offerte/how-to/inserire-righe-articoli-offerta.json"),
+        0,
+    )[0]
+
+    chunker = MarkdownChunker()
+    chunks = chunker.chunk_document(source_document, ingested_at="2026-03-24T00:00:00Z")
+
+    procedure_chunks = [chunk for chunk in chunks if chunk.chunk_kind == "procedure"]
+    assert len(procedure_chunks) == 1
+    assert procedure_chunks[0].step_start == 1
+    assert procedure_chunks[0].step_end == 3
+    assert "   1. digitando direttamente il codice;" in procedure_chunks[0].text
+    assert len({chunk.chunk_id for chunk in chunks}) == len(chunks)
 
 
 def test_retrieval_router_matches_normalized_erp_versions(tmp_path: Path):

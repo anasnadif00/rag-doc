@@ -180,6 +180,7 @@ class QuerySource(BaseModel):
     chunk_kind: str | None = None
     step_start: int | None = None
     step_end: int | None = None
+    field_labels: list[str] = Field(default_factory=list)
     task_tags: list[str] = Field(default_factory=list)
     keywords: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)

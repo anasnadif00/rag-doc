@@ -7,7 +7,7 @@ from typing import Any
 
 from app.domain.schemas import ChunkRecord, SourceDocument
 
-STEP_PATTERN = re.compile(r"^\s*(\d+)[\.\)]\s+(.*)$")
+STEP_PATTERN = re.compile(r"^(\d+)[\.\)]\s+(.*)$")
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+(.*)$")
 
 
@@ -367,7 +367,7 @@ class MarkdownChunker:
                 current_lines = [match.group(2).strip()]
                 continue
             if current_index is not None:
-                current_lines.append(line.strip())
+                current_lines.append(line.rstrip())
 
         flush()
         return steps

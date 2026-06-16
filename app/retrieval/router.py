@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from qdrant_client.http.models import FieldCondition, Filter, MatchAny, MatchValue
 
+from app.context.normalizer import normalize_search_text
 from app.core.config import Settings
 from app.core.normalization import normalize_erp_version
 from app.domain.schemas import (
@@ -74,7 +75,7 @@ class RetrievalRouter:
                 self._merge_candidate(candidate_map, candidate)
 
         ranked = self._rerank(list(candidate_map.values()), plan)
-        score_floor, eligible = self._apply_score_cutoff(ranked)
+        score_floor, eligible = self._apply_score_cutoff(ranked, plan)
         returned = self._apply_result_limit(eligible, final_limit)
         self.last_diagnostics = self._build_diagnostics(
             plan=plan,
@@ -175,6 +176,7 @@ class RetrievalRouter:
         dense_scores = [candidate.dense_score for candidate in candidates]
         lexical_scores = [candidate.lexical_score for candidate in candidates]
         exact_scores = [candidate.exact_match_score for candidate in candidates]
+        key_terms = self._key_terms(plan)
 
         for candidate in candidates:
             normalized_dense = self._normalize(candidate.dense_score, dense_scores)
@@ -208,23 +210,56 @@ class RetrievalRouter:
                 + 0.05 * candidate.version_match
                 + exact_bonus
             )
+            if key_terms and not self._source_matches_key_terms(candidate.source, key_terms):
+                penalty = 0.45 if candidate.scope == "screen" else 0.7
+                candidate.final_score *= penalty
+                candidate.retrieval_reasons.append(
+                    f"penalizzato: manca termine chiave {self._format_key_terms(key_terms)}"
+                )
+            elif key_terms:
+                candidate.retrieval_reasons.append(
+                    f"match termine chiave {self._format_key_terms(key_terms)}"
+                )
             candidate.source.score = round(candidate.final_score, 4)
             candidate.source.retrieval_reasons = list(dict.fromkeys(candidate.retrieval_reasons))
 
         candidates.sort(key=lambda item: item.final_score, reverse=True)
         return candidates
 
-    def _apply_score_cutoff(self, candidates: list[RetrievalCandidate]) -> tuple[float | None, list[RetrievalCandidate]]:
+    def _apply_score_cutoff(
+        self,
+        candidates: list[RetrievalCandidate],
+        plan: QueryPlan,
+    ) -> tuple[float | None, list[RetrievalCandidate]]:
         if not candidates:
             return None, []
 
-        top_score = candidates[0].final_score
+        selectable = candidates
+        key_terms = self._key_terms(plan)
+        if key_terms:
+            selectable = []
+            missing_reason = f"missing required key term {self._format_key_terms(key_terms)}"
+            for candidate in candidates:
+                if self._source_matches_key_terms(candidate.source, key_terms):
+                    selectable.append(candidate)
+                    continue
+                candidate.selected = False
+                candidate.selection_reason = missing_reason
+
+            if not selectable:
+                reason = f"no candidate matched required key terms {self._format_key_terms(key_terms)}"
+                for candidate in candidates:
+                    candidate.selected = False
+                    candidate.selection_reason = reason
+                return self.settings.retrieval_min_score, []
+
+        top_score = selectable[0].final_score
         if top_score < self.settings.retrieval_min_score:
             reason = (
                 f"top score {top_score:.4f} below minimum "
                 f"{self.settings.retrieval_min_score:.4f}"
             )
-            for candidate in candidates:
+            for candidate in selectable:
                 candidate.selected = False
                 candidate.selection_reason = reason
             return self.settings.retrieval_min_score, []
@@ -234,7 +269,7 @@ class RetrievalRouter:
             top_score * self.settings.retrieval_relative_score_floor,
         )
         eligible: list[RetrievalCandidate] = []
-        for index, candidate in enumerate(candidates):
+        for index, candidate in enumerate(selectable):
             if index == 0:
                 candidate.selected = True
                 candidate.selection_reason = "top ranked candidate"
@@ -324,6 +359,51 @@ class RetrievalRouter:
             return 0.0
         index = plan.preferred_doc_kinds.index(source.doc_kind)
         return max(0.2, 1.0 - (0.2 * index))
+
+    def _key_terms(self, plan: QueryPlan) -> list[str]:
+        return self._as_list(plan.soft_signals.get("must_match_terms"))
+
+    def _source_matches_key_terms(self, source: QuerySource, key_terms: list[str]) -> bool:
+        if not key_terms:
+            return True
+
+        normalized_corpus = normalize_search_text(self._source_key_term_corpus(source)) or ""
+        corpus_tokens = set(normalized_corpus.split())
+        return any(self._matches_key_term(term, normalized_corpus, corpus_tokens) for term in key_terms)
+
+    def _source_key_term_corpus(self, source: QuerySource) -> str:
+        values = [
+            source.title,
+            source.section_title or "",
+            " ".join(source.heading_path),
+            source.module or "",
+            source.screen_title or "",
+            source.tab_name or "",
+            " ".join(getattr(source, "field_labels", [])),
+            " ".join(source.keywords),
+            " ".join(source.aliases),
+            " ".join(source.task_tags),
+            source.text,
+        ]
+        return " ".join(value for value in values if value)
+
+    def _matches_key_term(self, term: str, normalized_corpus: str, corpus_tokens: set[str]) -> bool:
+        normalized_term = normalize_search_text(term) or ""
+        if not normalized_term:
+            return False
+        if " " in normalized_term:
+            return normalized_term in normalized_corpus
+
+        for token in corpus_tokens:
+            if token == normalized_term:
+                return True
+            suffix = token.removeprefix(normalized_term)
+            if suffix != token and suffix.isdigit():
+                return True
+        return False
+
+    def _format_key_terms(self, key_terms: list[str]) -> str:
+        return "[" + ", ".join(key_terms) + "]"
 
     def _normalize(self, value: float, series: list[float]) -> float:
         if not series:

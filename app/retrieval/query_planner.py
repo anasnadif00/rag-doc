@@ -10,6 +10,61 @@ from app.core.normalization import normalize_erp_version
 from app.domain.schemas import QueryPlan, QueryRequest, ResolvedSearchScope, ScreenContext
 
 ERROR_CODE_PATTERN = re.compile(r"\b[A-Z]{2,}(?:-[A-Z0-9]+)+\b")
+ACRONYM_PATTERN = re.compile(r"\b[A-Z][A-Z0-9]{1,7}\b")
+FIELD_KEY_ANCHORS = {"campo", "codice", "flag", "tabella"}
+KEY_TERM_BOUNDARIES = {
+    "a",
+    "ad",
+    "all",
+    "alla",
+    "alle",
+    "allo",
+    "che",
+    "come",
+    "con",
+    "da",
+    "dal",
+    "dalla",
+    "de",
+    "dei",
+    "del",
+    "della",
+    "delle",
+    "dello",
+    "dentro",
+    "di",
+    "dove",
+    "e",
+    "il",
+    "in",
+    "interno",
+    "la",
+    "le",
+    "lo",
+    "magia",
+    "nel",
+    "nella",
+    "o",
+    "per",
+    "quando",
+    "se",
+    "su",
+    "un",
+    "una",
+}
+KEY_TERM_STOPWORDS = KEY_TERM_BOUNDARIES | {
+    "campo",
+    "codice",
+    "cosa",
+    "devo",
+    "fare",
+    "gestionale",
+    "inserire",
+    "posso",
+    "qual",
+    "quale",
+    "quali",
+}
 
 
 class QueryPlanner:
@@ -63,6 +118,7 @@ class QueryPlanner:
             "field_labels": [field.label for field in screen_context.fields if field.label],
             "error_codes": error_codes,
             "aliases": self._compact(*screen_context.breadcrumb),
+            "must_match_terms": self._extract_must_match_terms(message, screen_context),
         }
 
         lexical_terms = tokenize_search_text(
@@ -129,6 +185,65 @@ class QueryPlanner:
                 if match not in found:
                     found.append(match)
         return found
+
+    def _extract_must_match_terms(self, message: str, screen_context: ScreenContext) -> list[str]:
+        cleaned_message = ERROR_CODE_PATTERN.sub(" ", message)
+        normalized_message = normalize_search_text(cleaned_message) or ""
+        terms: list[str] = []
+
+        for match in ACRONYM_PATTERN.findall(cleaned_message):
+            if self._is_key_acronym(match):
+                self._append_unique(terms, match)
+
+        tokens = normalized_message.split()
+        for index, token in enumerate(tokens):
+            if token not in FIELD_KEY_ANCHORS:
+                continue
+
+            tail: list[str] = []
+            for candidate in tokens[index + 1 : index + 5]:
+                if candidate in KEY_TERM_BOUNDARIES or len(candidate) < 2:
+                    break
+                tail.append(candidate)
+                if len(tail) >= 3:
+                    break
+
+            if not tail:
+                continue
+
+            phrase_starts_at_tail = False
+            phrase_tokens = [token, *tail]
+            if token == "campo" and tail[0] in FIELD_KEY_ANCHORS and len(tail) > 1:
+                phrase_tokens = tail
+                phrase_starts_at_tail = True
+            self._append_unique(terms, " ".join(phrase_tokens))
+
+            specific_term = tail[1] if phrase_starts_at_tail and len(tail) > 1 else tail[0]
+            if self._looks_like_specific_term(specific_term):
+                self._append_unique(terms, specific_term)
+
+        for field in screen_context.fields:
+            normalized_label = normalize_search_text(field.label)
+            if (
+                normalized_label
+                and " " in normalized_label
+                and normalized_label in normalized_message
+            ):
+                self._append_unique(terms, normalized_label)
+
+        return terms
+
+    def _is_key_acronym(self, value: str) -> bool:
+        normalized = normalize_search_text(value) or ""
+        return bool(normalized and normalized not in KEY_TERM_STOPWORDS and any(char.isalpha() for char in value))
+
+    def _looks_like_specific_term(self, value: str) -> bool:
+        return bool(value and (len(value) <= 5 or any(char.isdigit() for char in value)))
+
+    def _append_unique(self, values: list[str], value: str) -> None:
+        cleaned = " ".join(value.split()).strip()
+        if cleaned and cleaned not in values:
+            values.append(cleaned)
 
     def _compact(self, *values: str | None) -> list[str]:
         compacted: list[str] = []

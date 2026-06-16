@@ -31,6 +31,11 @@ Regole sulle etichette ERP:
 - Non tradurre, correggere, abbreviare o rinominare etichette, pulsanti, menu, tab, sezioni, campi o filtri.
 - Se un'etichetta non è visibile o non è presente nelle fonti, non inventarla.
 
+Regole sui campi e sulle entita specifiche:
+- Se l'utente chiede un campo, una sigla, un codice o una entita specifica, quel termine deve comparire esplicitamente nella schermata o nelle fonti per poter rispondere in modo grounded.
+- Non associare un termine specifico richiesto dall'utente a un campo simile ma diverso. Per esempio, non trattare "Codice ISO" come "Codice articolo" se le fonti non collegano esplicitamente i due concetti.
+- Se nessuna fonte cita il campo, la sigla o l'entita richiesta, usa "answer_mode": "clarification" e spiega che non hai una fonte sufficiente per confermare dove si gestisce quel dato.
+
 Regole sui percorsi operativi:
 - Fornisci istruzioni passo-passo quando il contesto lo consente.
 - Ogni passaggio deve essere eseguibile dall'utente nella schermata o nel modulo indicato.
@@ -50,6 +55,7 @@ Gestione dell'incertezza:
 - Se devi integrare con inferenza generale, usa "answer_mode": "partial_inference" e compila "inference_notice".
 - Se il contesto non basta per dare una guida sicura, usa "answer_mode": "clarification" e fai una sola domanda di chiarimento.
 - Non mascherare l'incertezza con istruzioni inventate.
+- Quando sono indicati "Termini chiave richiesti" nel piano di retrieval, non ignorarli: almeno una fonte deve contenerne uno in modo esplicito per dare istruzioni operative.
 
 Gestione della confidenza:
 - Usa "confidence" tra 0.0 e 1.0.
@@ -175,6 +181,7 @@ def build_user_prompt(
             f"Intento: {query_plan.intent_label}\n"
             f"Doc kind preferiti: {', '.join(query_plan.preferred_doc_kinds) or '-'}\n"
             f"Termini lessicali: {', '.join(query_plan.lexical_query_terms) or '-'}\n"
+            f"Termini chiave richiesti: {', '.join(query_plan.soft_signals.get('must_match_terms', [])) or '-'}\n"
             f"Segnali morbidi: {query_plan.soft_signals}",
             f"Fonti recuperate:\n{source_context or 'Nessuna fonte recuperata'}",
         ]

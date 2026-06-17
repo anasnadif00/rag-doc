@@ -461,6 +461,11 @@ def test_retrieval_router_applies_topic_feature_filter_for_orders(tmp_path: Path
     assert [result.source_uri for result in results] == [
         "vendite/ordini-clienti/reference/stato-ordine.md"
     ]
+    assert all(
+        condition.key != "metadata.feature"
+        for call in retriever.search.call_args_list
+        for condition in call.kwargs["metadata_filter"].must
+    )
 
 
 def test_query_planner_does_not_hard_filter_cross_topic_question():
@@ -471,6 +476,22 @@ def test_query_planner_does_not_hard_filter_cross_topic_question():
     request = make_query_request(
         message="Come creo un ordine da un'offerta?",
         screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+    )
+
+    plan = planner.build(request=request, screen_context=request.screen_context)
+
+    assert "features" not in plan.hard_filters
+    assert "requested_topic" not in plan.soft_signals
+
+
+def test_query_planner_does_not_hard_filter_generic_order_word():
+    planner = RetrievalRouter(
+        settings=make_settings(),
+        retriever=Mock(search=Mock(return_value=[])),
+    ).query_planner
+    request = make_query_request(
+        message="Qual e l'ordine corretto dei passaggi?",
+        screen_context=ScreenContext(),
     )
 
     plan = planner.build(request=request, screen_context=request.screen_context)

@@ -14,6 +14,7 @@ class TopicDefinition:
     features: tuple[str, ...]
     modules: tuple[str, ...] = ()
     source_uri_prefixes: tuple[str, ...] = ()
+    context_terms: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -43,6 +44,28 @@ TOPIC_DEFINITIONS: tuple[TopicDefinition, ...] = (
         features=("ordini-clienti",),
         modules=("Ordini clienti", "Ordini"),
         source_uri_prefixes=("commerciale/ordini-clienti/", "vendite/ordini-clienti/"),
+        context_terms=(
+            "cliente",
+            "clienti",
+            "consegna",
+            "evadere",
+            "evadi",
+            "evasione",
+            "evaso",
+            "forzatamente",
+            "inserire",
+            "parzialmente",
+            "portafoglio",
+            "residuo",
+            "riga",
+            "righe",
+            "scadenzario",
+            "sblocca",
+            "situazione",
+            "stampa",
+            "stato",
+            "tipo",
+        ),
     ),
     TopicDefinition(
         topic_id="offerte",
@@ -57,6 +80,21 @@ TOPIC_DEFINITIONS: tuple[TopicDefinition, ...] = (
         features=("offerte",),
         modules=("Offerte",),
         source_uri_prefixes=("commerciale/offerte/",),
+        context_terms=(
+            "avanzamento",
+            "cliente",
+            "crea",
+            "creare",
+            "duplica",
+            "invia",
+            "invio",
+            "preventivo",
+            "revisione",
+            "riga",
+            "righe",
+            "stampa",
+            "stato",
+        ),
     ),
     TopicDefinition(
         topic_id="fatture",
@@ -71,6 +109,20 @@ TOPIC_DEFINITIONS: tuple[TopicDefinition, ...] = (
         features=("fatture", "fatture-vendita"),
         modules=("Fatture",),
         source_uri_prefixes=("vendite/fatture/", "commerciale/fatture-vendita/"),
+        context_terms=(
+            "accompagnatoria",
+            "cliente",
+            "credito",
+            "elettronica",
+            "emissione",
+            "inserire",
+            "iva",
+            "nota",
+            "pagamento",
+            "riga",
+            "righe",
+            "stampa",
+        ),
     ),
     TopicDefinition(
         topic_id="ddt-documenti-trasporto",
@@ -86,6 +138,19 @@ TOPIC_DEFINITIONS: tuple[TopicDefinition, ...] = (
         features=("ddt", "ddt-documenti-trasporto"),
         modules=("DDT", "DDT documenti di trasporto"),
         source_uri_prefixes=("vendite/ddt/", "vendite/ddt-documenti-trasporto/"),
+        context_terms=(
+            "bolla",
+            "bolle",
+            "consegna",
+            "documento",
+            "magazzino",
+            "ripresa",
+            "riprendi",
+            "riga",
+            "righe",
+            "scarico",
+            "trasporto",
+        ),
     ),
 )
 
@@ -138,6 +203,8 @@ class TopicResolver:
             )
             if not matched_aliases:
                 continue
+            if not self._has_strong_topic_signal(definition, normalized_message, matched_aliases):
+                continue
             matches.append(
                 TopicMatch(
                     topic_id=definition.topic_id,
@@ -148,6 +215,19 @@ class TopicResolver:
                 )
             )
         return matches
+
+    def _has_strong_topic_signal(
+        self,
+        definition: TopicDefinition,
+        normalized_message: str,
+        matched_aliases: tuple[str, ...],
+    ) -> bool:
+        if any(" " in (normalize_search_text(alias) or "") for alias in matched_aliases):
+            return True
+        return any(
+            self._contains_phrase(normalized_message, normalize_search_text(term) or "")
+            for term in definition.context_terms
+        )
 
     def _looks_cross_topic(self, normalized_message: str) -> bool:
         return any(

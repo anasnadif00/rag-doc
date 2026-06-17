@@ -96,15 +96,6 @@ class RetrievalRouter:
                 match=MatchAny(any=self._as_list(plan.hard_filters.get("doc_kinds"))),
             ),
         ]
-        features = self._as_list(plan.hard_filters.get("features"))
-        if features:
-            conditions.append(
-                FieldCondition(
-                    key="metadata.feature",
-                    match=MatchAny(any=features),
-                )
-            )
-
         modules = plan.soft_signals.get("module", [])
         submenus = plan.soft_signals.get("submenu", [])
         screen_ids = plan.soft_signals.get("screen_id", [])

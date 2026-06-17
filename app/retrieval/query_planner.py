@@ -8,6 +8,7 @@ from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
 from app.core.normalization import normalize_erp_version
 from app.domain.schemas import QueryPlan, QueryRequest, ResolvedSearchScope, ScreenContext
+from app.retrieval.topic_resolver import TopicResolver
 
 ERROR_CODE_PATTERN = re.compile(r"\b[A-Z]{2,}(?:-[A-Z0-9]+)+\b")
 ACRONYM_PATTERN = re.compile(r"\b[A-Z][A-Z0-9]{1,7}\b")
@@ -68,8 +69,9 @@ KEY_TERM_STOPWORDS = KEY_TERM_BOUNDARIES | {
 
 
 class QueryPlanner:
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, topic_resolver: TopicResolver | None = None) -> None:
         self.settings = settings
+        self.topic_resolver = topic_resolver or TopicResolver()
 
     def build(self, request: QueryRequest, screen_context: ScreenContext) -> QueryPlan:
         message = request.message.strip()
@@ -120,6 +122,10 @@ class QueryPlanner:
             "aliases": self._compact(*screen_context.breadcrumb),
             "must_match_terms": self._extract_must_match_terms(message, screen_context),
         }
+        topic_match = self.topic_resolver.resolve(message)
+        if topic_match:
+            soft_signals["requested_topic"] = [topic_match.topic_id]
+            soft_signals["requested_topic_aliases"] = list(topic_match.matched_aliases)
 
         lexical_terms = tokenize_search_text(
             " ".join(
@@ -152,17 +158,23 @@ class QueryPlanner:
         )
         requested_version = normalize_erp_version(self.settings.erp_version)
 
+        hard_filters = {
+            "review_status": ["approved"],
+            "erp_versions": [requested_version] if requested_version else [],
+            "role_scope": role_scope,
+            "doc_kinds": preferred_doc_kinds,
+        }
+        if topic_match:
+            hard_filters["features"] = list(topic_match.features)
+            hard_filters["topic_modules"] = list(topic_match.modules)
+            hard_filters["source_uri_prefixes"] = list(topic_match.source_uri_prefixes)
+
         return QueryPlan(
             intent_label=intent_label,  # type: ignore[arg-type]
             preferred_doc_kinds=preferred_doc_kinds,
             semantic_query=semantic_query or message,
             lexical_query_terms=lexical_terms,
-            hard_filters={
-                "review_status": ["approved"],
-                "erp_versions": [requested_version] if requested_version else [],
-                "role_scope": role_scope,
-                "doc_kinds": preferred_doc_kinds,
-            },
+            hard_filters=hard_filters,
             soft_signals=soft_signals,
             scope_order=self._resolve_scope_order(request),
         )

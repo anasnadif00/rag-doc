@@ -136,7 +136,43 @@ class LexicalRetriever:
         entry_roles = {value.lower() for value in self._as_list(entry.get("role_scope"))}
         if role_scope and entry_roles and not (role_scope & entry_roles):
             return False
+
+        if not self._matches_topic_filters(entry, plan):
+            return False
         return True
+
+    def _matches_topic_filters(self, entry: dict[str, Any], plan: QueryPlan) -> bool:
+        features = self._normalized_set(plan.hard_filters.get("features"))
+        modules = self._normalized_set(plan.hard_filters.get("topic_modules"))
+        source_uri_prefixes = {
+            self._normalize_path_prefix(value)
+            for value in self._as_list(plan.hard_filters.get("source_uri_prefixes"))
+        }
+        source_uri_prefixes.discard("")
+
+        if not features and not modules and not source_uri_prefixes:
+            return True
+
+        entry_feature = normalize_search_text(str(entry.get("feature") or ""))
+        if entry_feature and entry_feature in features:
+            return True
+
+        entry_module = normalize_search_text(str(entry.get("module") or ""))
+        if entry_module and entry_module in modules:
+            return True
+
+        for reference in (
+            entry.get("source_uri"),
+            entry.get("kb_path"),
+            entry.get("doc_id"),
+            entry.get("source"),
+        ):
+            normalized_reference = self._normalize_path_prefix(reference)
+            if normalized_reference and any(
+                normalized_reference.startswith(prefix) for prefix in source_uri_prefixes
+            ):
+                return True
+        return False
 
     def _matches_scope(
         self,
@@ -256,3 +292,6 @@ class LexicalRetriever:
             if item:
                 normalized.add(item)
         return normalized
+
+    def _normalize_path_prefix(self, value: Any) -> str:
+        return str(value or "").strip().replace("\\", "/").casefold()

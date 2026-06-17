@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from qdrant_client.http.models import FieldCondition, Filter, MatchAny, MatchValue
 
-from app.context.normalizer import normalize_search_text
+from app.context.normalizer import normalize_search_text, tokenize_search_text
 from app.core.config import Settings
 from app.core.normalization import normalize_erp_version
 from app.domain.schemas import (
@@ -96,6 +96,14 @@ class RetrievalRouter:
                 match=MatchAny(any=self._as_list(plan.hard_filters.get("doc_kinds"))),
             ),
         ]
+        features = self._as_list(plan.hard_filters.get("features"))
+        if features:
+            conditions.append(
+                FieldCondition(
+                    key="metadata.feature",
+                    match=MatchAny(any=features),
+                )
+            )
 
         modules = plan.soft_signals.get("module", [])
         submenus = plan.soft_signals.get("submenu", [])
@@ -153,7 +161,37 @@ class RetrievalRouter:
         source_roles = {value.lower() for value in source.role_scope}
         if requested_roles and source_roles and not (requested_roles & source_roles):
             return False
+        if not self._source_matches_topic_filters(source, plan):
+            return False
         return True
+
+    def _source_matches_topic_filters(self, source: QuerySource, plan: QueryPlan) -> bool:
+        features = self._normalized_search_set(plan.hard_filters.get("features"))
+        modules = self._normalized_search_set(plan.hard_filters.get("topic_modules"))
+        source_uri_prefixes = {
+            self._normalize_path_prefix(value)
+            for value in self._as_list(plan.hard_filters.get("source_uri_prefixes"))
+        }
+        source_uri_prefixes.discard("")
+
+        if not features and not modules and not source_uri_prefixes:
+            return True
+
+        source_feature = normalize_search_text(source.feature or "")
+        if source_feature and source_feature in features:
+            return True
+
+        source_module = normalize_search_text(source.module or "")
+        if source_module and source_module in modules:
+            return True
+
+        for reference in (source.source_uri, source.kb_path, source.doc_id, source.source):
+            normalized_reference = self._normalize_path_prefix(reference)
+            if normalized_reference and any(
+                normalized_reference.startswith(prefix) for prefix in source_uri_prefixes
+            ):
+                return True
+        return False
 
     def _merge_candidate(
         self,
@@ -368,7 +406,7 @@ class RetrievalRouter:
             return True
 
         normalized_corpus = normalize_search_text(self._source_key_term_corpus(source)) or ""
-        corpus_tokens = set(normalized_corpus.split())
+        corpus_tokens = set(normalized_corpus.split()) | set(tokenize_search_text(normalized_corpus, dedupe=True))
         return any(self._matches_key_term(term, normalized_corpus, corpus_tokens) for term in key_terms)
 
     def _source_key_term_corpus(self, source: QuerySource) -> str:
@@ -392,7 +430,9 @@ class RetrievalRouter:
         if not normalized_term:
             return False
         if " " in normalized_term:
-            return normalized_term in normalized_corpus
+            if normalized_term in normalized_corpus:
+                return True
+            return self._matches_key_phrase_by_variants(normalized_term, corpus_tokens)
 
         for token in corpus_tokens:
             if token == normalized_term:
@@ -401,6 +441,13 @@ class RetrievalRouter:
             if suffix != token and suffix.isdigit():
                 return True
         return False
+
+    def _matches_key_phrase_by_variants(self, normalized_term: str, corpus_tokens: set[str]) -> bool:
+        for token in normalized_term.split():
+            variants = tokenize_search_text(token, dedupe=True) or [token]
+            if not any(variant in corpus_tokens for variant in variants):
+                return False
+        return True
 
     def _format_key_terms(self, key_terms: list[str]) -> str:
         return "[" + ", ".join(key_terms) + "]"
@@ -443,3 +490,14 @@ class RetrievalRouter:
         if not normalized_left or not normalized_right:
             return 1.0
         return 1.0 if normalized_left & normalized_right else 0.0
+
+    def _normalized_search_set(self, value: list[str] | str | None) -> set[str]:
+        normalized: set[str] = set()
+        for item in self._as_list(value):
+            text = normalize_search_text(item)
+            if text:
+                normalized.add(text)
+        return normalized
+
+    def _normalize_path_prefix(self, value: str | None) -> str:
+        return str(value or "").strip().replace("\\", "/").casefold()

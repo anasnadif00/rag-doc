@@ -402,6 +402,83 @@ def test_retrieval_router_exact_error_code_prioritizes_troubleshooting(tmp_path:
     assert results[0].doc_kind == "troubleshooting"
 
 
+def test_retrieval_router_applies_topic_feature_filter_for_orders(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    order_source = make_query_source(
+        chunk_id="ordine-stato",
+        title="Stato ordine cliente",
+        doc_type="reference",
+        doc_kind="reference",
+        text="L'ordine cliente puo essere evaso parzialmente quando solo alcune righe vengono consegnate.",
+        domain="vendite",
+        feature="ordini-clienti",
+        module="Ordini clienti",
+        screen_id=None,
+        screen_title="Ordini clienti",
+        tab_name=None,
+        source_uri="vendite/ordini-clienti/reference/stato-ordine.md",
+        keywords=["ordine cliente", "evasione ordine"],
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    offer_source = make_query_source(
+        chunk_id="offerta-stato",
+        title="Stati e avanzamenti offerta",
+        doc_type="reference",
+        doc_kind="reference",
+        text="L'offerta puo avanzare fino alla creazione di un ordine cliente.",
+        domain="commerciale",
+        feature="offerte",
+        module="Offerte",
+        screen_id=None,
+        screen_title="Offerte",
+        tab_name=None,
+        source_uri="commerciale/offerte/reference/stati-e-avanzamenti-offerta.md",
+        keywords=["offerta", "ordine cliente"],
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    write_lexical_index(lexical_path, [order_source.model_dump(), offer_source.model_dump()])
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    retriever = Mock()
+    retriever.settings = settings
+    retriever.search.side_effect = [
+        [],
+        [],
+        [offer_source, order_source],
+    ]
+    router = RetrievalRouter(settings=settings, retriever=retriever)
+    request = make_query_request(
+        message="Si puo evadere parzialmente un ordine?",
+        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+        retrieval_options=RetrievalOptions(top_k=5, include_debug_info=True),
+    )
+
+    plan, results = router.search(request=request, screen_context=request.screen_context)
+
+    assert plan.hard_filters["features"] == ["ordini-clienti"]
+    assert plan.soft_signals["requested_topic"] == ["ordini-clienti"]
+    assert [result.source_uri for result in results] == [
+        "vendite/ordini-clienti/reference/stato-ordine.md"
+    ]
+
+
+def test_query_planner_does_not_hard_filter_cross_topic_question():
+    planner = RetrievalRouter(
+        settings=make_settings(),
+        retriever=Mock(search=Mock(return_value=[])),
+    ).query_planner
+    request = make_query_request(
+        message="Come creo un ordine da un'offerta?",
+        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+    )
+
+    plan = planner.build(request=request, screen_context=request.screen_context)
+
+    assert "features" not in plan.hard_filters
+    assert "requested_topic" not in plan.soft_signals
+
+
 def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
     lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
     write_lexical_index(

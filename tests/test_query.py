@@ -2,9 +2,12 @@ import json
 from pathlib import Path
 from unittest.mock import Mock, patch
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.api.main import app
+from app.chat.schemas import ConversationMessage
+from app.chat.service import TenantAwareRAGService
 from app.core.config import Settings
 from app.domain.schemas import (
     FieldContext,
@@ -14,6 +17,7 @@ from app.domain.schemas import (
     QueryRequest,
     QueryResponse,
     QuerySource,
+    RetrievalCandidate,
     RetrievalDiagnostics,
     RetrievalOptions,
     ScreenContext,
@@ -22,6 +26,12 @@ from app.domain.schemas import (
 from app.ingestion.knowledge_loader import KnowledgeBaseLoader
 from app.ingestion.markdown_chunker import MarkdownChunker
 from app.retrieval.router import RetrievalRouter
+from app.retrieval.reranker import (
+    OpenAIReranker,
+    RerankCandidateScore,
+    RerankOutcome,
+    RerankValidationError,
+)
 from app.services.query_service import QueryService
 from app.security.redaction import redact_screen_context
 
@@ -118,15 +128,14 @@ def make_query_request(**overrides) -> QueryRequest:
 
 def make_query_plan(**overrides) -> QueryPlan:
     payload = {
-        "intent_label": "how_to",
-        "preferred_doc_kinds": ["how_to", "reference", "overview"],
+        "question_type": "procedura operativa",
+        "subjects": ["fatture"],
         "semantic_query": "Come creo una nuova fattura? | Contabilita | Fatture | FAT-001",
         "lexical_query_terms": ["creo", "fattura", "contabilita", "fatture"],
         "hard_filters": {
             "review_status": ["approved"],
             "erp_versions": ["REL231"],
             "role_scope": ["accounting"],
-            "doc_kinds": ["how_to", "reference", "overview"],
         },
         "soft_signals": {
             "module": ["Contabilita"],
@@ -142,6 +151,42 @@ def make_query_plan(**overrides) -> QueryPlan:
     }
     payload.update(overrides)
     return QueryPlan(**payload)
+
+
+class StaticReranker:
+    def __init__(self, scores: dict[str, float] | None = None, error: Exception | None = None) -> None:
+        self.scores = scores or {}
+        self.error = error
+        self.calls: list[dict] = []
+
+    def rerank(self, **kwargs) -> RerankOutcome:
+        self.calls.append(kwargs)
+        if self.error:
+            raise self.error
+        candidate_scores = []
+        for candidate in kwargs["candidates"]:
+            if candidate.exact_match_score > 0:
+                default_score = min(1.0, candidate.exact_match_score)
+            elif candidate.dense_score > 0:
+                default_score = min(1.0, candidate.dense_score)
+            elif candidate.lexical_score > 0:
+                default_score = min(1.0, candidate.lexical_score)
+            else:
+                default_score = candidate.rrf_score
+            candidate_scores.append(
+                RerankCandidateScore(
+                    chunk_id=candidate.source.chunk_id,
+                    relevance_score=self.scores.get(candidate.source.chunk_id, default_score),
+                    reason=f"relevance for {candidate.source.chunk_id}",
+                )
+            )
+        return RerankOutcome(
+            question_type="richiesta ERP",
+            subjects=["argomento ERP"],
+            candidates=candidate_scores,
+            prompt_tokens=11,
+            completion_tokens=7,
+        )
 
 
 def write_lexical_index(path: Path, entries: list[dict]) -> None:
@@ -323,7 +368,11 @@ def test_retrieval_router_prefers_screen_how_to_over_global_doc(tmp_path: Path):
         [],
         [make_query_source(chunk_id="global", score=0.75, screen_id=None, screen_title=None, tab_name=None, retrieval_reasons=[])],
     ]
-    router = RetrievalRouter(settings=retriever.settings, retriever=retriever)
+    router = RetrievalRouter(
+        settings=retriever.settings,
+        retriever=retriever,
+        reranker=StaticReranker(),
+    )
 
     _, results = router.search(request=make_query_request(), screen_context=make_query_request().screen_context)
 
@@ -342,7 +391,7 @@ def test_retrieval_router_applies_relative_score_cutoff(tmp_path: Path):
         [],
         [make_query_source(chunk_id="tail", score=0.35, screen_id=None, screen_title=None, tab_name=None, retrieval_reasons=[])],
     ]
-    router = RetrievalRouter(settings=settings, retriever=retriever)
+    router = RetrievalRouter(settings=settings, retriever=retriever, reranker=StaticReranker())
 
     _, results = router.search(request=make_query_request(), screen_context=make_query_request().screen_context)
 
@@ -384,7 +433,7 @@ def test_retrieval_router_exact_error_code_prioritizes_troubleshooting(tmp_path:
         [],
         [make_query_source(chunk_id="hw", screen_id=None, screen_title=None, tab_name=None, score=0.2, retrieval_reasons=[])],
     ]
-    router = RetrievalRouter(settings=settings, retriever=retriever)
+    router = RetrievalRouter(settings=settings, retriever=retriever, reranker=StaticReranker())
 
     request = make_query_request(
         message="Ricevo errore ART-VAL-001 durante il salvataggio",
@@ -402,105 +451,159 @@ def test_retrieval_router_exact_error_code_prioritizes_troubleshooting(tmp_path:
     assert results[0].doc_kind == "troubleshooting"
 
 
-def test_retrieval_router_applies_topic_feature_filter_for_orders(tmp_path: Path):
-    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
-    order_source = make_query_source(
-        chunk_id="ordine-stato",
-        title="Stato ordine cliente",
-        doc_type="reference",
-        doc_kind="reference",
-        text="L'ordine cliente puo essere evaso parzialmente quando solo alcune righe vengono consegnate.",
-        domain="vendite",
-        feature="ordini-clienti",
-        module="Ordini clienti",
-        screen_id=None,
-        screen_title="Ordini clienti",
-        tab_name=None,
-        source_uri="vendite/ordini-clienti/reference/stato-ordine.md",
-        keywords=["ordine cliente", "evasione ordine"],
-        role_scope=[],
-        retrieval_reasons=[],
-    )
-    offer_source = make_query_source(
-        chunk_id="offerta-stato",
-        title="Stati e avanzamenti offerta",
-        doc_type="reference",
-        doc_kind="reference",
-        text="L'offerta puo avanzare fino alla creazione di un ordine cliente.",
-        domain="commerciale",
-        feature="offerte",
-        module="Offerte",
-        screen_id=None,
-        screen_title="Offerte",
-        tab_name=None,
-        source_uri="commerciale/offerte/reference/stati-e-avanzamenti-offerta.md",
-        keywords=["offerta", "ordine cliente"],
-        role_scope=[],
-        retrieval_reasons=[],
-    )
-    write_lexical_index(lexical_path, [order_source.model_dump(), offer_source.model_dump()])
-    settings = make_settings(lexical_index_path=str(lexical_path))
-    retriever = Mock()
-    retriever.settings = settings
-    retriever.search.side_effect = [
-        [],
-        [],
-        [offer_source, order_source],
-    ]
-    router = RetrievalRouter(settings=settings, retriever=retriever)
-    request = make_query_request(
-        message="Si puo evadere parzialmente un ordine?",
-        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
-        retrieval_options=RetrievalOptions(top_k=5, include_debug_info=True),
-    )
-
-    plan, results = router.search(request=request, screen_context=request.screen_context)
-
-    assert plan.hard_filters["features"] == ["ordini-clienti"]
-    assert plan.soft_signals["requested_topic"] == ["ordini-clienti"]
-    assert [result.source_uri for result in results] == [
-        "vendite/ordini-clienti/reference/stato-ordine.md"
-    ]
-    assert all(
-        condition.key != "metadata.feature"
-        for call in retriever.search.call_args_list
-        for condition in call.kwargs["metadata_filter"].must
-    )
-
-
-def test_query_planner_does_not_hard_filter_cross_topic_question():
+def test_query_planner_uses_only_structural_and_explicit_filters():
     planner = RetrievalRouter(
         settings=make_settings(),
         retriever=Mock(search=Mock(return_value=[])),
+        reranker=StaticReranker(),
     ).query_planner
+    request = make_query_request(
+        message="Come creo un ordine da un'offerta?",
+        screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
+        retrieval_options=RetrievalOptions(doc_types=["how_to"]),
+    )
+
+    plan = planner.build(request=request, screen_context=request.screen_context)
+
+    assert plan.question_type is None
+    assert plan.subjects == []
+    assert plan.hard_filters == {
+        "review_status": ["approved"],
+        "erp_versions": ["rel231"],
+        "role_scope": [],
+        "doc_kinds": ["how_to"],
+    }
+    assert "must_match_terms" not in plan.soft_signals
+    assert "requested_topic" not in plan.soft_signals
+
+
+def test_retrieval_router_reranks_broad_cross_topic_candidates(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(lexical_path, [])
+    offer_source = make_query_source(
+        chunk_id="offer",
+        text="L'offerta puo essere modificata.",
+        feature="offerte",
+        score=0.91,
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    transition_source = make_query_source(
+        chunk_id="offer-to-order",
+        text="Seleziona Crea Ordine dall'offerta confermata.",
+        feature="offerte",
+        score=0.62,
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    retriever = Mock(search=Mock(side_effect=[[], [], [offer_source, transition_source]]))
+    reranker = StaticReranker({"offer": 0.2, "offer-to-order": 0.96})
+    router = RetrievalRouter(settings=settings, retriever=retriever, reranker=reranker)
     request = make_query_request(
         message="Come creo un ordine da un'offerta?",
         screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
     )
 
-    plan = planner.build(request=request, screen_context=request.screen_context)
+    plan, results = router.search(request=request, screen_context=request.screen_context)
 
+    assert [source.chunk_id for source in results] == ["offer-to-order"]
+    assert {candidate.source.chunk_id for candidate in reranker.calls[0]["candidates"]} == {
+        "offer",
+        "offer-to-order",
+    }
+    assert plan.question_type == "richiesta ERP"
+    assert plan.subjects == ["argomento ERP"]
     assert "features" not in plan.hard_filters
-    assert "requested_topic" not in plan.soft_signals
 
 
-def test_query_planner_does_not_hard_filter_generic_order_word():
-    planner = RetrievalRouter(
-        settings=make_settings(),
-        retriever=Mock(search=Mock(return_value=[])),
-    ).query_planner
-    request = make_query_request(
-        message="Qual e l'ordine corretto dei passaggi?",
-        screen_context=ScreenContext(),
+def test_retrieval_router_jointly_reranks_base_and_tenant_overlay(tmp_path: Path):
+    lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(lexical_path, [])
+    settings = make_settings(lexical_index_path=str(lexical_path))
+    base_source = make_query_source(
+        chunk_id="base",
+        score=0.9,
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    overlay_source = make_query_source(
+        chunk_id="overlay",
+        title="Procedura aziendale fatture",
+        score=0.7,
+        role_scope=[],
+        retrieval_reasons=[],
+    )
+    base_retriever = Mock(search=Mock(side_effect=[[], [], [base_source]]))
+    overlay_retriever = Mock(search=Mock(side_effect=[[], [], [overlay_source]]))
+    reranker = StaticReranker({"base": 0.86, "overlay": 0.94})
+    router = RetrievalRouter(settings=settings, retriever=base_retriever, reranker=reranker)
+
+    _, results = router.search(
+        request=make_query_request(),
+        screen_context=make_query_request().screen_context,
+        additional_retrievers=[("tenant_overlay", overlay_retriever)],
     )
 
-    plan = planner.build(request=request, screen_context=request.screen_context)
+    assert results[0].chunk_id == "overlay"
+    assert len(reranker.calls) == 1
+    assert {item.source.chunk_id for item in reranker.calls[0]["candidates"]} == {
+        "base",
+        "overlay",
+    }
+    assert router.last_diagnostics is not None
+    overlay_debug = next(
+        item for item in router.last_diagnostics.candidates if item.chunk_id == "overlay"
+    )
+    assert overlay_debug.is_tenant_overlay is True
+    assert router.last_diagnostics.rerank_prompt_tokens == 11
+    assert router.last_diagnostics.rerank_completion_tokens == 7
 
-    assert "features" not in plan.hard_filters
-    assert "requested_topic" not in plan.soft_signals
+
+def test_tenant_chat_counts_reranker_and_generation_tokens():
+    service = object.__new__(TenantAwareRAGService)
+    service.settings = make_settings()
+    service.last_usage = {"prompt_tokens": 0, "completion_tokens": 0}
+    service.overlay_retriever = Mock()
+    service.retrieval_router = Mock()
+    source = make_query_source(role_scope=[])
+    diagnostics = RetrievalDiagnostics(
+        query_plan=make_query_plan(),
+        active_filters=make_query_plan().hard_filters,
+        semantic_query=make_query_plan().semantic_query,
+        rerank_status="succeeded",
+        ranking_method="openai_rerank",
+        rerank_prompt_tokens=11,
+        rerank_completion_tokens=7,
+        returned_chunk_ids=[source.chunk_id],
+    )
+    service.retrieval_router.search.return_value = (make_query_plan(), [source])
+    service.retrieval_router.last_diagnostics = diagnostics
+    service.generator = Mock()
+    service.generator.generate.return_value = GeneratedAnswer(
+        answer="Apri Fatture.",
+        steps=["Apri Fatture"],
+        confidence=0.9,
+        answer_mode="grounded",
+        prompt_tokens=23,
+        completion_tokens=5,
+    )
+    history = [
+        ConversationMessage(role="user", content=f"message-{index}") for index in range(6)
+    ]
+
+    response = service.run_chat_request(make_query_request(), conversation_history=history)
+
+    assert response.answer == "Apri Fatture."
+    assert service.last_usage == {"prompt_tokens": 34, "completion_tokens": 12}
+    search_kwargs = service.retrieval_router.search.call_args.kwargs
+    assert len(search_kwargs["conversation_history"]) == 6
+    assert search_kwargs["additional_retrievers"] == [
+        ("tenant_overlay", service.overlay_retriever)
+    ]
 
 
-def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
+def test_retrieval_router_semantic_rerank_overrides_screen_context(tmp_path: Path):
     lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
     write_lexical_index(
         lexical_path,
@@ -535,7 +638,10 @@ def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
     retriever = Mock()
     retriever.settings = settings
     retriever.search.return_value = []
-    router = RetrievalRouter(settings=settings, retriever=retriever)
+    reranker = StaticReranker(
+        {"offerte-codice-articolo": 0.1, "nazioni-codice-iso": 0.97}
+    )
+    router = RetrievalRouter(settings=settings, retriever=retriever, reranker=reranker)
     request = make_query_request(
         message="Come inserire codice ISO?",
         screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
@@ -544,7 +650,7 @@ def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
 
     plan, results = router.search(request=request, screen_context=request.screen_context)
 
-    assert "ISO" in plan.soft_signals["must_match_terms"]
+    assert "must_match_terms" not in plan.soft_signals
     assert [result.source_uri for result in results] == [
         "configurazione/nazioni/reference/campi-tabella-nazioni.md"
     ]
@@ -552,10 +658,10 @@ def test_retrieval_router_requires_key_term_over_screen_context(tmp_path: Path):
     assert router.last_diagnostics is not None
     excluded = next(item for item in router.last_diagnostics.candidates if item.chunk_id == "offerte-codice-articolo")
     assert excluded.selected is False
-    assert "required key term" in (excluded.selection_reason or "")
+    assert "below floor" in (excluded.selection_reason or "")
 
 
-def test_retrieval_router_returns_no_sources_when_required_key_term_is_absent(tmp_path: Path):
+def test_retrieval_router_uses_rrf_fallback_on_reranker_failure(tmp_path: Path):
     lexical_path = tmp_path / ".artifacts" / "lexical_index.json"
     write_lexical_index(
         lexical_path,
@@ -577,7 +683,11 @@ def test_retrieval_router_returns_no_sources_when_required_key_term_is_absent(tm
     retriever = Mock()
     retriever.settings = settings
     retriever.search.return_value = []
-    router = RetrievalRouter(settings=settings, retriever=retriever)
+    router = RetrievalRouter(
+        settings=settings,
+        retriever=retriever,
+        reranker=StaticReranker(error=TimeoutError("timeout")),
+    )
     request = make_query_request(
         message="Come inserire codice ISO?",
         screen_context=ScreenContext(module="Offerte", screen_title="Offerte"),
@@ -586,12 +696,104 @@ def test_retrieval_router_returns_no_sources_when_required_key_term_is_absent(tm
 
     _, results = router.search(request=request, screen_context=request.screen_context)
 
-    assert results == []
+    assert [result.chunk_id for result in results] == ["offerte-codice-articolo"]
     assert router.last_diagnostics is not None
-    assert router.last_diagnostics.returned_chunk_ids == []
-    assert "no candidate matched required key terms" in (
-        router.last_diagnostics.candidates[0].selection_reason or ""
+    assert router.last_diagnostics.ranking_method == "rrf"
+    assert router.last_diagnostics.rerank_status == "fallback"
+    assert router.last_diagnostics.rerank_fallback_reason == (
+        "TimeoutError: reranker unavailable or invalid"
     )
+
+
+def test_openai_reranker_uses_strict_schema_and_bounded_history():
+    settings = make_settings(
+        rerank_model="gpt-4o-mini",
+        rerank_history_messages=4,
+        rerank_max_chars_per_candidate=12,
+    )
+    client = Mock()
+    response_message = Mock(
+        content=json.dumps(
+            {
+                "question_type": "procedura operativa",
+                "subjects": ["fatture"],
+                "candidates": [
+                    {
+                        "chunk_id": "candidate-1",
+                        "relevance_score": 0.91,
+                        "reason": "Descrive la procedura richiesta.",
+                    }
+                ],
+            }
+        ),
+        refusal=None,
+    )
+    client.chat.completions.create.return_value = Mock(
+        choices=[Mock(message=response_message)],
+        usage=Mock(prompt_tokens=31, completion_tokens=13),
+    )
+    reranker = OpenAIReranker(settings=settings, client=client)
+    candidate = RetrievalCandidate(
+        source=make_query_source(
+            chunk_id="candidate-1",
+            text="12345678901234567890",
+            role_scope=[],
+        ),
+        rrf_score=1.0,
+    )
+    history = [{"role": "user", "content": f"message-{index}"} for index in range(6)]
+
+    outcome = reranker.rerank(
+        message="Come creo una fattura?",
+        screen_context=ScreenContext(module="Contabilita"),
+        query_plan=make_query_plan(),
+        candidates=[candidate],
+        conversation_history=history,
+    )
+
+    call = client.chat.completions.create.call_args.kwargs
+    input_payload = json.loads(call["messages"][1]["content"])
+    assert [item["content"] for item in input_payload["recent_conversation"]] == [
+        "message-2",
+        "message-3",
+        "message-4",
+        "message-5",
+    ]
+    assert input_payload["candidates"][0]["excerpt"] == "123456789012"
+    assert call["response_format"]["type"] == "json_schema"
+    assert call["response_format"]["json_schema"]["strict"] is True
+    assert outcome.prompt_tokens == 31
+    assert outcome.completion_tokens == 13
+
+
+def test_openai_reranker_rejects_incomplete_candidate_ids():
+    settings = make_settings(rerank_model="gpt-4o-mini")
+    client = Mock()
+    response_message = Mock(
+        content=json.dumps(
+            {
+                "question_type": "procedura",
+                "subjects": ["fatture"],
+                "candidates": [],
+            }
+        ),
+        refusal=None,
+    )
+    client.chat.completions.create.return_value = Mock(
+        choices=[Mock(message=response_message)],
+        usage=Mock(prompt_tokens=17, completion_tokens=4),
+    )
+    reranker = OpenAIReranker(settings=settings, client=client)
+
+    with pytest.raises(RerankValidationError) as error:
+        reranker.rerank(
+            message="Come creo una fattura?",
+            screen_context=ScreenContext(),
+            query_plan=make_query_plan(),
+            candidates=[RetrievalCandidate(source=make_query_source(chunk_id="candidate-1"))],
+        )
+    assert error.value.prompt_tokens == 17
+    assert error.value.completion_tokens == 4
 
 
 def test_knowledge_base_loader_parses_valid_v2_markdown(tmp_path: Path):
@@ -861,7 +1063,7 @@ def test_retrieval_router_matches_normalized_erp_versions(tmp_path: Path):
         [],
         [],
     ]
-    router = RetrievalRouter(settings=settings, retriever=retriever)
+    router = RetrievalRouter(settings=settings, retriever=retriever, reranker=StaticReranker())
     request = make_query_request(
         message="Come si crea un ordine cliente da offerta cliente",
         screen_context=ScreenContext(),

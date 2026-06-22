@@ -10,7 +10,7 @@ from app.context import normalize_query_request, summarize_screen_context
 from app.core.config import Settings
 from app.domain.schemas import QueryRequest, QueryResponse, RetrievalOptions, UserContext
 from app.persistence.repositories import AuditRepository, ChatSessionRepository
-from app.retrieval import QdrantRetriever, RetrievalRouter
+from app.retrieval import QdrantRetriever
 from app.security import redact_screen_context
 from app.services.query_service import QueryService
 from app.tenancy.cache import AsyncStateStore
@@ -18,26 +18,17 @@ from app.tenancy.models import SessionPrincipal
 from app.tenancy.services import QuotaService, TenantAccessService
 
 
-class NullLexicalRetriever:
-    def search(self, *args, **kwargs):
-        return []
-
-    def exact_match(self, *args, **kwargs):
-        return []
-
-
 class TenantAwareRAGService(QueryService):
     def __init__(self, settings: Settings, principal: SessionPrincipal) -> None:
         super().__init__(settings=settings)
         self.principal = principal
         self.last_usage = {"prompt_tokens": 0, "completion_tokens": 0}
-        self.overlay_router: RetrievalRouter | None = None
+        self.overlay_retriever: QdrantRetriever | None = None
         overlay_collection = self._overlay_collection_name()
         if overlay_collection:
-            self.overlay_router = RetrievalRouter(
+            self.overlay_retriever = QdrantRetriever(
                 settings=settings,
-                retriever=QdrantRetriever(settings=settings, collection_name=overlay_collection),
-                lexical_retriever=NullLexicalRetriever(),
+                collection_name=overlay_collection,
             )
 
     def run_chat_request(
@@ -70,18 +61,23 @@ class TenantAwareRAGService(QueryService):
                 inference_notice=None,
             )
 
+        history_payload = [item.model_dump(mode="json") for item in (conversation_history or [])]
+        additional_retrievers = (
+            [("tenant_overlay", self.overlay_retriever)]
+            if self.overlay_retriever is not None
+            else []
+        )
         query_plan, sources = self.retrieval_router.search(
             request=normalized_request,
             screen_context=redaction.screen_context,
+            conversation_history=history_payload,
+            additional_retrievers=additional_retrievers,
         )
         diagnostics = getattr(self.retrieval_router, "last_diagnostics", None)
-
-        if self.overlay_router is not None:
-            _, overlay_sources = self.overlay_router.search(
-                request=normalized_request,
-                screen_context=redaction.screen_context,
-            )
-            sources = self._merge_sources(normalized_request, sources, overlay_sources)
+        self.last_usage = {
+            "prompt_tokens": diagnostics.rerank_prompt_tokens if diagnostics else 0,
+            "completion_tokens": diagnostics.rerank_completion_tokens if diagnostics else 0,
+        }
 
         if not sources:
             return QueryResponse(
@@ -105,11 +101,11 @@ class TenantAwareRAGService(QueryService):
             screen_context=redaction.screen_context,
             query_plan=query_plan,
             sources=sources,
-            conversation_history=[item.model_dump(mode="json") for item in (conversation_history or [])],
+            conversation_history=history_payload,
         )
         self.last_usage = {
-            "prompt_tokens": generated.prompt_tokens,
-            "completion_tokens": generated.completion_tokens,
+            "prompt_tokens": self.last_usage["prompt_tokens"] + generated.prompt_tokens,
+            "completion_tokens": self.last_usage["completion_tokens"] + generated.completion_tokens,
         }
 
         allow_inferred_guidance = (
@@ -145,27 +141,6 @@ class TenantAwareRAGService(QueryService):
         return self.principal.tenant.overlay_collection or (
             f"{self.settings.tenant_overlay_collection_prefix}{self.principal.tenant_id}"
         )
-
-    def _merge_sources(
-        self,
-        request: QueryRequest,
-        base_sources,
-        overlay_sources,
-    ):
-        combined = {source.chunk_id: source for source in base_sources}
-        for source in overlay_sources:
-            source.score = round(min(1.0, source.score + self.settings.overlay_score_boost), 4)
-            source.retrieval_reasons = list(dict.fromkeys(source.retrieval_reasons + ["match tenant overlay"]))
-            current = combined.get(source.chunk_id)
-            if current is None or source.score > current.score:
-                combined[source.chunk_id] = source
-        limit = (
-            request.retrieval_options.top_k
-            if request.retrieval_options and request.retrieval_options.top_k is not None
-            else max(6, self.settings.top_k)
-        )
-        return sorted(combined.values(), key=lambda item: item.score, reverse=True)[:limit]
-
 
 class ChatRuntimeService:
     def __init__(self, session: Session, settings: Settings, state_store: AsyncStateStore) -> None:

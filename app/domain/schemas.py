@@ -9,9 +9,10 @@ from pydantic import BaseModel, Field, model_validator
 DocType = Literal["how_to", "troubleshooting", "reference", "faq", "overview"]
 ReviewStatus = Literal["draft", "review", "approved", "deprecated"]
 AnswerMode = Literal["grounded", "partial_inference", "clarification"]
-IntentLabel = Literal["how_to", "troubleshooting", "reference", "navigation", "general"]
 SearchScope = Literal["auto", "screen", "module", "global"]
 ResolvedSearchScope = Literal["screen", "module", "global"]
+RankingMethod = Literal["openai_rerank", "rrf"]
+RerankStatus = Literal["succeeded", "fallback", "skipped"]
 
 
 class IngestRequest(BaseModel):
@@ -262,13 +263,11 @@ class RetrievalCandidateDebug(BaseModel):
     dense_score: float
     lexical_score: float
     exact_match_score: float
-    normalized_dense: float
-    normalized_lexical: float
-    normalized_exact: float
-    doc_kind_match: float
-    scope_specificity: float
-    role_match: float
-    version_match: float
+    rrf_score: float
+    rerank_score: float | None = None
+    rerank_reason: str | None = None
+    ranking_method: RankingMethod
+    is_tenant_overlay: bool = False
     selected: bool
     selection_reason: str | None = None
     retrieval_reasons: list[str] = Field(default_factory=list)
@@ -282,6 +281,12 @@ class RetrievalDiagnostics(BaseModel):
     candidate_count: int = 0
     returned_count: int = 0
     score_floor: float | None = None
+    ranking_method: RankingMethod = "rrf"
+    rerank_status: RerankStatus = "skipped"
+    rerank_model: str | None = None
+    rerank_fallback_reason: str | None = None
+    rerank_prompt_tokens: int = 0
+    rerank_completion_tokens: int = 0
     returned_chunk_ids: list[str] = Field(default_factory=list)
     candidates: list[RetrievalCandidateDebug] = Field(default_factory=list)
 
@@ -347,8 +352,8 @@ class ChunkRecord(BaseModel):
 
 
 class QueryPlan(BaseModel):
-    intent_label: IntentLabel
-    preferred_doc_kinds: list[DocType] = Field(default_factory=list)
+    question_type: str | None = None
+    subjects: list[str] = Field(default_factory=list)
     semantic_query: str
     lexical_query_terms: list[str] = Field(default_factory=list)
     hard_filters: dict[str, list[str] | str] = Field(default_factory=dict)
@@ -361,13 +366,11 @@ class RetrievalCandidate(BaseModel):
     dense_score: float = 0.0
     lexical_score: float = 0.0
     exact_match_score: float = 0.0
-    normalized_dense: float = 0.0
-    normalized_lexical: float = 0.0
-    normalized_exact: float = 0.0
-    doc_kind_match: float = 0.0
-    scope_specificity: float = 0.0
-    role_match: float = 0.0
-    version_match: float = 0.0
+    rrf_score: float = 0.0
+    rerank_score: float | None = None
+    rerank_reason: str | None = None
+    ranking_method: RankingMethod = "rrf"
+    is_tenant_overlay: bool = False
     final_score: float = 0.0
     scope: ResolvedSearchScope = "global"
     selected: bool = False

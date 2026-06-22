@@ -37,6 +37,7 @@ def test_get_settings_resolves_relative_paths_from_project_root(monkeypatch, tmp
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("KNOWLEDGE_BASE_PATH", "mock_knowledge_base")
     monkeypatch.delenv("LEXICAL_INDEX_PATH", raising=False)
+    monkeypatch.delenv("RERANK_MODEL", raising=False)
     config.get_settings.cache_clear()
 
     settings = config.get_settings()
@@ -46,6 +47,12 @@ def test_get_settings_resolves_relative_paths_from_project_root(monkeypatch, tmp
     assert settings.lexical_index_path == str(
         (project_root / "mock_knowledge_base" / ".artifacts" / "lexical_index.json").resolve()
     )
+    assert settings.rerank_model == settings.generation_model
+    assert settings.rerank_candidate_limit == 20
+    assert settings.rerank_max_chars_per_candidate == 1500
+    assert settings.rerank_min_score == 0.5
+    assert settings.rerank_timeout_seconds == 15.0
+    assert settings.rerank_history_messages == 4
 
     config.get_settings.cache_clear()
 
@@ -58,8 +65,8 @@ def test_health_endpoint_reports_path_diagnostics(tmp_path: Path):
     lexical_index_path.write_text("[]", encoding="utf-8")
 
     with patch(
-        "app.api.routes.health.settings",
-        make_settings(
+        "app.api.routes.health.get_settings",
+        return_value=make_settings(
             knowledge_base_path=str(knowledge_base_path),
             lexical_index_path=str(lexical_index_path),
         ),

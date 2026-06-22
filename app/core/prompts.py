@@ -178,10 +178,9 @@ def build_user_prompt(
             f"Campi visibili:\n{_format_fields(screen_context)}",
             f"Errori visibili:\n{errors}",
             "Piano di retrieval:\n"
-            f"Intento: {query_plan.intent_label}\n"
-            f"Doc kind preferiti: {', '.join(query_plan.preferred_doc_kinds) or '-'}\n"
+            f"Tipo di domanda: {query_plan.question_type or '-'}\n"
+            f"Argomenti: {', '.join(query_plan.subjects) or '-'}\n"
             f"Termini lessicali: {', '.join(query_plan.lexical_query_terms) or '-'}\n"
-            f"Termini chiave richiesti: {', '.join(query_plan.soft_signals.get('must_match_terms', [])) or '-'}\n"
             f"Segnali morbidi: {query_plan.soft_signals}",
             f"Fonti recuperate:\n{source_context or 'Nessuna fonte recuperata'}",
         ]

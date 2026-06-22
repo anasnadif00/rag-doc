@@ -47,6 +47,12 @@ class Settings:
     retrieval_relative_score_floor: float
     redaction_allowlist: tuple[str, ...]
     redaction_denylist: tuple[str, ...]
+    rerank_model: str = ""
+    rerank_candidate_limit: int = 20
+    rerank_max_chars_per_candidate: int = 1500
+    rerank_min_score: float = 0.5
+    rerank_timeout_seconds: float = 15.0
+    rerank_history_messages: int = 4
     database_url: str = "sqlite:///./.tmp/rag_doc_platform.db"
     database_auto_create: bool = True
     redis_url: str = "memory://rag-doc"
@@ -113,12 +119,13 @@ class Settings:
 def get_settings() -> Settings:
     knowledge_base_path = _resolve_project_path(os.getenv("KNOWLEDGE_BASE_PATH", "knowledge-base"))
     lexical_index_default = str(Path(knowledge_base_path) / ".artifacts" / "lexical_index.json")
+    generation_model = os.getenv("GENERATION_MODEL", "gpt-5.2")
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
         qdrant_collection=os.getenv("QDRANT_COLLECTION", "rag_doc_chunks"),
         embedding_model=os.getenv("EMBEDDING_MODEL", "text-embedding-3-small"),
-        generation_model=os.getenv("GENERATION_MODEL", "gpt-5.2"),
+        generation_model=generation_model,
         knowledge_base_path=knowledge_base_path,
         default_locale=os.getenv("DEFAULT_LOCALE", "it"),
         erp_version=os.getenv("ERP_VERSION", "REL231"),
@@ -136,6 +143,12 @@ def get_settings() -> Settings:
         retrieval_relative_score_floor=float(os.getenv("RETRIEVAL_RELATIVE_SCORE_FLOOR", "0.75")),
         redaction_allowlist=_parse_csv_env("REDACTION_ALLOWLIST"),
         redaction_denylist=_parse_csv_env("REDACTION_DENYLIST"),
+        rerank_model=os.getenv("RERANK_MODEL") or generation_model,
+        rerank_candidate_limit=int(os.getenv("RERANK_CANDIDATE_LIMIT", "20")),
+        rerank_max_chars_per_candidate=int(os.getenv("RERANK_MAX_CHARS_PER_CANDIDATE", "1500")),
+        rerank_min_score=float(os.getenv("RERANK_MIN_SCORE", "0.5")),
+        rerank_timeout_seconds=float(os.getenv("RERANK_TIMEOUT_SECONDS", "15")),
+        rerank_history_messages=int(os.getenv("RERANK_HISTORY_MESSAGES", "4")),
         database_url=os.getenv("DATABASE_URL", "sqlite:///./.tmp/rag_doc_platform.db"),
         database_auto_create=os.getenv("DATABASE_AUTO_CREATE", "true").lower() in {"1", "true", "yes", "on"},
         redis_url=os.getenv("REDIS_URL", "memory://rag-doc"),

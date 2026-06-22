@@ -78,9 +78,14 @@ def run_retrieval_eval(
     settings: Settings,
     cases_path: str | Path,
     top_k: int | None = None,
+    reranker: Any | None = None,
 ) -> dict[str, Any]:
     cases = load_eval_cases(cases_path)
-    router = RetrievalRouter(settings=settings, retriever=EmptyDenseRetriever())  # type: ignore[arg-type]
+    router = RetrievalRouter(
+        settings=settings,
+        retriever=EmptyDenseRetriever(),  # type: ignore[arg-type]
+        reranker=reranker,
+    )
 
     results: list[RetrievalEvalResult] = []
     top1_hits = 0

@@ -13,6 +13,19 @@ load_dotenv()
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
+DEFAULT_OPENAI_LLM_MODEL_OPTIONS = (
+    "gpt-5.2",
+    "gpt-5.1",
+    "gpt-5",
+    "gpt-5-mini",
+    "gpt-5-nano",
+    "gpt-4.1",
+    "gpt-4.1-mini",
+    "gpt-4.1-nano",
+    "gpt-4o",
+    "gpt-4o-mini",
+)
+
 
 def _parse_csv_env(name: str) -> tuple[str, ...]:
     value = os.getenv(name, "")
@@ -47,6 +60,7 @@ class Settings:
     retrieval_relative_score_floor: float
     redaction_allowlist: tuple[str, ...]
     redaction_denylist: tuple[str, ...]
+    openai_llm_model_options: tuple[str, ...] = DEFAULT_OPENAI_LLM_MODEL_OPTIONS
     rerank_model: str = ""
     rerank_candidate_limit: int = 20
     rerank_max_chars_per_candidate: int = 1500
@@ -120,6 +134,7 @@ def get_settings() -> Settings:
     knowledge_base_path = _resolve_project_path(os.getenv("KNOWLEDGE_BASE_PATH", "knowledge-base"))
     lexical_index_default = str(Path(knowledge_base_path) / ".artifacts" / "lexical_index.json")
     generation_model = os.getenv("GENERATION_MODEL", "gpt-5.2")
+    configured_model_options = _parse_csv_env("OPENAI_LLM_MODEL_OPTIONS")
     return Settings(
         openai_api_key=os.getenv("OPENAI_API_KEY", ""),
         qdrant_url=os.getenv("QDRANT_URL", ""),
@@ -143,6 +158,7 @@ def get_settings() -> Settings:
         retrieval_relative_score_floor=float(os.getenv("RETRIEVAL_RELATIVE_SCORE_FLOOR", "0.75")),
         redaction_allowlist=_parse_csv_env("REDACTION_ALLOWLIST"),
         redaction_denylist=_parse_csv_env("REDACTION_DENYLIST"),
+        openai_llm_model_options=configured_model_options or DEFAULT_OPENAI_LLM_MODEL_OPTIONS,
         rerank_model=os.getenv("RERANK_MODEL") or generation_model,
         rerank_candidate_limit=int(os.getenv("RERANK_CANDIDATE_LIMIT", "20")),
         rerank_max_chars_per_candidate=int(os.getenv("RERANK_MAX_CHARS_PER_CANDIDATE", "1500")),

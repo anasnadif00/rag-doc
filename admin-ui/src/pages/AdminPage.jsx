@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import CreateTenantSection from '../components/CreateTenantSection.jsx'
 import HeroSection from '../components/HeroSection.jsx'
 import IngestSection from '../components/IngestSection.jsx'
+import ModelSettingsSection from '../components/ModelSettingsSection.jsx'
 import TenantListSection from '../components/TenantListSection.jsx'
 import TenantWorkspace from '../components/TenantWorkspace.jsx'
 import { MetricCard } from '../components/ui.jsx'
@@ -10,6 +11,7 @@ import {
   activateTenant,
   createTenant,
   fetchHealth,
+  fetchModelSettings,
   fetchTenantUsage,
   fetchTenants,
   rotateTenantKey,
@@ -17,6 +19,7 @@ import {
   suspendTenant,
   updateTenant,
   updateTenantLicense,
+  updateModelSettings,
 } from '../lib/api.js'
 import {
   buildCreatePayload,
@@ -38,6 +41,8 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
   const [health, setHealth] = useState(null)
   const [healthError, setHealthError] = useState('')
   const [tenants, setTenants] = useState([])
+  const [modelSettings, setModelSettings] = useState(null)
+  const [modelForm, setModelForm] = useState(null)
   const [selectedTenantId, setSelectedTenantId] = useState(null)
   const [usageDays, setUsageDays] = useState(14)
   const [usageRows, setUsageRows] = useState([])
@@ -50,6 +55,7 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
   const [tenantSearch, setTenantSearch] = useState('')
   const [loadingHealth, setLoadingHealth] = useState(false)
   const [loadingTenants, setLoadingTenants] = useState(false)
+  const [loadingModelSettings, setLoadingModelSettings] = useState(false)
   const [loadingUsage, setLoadingUsage] = useState(false)
   const [busyAction, setBusyAction] = useState('')
   const [notice, setNotice] = useState(null)
@@ -128,6 +134,38 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     }
 
     void caricaAziende()
+
+    return () => {
+      isActive = false
+    }
+  }, [onSessionExpired])
+
+  useEffect(() => {
+    let isActive = true
+    setLoadingModelSettings(true)
+
+    fetchModelSettings(API_BASE_URL)
+      .then((payload) => {
+        if (!isActive) return
+        setModelSettings(payload)
+        setModelForm({
+          generationModel: payload.generation_model,
+          rerankModel: payload.rerank_model,
+        })
+      })
+      .catch((error) => {
+        if (!isActive) return
+        if (error.status === 401) {
+          onSessionExpired()
+          return
+        }
+        setModelSettings(null)
+        setModelForm(null)
+        setNotice({ tone: 'error', message: error.message || 'Non e stato possibile leggere i modelli AI.' })
+      })
+      .finally(() => {
+        if (isActive) setLoadingModelSettings(false)
+      })
 
     return () => {
       isActive = false
@@ -229,6 +267,28 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     if (!tenant) return
     await refreshTenants(tenant.id)
     setCreateForm(createDefaultCreateForm())
+  }
+
+  async function handleSaveModelSettings(event) {
+    event.preventDefault()
+    if (!modelForm) return
+
+    const result = await runAction(
+      'save-model-settings',
+      () =>
+        updateModelSettings(API_BASE_URL, {
+          generation_model: modelForm.generationModel,
+          rerank_model: modelForm.rerankModel,
+        }),
+      'Modelli OpenAI aggiornati.',
+      'Non e stato possibile salvare i modelli AI.',
+    )
+    if (!result) return
+    setModelSettings(result)
+    setModelForm({
+      generationModel: result.generation_model,
+      rerankModel: result.rerank_model,
+    })
   }
 
   async function handleSaveProfile(event) {
@@ -381,6 +441,15 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
           busyAction={busyAction}
         />
       </section>
+
+      <ModelSettingsSection
+        modelSettings={modelSettings}
+        modelForm={modelForm}
+        setModelForm={setModelForm}
+        loading={loadingModelSettings}
+        busyAction={busyAction}
+        onSubmit={handleSaveModelSettings}
+      />
 
       <section className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
         <TenantListSection

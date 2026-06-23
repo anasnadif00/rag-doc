@@ -1,8 +1,11 @@
+import json
+from unittest.mock import Mock, patch
+
 from fastapi.testclient import TestClient
-from unittest.mock import patch
 
 from app.api.main import app
-from app.domain.schemas import IngestResponse
+from app.domain.schemas import IngestRequest, IngestResponse
+from app.services.ingest_service import IngestService
 
 client = TestClient(app)
 
@@ -40,3 +43,30 @@ def test_ingest_endpoint_success():
 
         mock_service_class.assert_called_once()
         mock_instance.run.assert_called_once()
+
+
+def test_recreate_empty_knowledge_base_removes_collection_and_clears_lexical_index(tmp_path):
+    lexical_index_path = tmp_path / ".artifacts" / "lexical_index.json"
+    lexical_index_path.parent.mkdir(parents=True)
+    lexical_index_path.write_text('[{"chunk_id":"stale"}]', encoding="utf-8")
+
+    service = IngestService.__new__(IngestService)
+    service.settings = Mock(
+        knowledge_base_path=str(tmp_path),
+        qdrant_url="http://localhost:6333",
+        qdrant_collection="mock_collection",
+        lexical_index_path=str(lexical_index_path),
+        erp_version="REL231",
+    )
+    service.knowledge_loader = Mock()
+    service.knowledge_loader.load_documents_with_report.return_value = ([], [], 0)
+
+    with patch("app.services.ingest_service.QdrantClient") as qdrant_client_class:
+        response = service.run(IngestRequest(recreate_collection=True, rebuild_lexical_index=True))
+
+    qdrant_client_class.return_value.delete_collection.assert_called_once_with(
+        collection_name="mock_collection"
+    )
+    assert json.loads(lexical_index_path.read_text(encoding="utf-8")) == []
+    assert response.documents_processed == 0
+    assert response.chunks_created == 0

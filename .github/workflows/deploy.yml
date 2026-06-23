@@ -31,7 +31,7 @@ jobs:
           username: root
           password: ${{ secrets.DEPLOY_SSH_PASSWORD }}
           # Reach the box via its LAN IP over the tailnet.
-          command_timeout: 30m
+          command_timeout: 60m
           script: |
             set -euo pipefail
             cd /opt/docker/rag-doc
@@ -42,6 +42,9 @@ jobs:
             # reset --hard only touches tracked files, so an untracked
             # .env on the box (with your real secrets) is preserved.
             git reset --hard ${{ github.sha }}
+            # KB directories are release inputs. Remove generated, ignored,
+            # or otherwise untracked files so the Docker context matches Git.
+            git clean -fdx -- knowledge-base mock_knowledge_base
 
             echo "==> Rebuilding & restarting the stack"
             if docker compose version >/dev/null 2>&1; then
@@ -50,6 +53,26 @@ jobs:
               DC="docker-compose"
             fi
             $DC up -d --build --remove-orphans
+
+            echo "==> Waiting for the API"
+            for attempt in $(seq 1 60); do
+              if curl -fsS http://127.0.0.1:8000/health >/dev/null; then
+                break
+              fi
+              if [ "$attempt" -eq 60 ]; then
+                echo "API did not become healthy"
+                $DC logs --tail=200 api
+                exit 1
+              fi
+              sleep 2
+            done
+
+            echo "==> Synchronizing the knowledge base"
+            INGEST_RESPONSE="$(curl -fsS --max-time 3300 \
+              -H 'Content-Type: application/json' \
+              -d '{"recreate_collection":true,"rebuild_lexical_index":true,"strict_validation":true}' \
+              http://127.0.0.1:8000/ingest)"
+            echo "$INGEST_RESPONSE"
 
             echo "==> Pruning dangling images"
             docker image prune -f

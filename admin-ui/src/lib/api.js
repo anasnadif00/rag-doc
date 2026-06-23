@@ -94,6 +94,14 @@ export function fetchTenants(baseUrl) {
   return request(baseUrl, '/v1/admin/tenants')
 }
 
+export function fetchModelSettings(baseUrl) {
+  return request(baseUrl, '/v1/admin/model-settings')
+}
+
+export function updateModelSettings(baseUrl, payload) {
+  return request(baseUrl, '/v1/admin/model-settings', { method: 'PUT', body: payload })
+}
+
 export function createTenant(baseUrl, payload) {
   return request(baseUrl, '/v1/admin/tenants', { method: 'POST', body: payload })
 }

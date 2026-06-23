@@ -838,6 +838,29 @@ Controlla il totale.
     assert documents[0].domain == "contabilita"
 
 
+def test_knowledge_base_loader_ignores_generated_artifacts(tmp_path: Path):
+    index_path = tmp_path / ".artifacts" / "lexical_index.json"
+    write_lexical_index(
+        index_path,
+        [
+            {
+                "doc_id": "deleted-document.md",
+                "title": "Deleted document",
+                "text": "This generated entry must never be ingested as source content.",
+                "doc_kind": "reference",
+                "review_status": "approved",
+            }
+        ],
+    )
+
+    loader = KnowledgeBaseLoader(settings=make_settings(knowledge_base_path=str(tmp_path)))
+    documents, errors, skipped = loader.load_documents_with_report()
+
+    assert documents == []
+    assert errors == []
+    assert skipped == 0
+
+
 def test_knowledge_base_loader_accepts_hyphenated_how_to_paths_and_normalized_versions(tmp_path: Path):
     file_path = tmp_path / "commerciale" / "offerte" / "how-to" / "crea-ordine-da-offerta.md"
     file_path.parent.mkdir(parents=True)

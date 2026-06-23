@@ -10,6 +10,7 @@ from langchain_qdrant import QdrantVectorStore
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from qdrant_client import QdrantClient
+from qdrant_client.http.exceptions import UnexpectedResponse
 from qdrant_client.http.models import PayloadSchemaType
 
 from app.core.config import Settings
@@ -42,6 +43,10 @@ class IngestService:
             )
 
         if not source_documents:
+            if request.recreate_collection:
+                self._delete_collection_if_exists()
+            if request.rebuild_lexical_index:
+                self._write_lexical_index([])
             return IngestResponse(
                 status="success",
                 knowledge_base_path=self.settings.knowledge_base_path,
@@ -101,6 +106,14 @@ class IngestService:
         index_path.parent.mkdir(parents=True, exist_ok=True)
         serialized = [chunk.model_dump() for chunk in chunks]
         index_path.write_text(json.dumps(serialized, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def _delete_collection_if_exists(self) -> None:
+        client = QdrantClient(url=self.settings.qdrant_url)
+        try:
+            client.delete_collection(collection_name=self.settings.qdrant_collection)
+        except UnexpectedResponse as exc:
+            if getattr(exc, "status_code", None) != 404:
+                raise
 
     def _create_payload_indexes(self) -> None:
         client = QdrantClient(url=self.settings.qdrant_url)

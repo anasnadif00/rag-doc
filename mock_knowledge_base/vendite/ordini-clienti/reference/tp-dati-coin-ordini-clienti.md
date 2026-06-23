@@ -15,7 +15,7 @@ erp_versions:
   - v.1.0
 role_scope:
   - commerciale
-review_status: app
+review_status: approved
 module: Ordini clienti
 screen_title: Ordini clienti
 tab_name: TP Dati COIN

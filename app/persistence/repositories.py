@@ -8,7 +8,7 @@ from sqlalchemy import desc, select
 from sqlalchemy.orm import Session
 
 from app.core.config import Settings
-from app.persistence.models import AdminUser, AuditEvent, ChatSession, Tenant, TenantAuthKey, TenantLicense, UsageDaily, UsageEvent
+from app.persistence.models import AdminUser, AuditEvent, ChatSession, ModelConfiguration, Tenant, TenantAuthKey, TenantLicense, UsageDaily, UsageEvent
 from app.tenancy.models import TenantContext
 
 
@@ -44,6 +44,35 @@ class AdminUserRepository:
         self.session.add(user)
         self.session.flush()
         return user
+
+
+class ModelConfigurationRepository:
+    CONFIGURATION_ID = "default"
+
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def get(self) -> ModelConfiguration | None:
+        return self.session.get(
+            ModelConfiguration,
+            self.CONFIGURATION_ID,
+            populate_existing=True,
+        )
+
+    def upsert(self, *, generation_model: str, rerank_model: str) -> ModelConfiguration:
+        configuration = self.get()
+        if configuration is None:
+            configuration = ModelConfiguration(
+                id=self.CONFIGURATION_ID,
+                generation_model=generation_model,
+                rerank_model=rerank_model,
+            )
+        else:
+            configuration.generation_model = generation_model
+            configuration.rerank_model = rerank_model
+        self.session.add(configuration)
+        self.session.flush()
+        return configuration
 
 
 class TenantRepository:

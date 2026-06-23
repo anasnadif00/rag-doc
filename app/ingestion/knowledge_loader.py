@@ -61,6 +61,9 @@ class KnowledgeBaseLoader:
         for path in sorted(self.base_path.rglob("*")):
             if not path.is_file() or path.suffix.lower() not in SUPPORTED_EXTENSIONS:
                 continue
+            relative_path = path.relative_to(self.base_path)
+            if ".artifacts" in relative_path.parts:
+                continue
 
             file_documents, file_errors = self._load_file(path)
             validation_errors.extend(file_errors)

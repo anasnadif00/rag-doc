@@ -6,6 +6,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.admin.schemas import (
+    ModelSettingsResponse,
+    ModelSettingsUpdateRequest,
     TenantCreateRequest,
     TenantKeyRotateRequest,
     TenantLicenseUpdateRequest,
@@ -13,7 +15,7 @@ from app.admin.schemas import (
     TenantUpdateRequest,
     TenantUsageDay,
 )
-from app.admin.services import TenantAdminService
+from app.admin.services import ModelSettingsService, TenantAdminService
 from app.auth.dependencies import require_provider_admin
 from app.core.config import Settings, get_settings
 from app.persistence.db import get_db_session
@@ -27,6 +29,30 @@ def get_tenant_admin_service(
     settings: Settings = Depends(get_settings),
 ) -> TenantAdminService:
     return TenantAdminService(session=session, settings=settings)
+
+
+def get_model_settings_service(
+    session: Session = Depends(get_db_session),
+    settings: Settings = Depends(get_settings),
+) -> ModelSettingsService:
+    return ModelSettingsService(session=session, settings=settings)
+
+
+@router.get("/model-settings", response_model=ModelSettingsResponse)
+def get_model_settings(
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: ModelSettingsService = Depends(get_model_settings_service),
+) -> ModelSettingsResponse:
+    return service.get()
+
+
+@router.put("/model-settings", response_model=ModelSettingsResponse)
+def update_model_settings(
+    request: ModelSettingsUpdateRequest,
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: ModelSettingsService = Depends(get_model_settings_service),
+) -> ModelSettingsResponse:
+    return service.update(request)
 
 
 @router.get("/tenants", response_model=list[TenantResponse])

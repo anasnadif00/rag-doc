@@ -109,6 +109,27 @@ export function TextArea({ label, value, onChange, placeholder = '', rows = 5, h
   )
 }
 
+export function SelectField({ label, value, onChange, options, help = '', disabled = false }) {
+  return (
+    <label className="block space-y-2">
+      <span className="text-xs uppercase tracking-[0.18em] text-stone-400">{label}</span>
+      <select
+        value={value}
+        disabled={disabled}
+        onChange={(event) => onChange(event.target.value)}
+        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
+    </label>
+  )
+}
+
 export function ToggleField({ label, checked, onChange }) {
   return (
     <label className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">

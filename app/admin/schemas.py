@@ -4,7 +4,27 @@ from __future__ import annotations
 
 from datetime import date
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+class ModelSettingsUpdateRequest(BaseModel):
+    generation_model: str = Field(..., min_length=1, max_length=255)
+    rerank_model: str = Field(..., min_length=1, max_length=255)
+
+    @field_validator("generation_model", "rerank_model")
+    @classmethod
+    def validate_model_id(cls, value: str) -> str:
+        model_id = value.strip()
+        if not model_id or any(character.isspace() for character in model_id):
+            raise ValueError("L'identificativo del modello non puo contenere spazi.")
+        return model_id
+
+
+class ModelSettingsResponse(BaseModel):
+    generation_model: str
+    rerank_model: str
+    available_models: list[str]
+    persisted: bool
 
 
 class TenantLicensePayload(BaseModel):

@@ -54,6 +54,20 @@ class AdminUser(Base):
     )
 
 
+class ModelConfiguration(Base):
+    __tablename__ = "model_configuration"
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True, default="default")
+    generation_model: Mapped[str] = mapped_column(String(255))
+    rerank_model: Mapped[str] = mapped_column(String(255))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=False), default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=False),
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+    )
+
+
 class TenantAuthKey(Base):
     __tablename__ = "tenant_auth_keys"
 

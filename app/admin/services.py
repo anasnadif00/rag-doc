@@ -5,6 +5,8 @@ from __future__ import annotations
 from sqlalchemy.orm import Session
 
 from app.admin.schemas import (
+    ModelSettingsResponse,
+    ModelSettingsUpdateRequest,
     TenantCreateRequest,
     TenantKeyRotateRequest,
     TenantLicenseResponse,
@@ -15,7 +17,77 @@ from app.admin.schemas import (
 )
 from app.core.config import Settings
 from app.persistence.models import Tenant, TenantAuthKey
-from app.persistence.repositories import AuditRepository, TenantRepository, UsageRepository
+from app.persistence.repositories import (
+    AuditRepository,
+    ModelConfigurationRepository,
+    TenantRepository,
+    UsageRepository,
+)
+
+
+class ModelSettingsService:
+    def __init__(self, session: Session, settings: Settings) -> None:
+        self.session = session
+        self.settings = settings
+        self.configuration = ModelConfigurationRepository(session)
+        self.audit = AuditRepository(session)
+
+    def get(self) -> ModelSettingsResponse:
+        configuration = self.configuration.get()
+        generation_model = configuration.generation_model if configuration else self.settings.generation_model
+        rerank_model = configuration.rerank_model if configuration else (
+            self.settings.rerank_model or generation_model
+        )
+        return self._to_response(
+            generation_model=generation_model,
+            rerank_model=rerank_model,
+            persisted=configuration is not None,
+        )
+
+    def update(self, request: ModelSettingsUpdateRequest) -> ModelSettingsResponse:
+        self.configuration.upsert(
+            generation_model=request.generation_model,
+            rerank_model=request.rerank_model,
+        )
+        self.audit.record(
+            tenant_id=None,
+            session_id=None,
+            user_ref_hash=None,
+            actor_type="provider_admin",
+            action="update_model_configuration",
+            resource_type="model_configuration",
+            resource_id=ModelConfigurationRepository.CONFIGURATION_ID,
+            decision="allow",
+            metadata_json={
+                "generation_model": request.generation_model,
+                "rerank_model": request.rerank_model,
+            },
+        )
+        self.session.commit()
+        return self._to_response(
+            generation_model=request.generation_model,
+            rerank_model=request.rerank_model,
+            persisted=True,
+        )
+
+    def _to_response(
+        self,
+        *,
+        generation_model: str,
+        rerank_model: str,
+        persisted: bool,
+    ) -> ModelSettingsResponse:
+        available_models = list(
+            dict.fromkeys(
+                (*self.settings.openai_llm_model_options, generation_model, rerank_model)
+            )
+        )
+        return ModelSettingsResponse(
+            generation_model=generation_model,
+            rerank_model=rerank_model,
+            available_models=available_models,
+            persisted=persisted,
+        )
 
 
 class TenantAdminService:

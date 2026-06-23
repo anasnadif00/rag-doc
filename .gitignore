@@ -39,6 +39,10 @@ build/
 # qdrant storage (if local)
 qdrant_data/
 
+# generated knowledge-base retrieval artifacts
+knowledge-base/.artifacts/
+mock_knowledge_base/.artifacts/
+
 # coverage
 .coverage
 htmlcov/

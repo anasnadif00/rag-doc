@@ -13,6 +13,7 @@ from starlette.websockets import WebSocketDisconnect
 
 from app.api.main import create_app
 from app.core.config import get_settings
+from app.core.runtime_config import get_runtime_settings
 from app.domain.schemas import QueryResponse, ScreenContext, ScreenContextSummary
 from app.persistence.db import get_engine, get_session_factory
 from app.tenancy.cache import get_state_store
@@ -358,6 +359,74 @@ def test_admin_login_protects_admin_routes(monkeypatch, tmp_path: Path):
 
         denied_again = client.get("/v1/admin/tenants")
         assert denied_again.status_code == 401
+
+
+def test_admin_model_settings_are_persisted_and_applied_at_runtime(monkeypatch, tmp_path: Path):
+    monkeypatch.setenv("GENERATION_MODEL", "gpt-env-generation")
+    monkeypatch.setenv("RERANK_MODEL", "gpt-env-rerank")
+    monkeypatch.setenv(
+        "OPENAI_LLM_MODEL_OPTIONS",
+        "gpt-env-generation,gpt-env-rerank,gpt-fast,gpt-quality",
+    )
+
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        denied = client.get("/v1/admin/model-settings")
+        assert denied.status_code == 401
+
+        _login_admin(client)
+        initial = client.get("/v1/admin/model-settings")
+        assert initial.status_code == 200
+        assert initial.json() == {
+            "generation_model": "gpt-env-generation",
+            "rerank_model": "gpt-env-rerank",
+            "available_models": [
+                "gpt-env-generation",
+                "gpt-env-rerank",
+                "gpt-fast",
+                "gpt-quality",
+            ],
+            "persisted": False,
+        }
+
+        updated = client.put(
+            "/v1/admin/model-settings",
+            json={
+                "generation_model": "gpt-quality",
+                "rerank_model": "gpt-fast",
+            },
+        )
+        assert updated.status_code == 200
+        assert updated.json()["generation_model"] == "gpt-quality"
+        assert updated.json()["rerank_model"] == "gpt-fast"
+        assert updated.json()["persisted"] is True
+
+        with get_session_factory()() as runtime_session:
+            runtime_settings = get_runtime_settings(runtime_session, get_settings())
+            assert runtime_settings.generation_model == "gpt-quality"
+            assert runtime_settings.rerank_model == "gpt-fast"
+            runtime_session.commit()
+
+            changed_again = client.put(
+                "/v1/admin/model-settings",
+                json={
+                    "generation_model": "gpt-fast",
+                    "rerank_model": "gpt-quality",
+                },
+            )
+            assert changed_again.status_code == 200
+
+            refreshed_settings = get_runtime_settings(runtime_session, get_settings())
+            assert refreshed_settings.generation_model == "gpt-fast"
+            assert refreshed_settings.rerank_model == "gpt-quality"
+
+        invalid = client.put(
+            "/v1/admin/model-settings",
+            json={
+                "generation_model": "gpt quality",
+                "rerank_model": "gpt-fast",
+            },
+        )
+        assert invalid.status_code == 422
 
 
 def test_admin_login_rejects_invalid_password(monkeypatch, tmp_path: Path):

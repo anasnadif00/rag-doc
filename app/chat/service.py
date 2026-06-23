@@ -8,6 +8,7 @@ from app.chat.memory import ConversationMemoryService
 from app.chat.schemas import ChatTurnRequest, ChatTurnResponse, ChatUsage, ConversationMessage
 from app.context import normalize_query_request, summarize_screen_context
 from app.core.config import Settings
+from app.core.runtime_config import get_runtime_settings
 from app.domain.schemas import QueryRequest, QueryResponse, RetrievalOptions, UserContext
 from app.persistence.repositories import AuditRepository, ChatSessionRepository
 from app.retrieval import QdrantRetriever
@@ -207,7 +208,8 @@ class ChatRuntimeService:
             user_context=user_context,
             retrieval_options=retrieval_options,
         )
-        rag = TenantAwareRAGService(settings=self.settings, principal=principal)
+        runtime_settings = get_runtime_settings(self.session, self.settings)
+        rag = TenantAwareRAGService(settings=runtime_settings, principal=principal)
         response = rag.run_chat_request(query_request, conversation_history=history)
 
         await self.memory.append(principal, "user", request.message)

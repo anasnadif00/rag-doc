@@ -23,3 +23,5 @@ docs
 evals
 tests
 *.tar
+knowledge-base/.artifacts
+mock_knowledge_base/.artifacts

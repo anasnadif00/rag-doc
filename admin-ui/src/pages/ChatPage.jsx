@@ -12,7 +12,6 @@ import {
   SectionCard,
   TextArea,
 } from "../components/ui.jsx";
-import { useAppHeaderAction } from "../components/AppShell.jsx";
 import {
   closeChatSession,
   createWebSocketUrl,
@@ -371,14 +370,6 @@ function ChatPage() {
     }
   }
 
-  useAppHeaderAction({
-    label: "Nuova conversazione",
-    disabled: busyAction === "start",
-    onClick: () => {
-      void handleRestart();
-    },
-  });
-
   return (
     <div className="chat-page">
       <SectionCard
@@ -390,6 +381,22 @@ function ChatPage() {
         subtitle="Fai una domanda e ricevi una risposta dall'assistente virtuale."
         className="chat-panel"
         contentClassName="chat-panel__body"
+        actions={
+          <GhostButton
+            type="button"
+            className="chat-new-button"
+            onClick={() => void handleRestart()}
+            disabled={busyAction === "start"}
+            aria-label="Nuova conversazione"
+            data-tooltip="Nuova conversazione"
+            title="Nuova conversazione"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+              <path d="M20 5v6h-6" />
+            </svg>
+          </GhostButton>
+        }
       >
         <div className="chat-workspace">
           <p

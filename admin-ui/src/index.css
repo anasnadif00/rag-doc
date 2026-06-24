@@ -299,6 +299,9 @@ a {
 }
 
 .chat-panel {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
   overflow: hidden;
 }
 

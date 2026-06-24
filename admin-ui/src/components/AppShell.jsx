@@ -13,17 +13,17 @@ function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme,
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
         <header className="app-topbar rounded-[2rem] border px-5 py-4 lg:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-muted">Spazio di assistenza</div>
-              <div className="mt-2 flex flex-wrap items-center gap-3">
-                <h1 className="text-2xl text-ink">Gestione e supporto</h1>
-                {adminSession ? (
-                  <span className="rounded-full border border-success-border bg-success-soft px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-success">
-                    Accesso attivo
-                  </span>
-                ) : null}
-              </div>
-            </div>
+            <NavLink
+              to="/chat"
+              className="inline-flex w-fit rounded-xl focus-visible:outline-offset-4"
+              aria-label="Magia - vai alla chat"
+            >
+              <img
+                src="/magia-logo.png"
+                alt="Magia"
+                className="h-12 w-auto object-contain sm:h-14"
+              />
+            </NavLink>
 
             <div className="flex flex-wrap items-center gap-3">
               <nav className="app-nav flex flex-wrap gap-2 rounded-full border p-1">
@@ -47,15 +47,9 @@ function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme,
               <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
               {adminSession ? (
-                <div className="flex items-center gap-3">
-                  <div className="hidden text-right md:block">
-                    <div className="text-sm text-ink">{adminSession.display_name}</div>
-                    <div className="text-xs text-muted">{adminSession.username}</div>
-                  </div>
-                  <GhostButton type="button" onClick={onLogout} disabled={logoutInCorso}>
-                    {logoutInCorso ? 'Uscita in corso...' : 'Esci'}
-                  </GhostButton>
-                </div>
+                <GhostButton type="button" onClick={onLogout} disabled={logoutInCorso}>
+                  {logoutInCorso ? 'Uscita in corso...' : 'Esci'}
+                </GhostButton>
               ) : null}
             </div>
           </div>

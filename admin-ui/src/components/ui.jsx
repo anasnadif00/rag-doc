@@ -110,10 +110,14 @@ export function TextArea({
   label,
   value,
   onChange,
+  onKeyDown,
   placeholder = "",
   rows = 5,
   help = "",
   disabled = false,
+  textareaRef,
+  ariaDescribedBy,
+  ariaKeyShortcuts,
 }) {
   return (
     <label className="block space-y-2">
@@ -121,11 +125,15 @@ export function TextArea({
         {label}
       </span>
       <textarea
+        ref={textareaRef}
         rows={rows}
         value={value}
         placeholder={placeholder}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
+        onKeyDown={onKeyDown}
+        aria-describedby={ariaDescribedBy}
+        aria-keyshortcuts={ariaKeyShortcuts}
         className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
       />
       {help ? (

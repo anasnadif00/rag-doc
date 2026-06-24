@@ -16,6 +16,12 @@ import { normalizeBaseUrl } from "../lib/dashboard.js";
 
 const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || "");
 
+const INITIAL_CHAT_STATUS = {
+  state: "connecting",
+  title: "Connessione all'assistente",
+  detail: "Prepariamo uno spazio sicuro per la conversazione.",
+};
+
 function normalizeAssistantPayload(payload) {
   return {
     text:
@@ -38,17 +44,85 @@ function normalizeAssistantPayload(payload) {
   };
 }
 
+function ChatStatus({ status }) {
+  const isComplete = status.state === "ready" || status.state === "complete";
+
+  return (
+    <div
+      className={`chat-status chat-status--${status.state}`}
+      role="status"
+      aria-live="polite"
+    >
+      <span className="chat-status__icon" aria-hidden="true">
+        {isComplete ? (
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="m7.5 12.5 3 3 6-7" />
+          </svg>
+        ) : status.state === "error" ? (
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 7.5v5M12 16.5h.01" />
+            <circle cx="12" cy="12" r="8" />
+          </svg>
+        ) : (
+          <span className="chat-status__pulse" />
+        )}
+      </span>
+      <span>
+        <span className="block text-sm font-medium text-ink">
+          {status.title}
+        </span>
+        <span className="mt-0.5 block text-xs leading-5 text-muted">
+          {status.detail}
+        </span>
+      </span>
+    </div>
+  );
+}
+
+function AssistantThinking() {
+  return (
+    <article className="chat-thinking" role="status" aria-live="polite">
+      <div className="chat-thinking__bot" aria-hidden="true">
+        <span className="chat-thinking__orbit" />
+        <svg viewBox="0 0 48 48" fill="none">
+          <path d="M24 8v5" />
+          <circle cx="24" cy="6" r="2" />
+          <rect x="10" y="13" width="28" height="23" rx="9" />
+          <circle cx="19" cy="24" r="2" />
+          <circle cx="29" cy="24" r="2" />
+          <path d="M19 30c1.4 1.3 3.1 2 5 2s3.6-.7 5-2M10 22H7v7h3M38 22h3v7h-3" />
+        </svg>
+      </div>
+      <div>
+        <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
+          Assistente
+        </div>
+        <div className="mt-1 flex items-center gap-2 text-sm text-copy">
+          <span>Sto elaborando la risposta</span>
+          <span className="chat-thinking__dots" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function ChatPage() {
   const socketRef = useRef(null);
+  const composerRef = useRef(null);
+  const formRef = useRef(null);
+  const messagesEndRef = useRef(null);
   const [sessionId, setSessionId] = useState(null);
   const [messageDraft, setMessageDraft] = useState("");
   const [messages, setMessages] = useState([]);
-  const [statusMessage, setStatusMessage] = useState(
-    "Stiamo preparando la conversazione...",
-  );
+  const [chatStatus, setChatStatus] = useState(INITIAL_CHAT_STATUS);
   const [serviceUnavailable, setServiceUnavailable] = useState("");
   const [busyAction, setBusyAction] = useState("");
   const [isReady, setIsReady] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const avviaConversazioneIniziale = useEffectEvent(() => {
     void avviaConversazione();
   });
@@ -64,6 +138,42 @@ function ChatPage() {
       }
     };
   }, []);
+
+  useEffect(() => {
+    function focusComposer(event) {
+      if (
+        event.key !== "/" ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.metaKey ||
+        !isReady ||
+        serviceUnavailable
+      ) {
+        return;
+      }
+
+      const activeElement = document.activeElement;
+      const isTyping =
+        activeElement instanceof HTMLElement &&
+        (activeElement.matches("input, textarea, select") ||
+          activeElement.isContentEditable);
+
+      if (isTyping) return;
+
+      event.preventDefault();
+      composerRef.current?.focus();
+    }
+
+    window.addEventListener("keydown", focusComposer);
+    return () => window.removeEventListener("keydown", focusComposer);
+  }, [isReady, serviceUnavailable]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [messages, isGenerating]);
 
   function appendMessage(entry) {
     setMessages((current) => [
@@ -86,8 +196,9 @@ function ChatPage() {
   async function avviaConversazione() {
     setBusyAction("start");
     setServiceUnavailable("");
-    setStatusMessage("Stiamo preparando la conversazione...");
+    setChatStatus(INITIAL_CHAT_STATUS);
     setIsReady(false);
+    setIsGenerating(false);
     setMessages([]);
 
     try {
@@ -99,7 +210,11 @@ function ChatPage() {
       setServiceUnavailable(
         "Servizio momentaneamente non disponibile. Riprova tra qualche minuto.",
       );
-      setStatusMessage("Al momento non e possibile avviare la chat.");
+      setChatStatus({
+        state: "error",
+        title: "Assistente non disponibile",
+        detail: "Riprova tra qualche minuto.",
+      });
     } finally {
       setBusyAction("");
     }
@@ -107,7 +222,11 @@ function ChatPage() {
 
   async function openSocket() {
     closeSocket("chat-page-restart");
-    setStatusMessage("Connessione in corso...");
+    setChatStatus({
+      state: "connecting",
+      title: "Connessione sicura in corso",
+      detail: "Manca solo un istante.",
+    });
 
     const ticket = await issueWsTicket(API_BASE_URL);
     const url = createWebSocketUrl(
@@ -119,7 +238,11 @@ function ChatPage() {
 
     socket.onopen = () => {
       if (socketRef.current !== socket) return;
-      setStatusMessage("Connessione stabilita. Sto preparando la risposta.");
+      setChatStatus({
+        state: "connecting",
+        title: "Ultimi preparativi",
+        detail: "L'assistente sarà pronto a breve.",
+      });
     };
 
     socket.onmessage = (event) => {
@@ -128,7 +251,12 @@ function ChatPage() {
       const payload = JSON.parse(event.data);
       if (payload.type === "ready") {
         setIsReady(true);
-        setStatusMessage("Puoi iniziare a scrivere.");
+        setIsGenerating(false);
+        setChatStatus({
+          state: "ready",
+          title: "Pronto quando vuoi",
+          detail: "Scrivi la tua domanda qui sotto.",
+        });
         setSessionId(payload.session_id);
         appendMessage({
           role: "assistant",
@@ -141,7 +269,12 @@ function ChatPage() {
       }
 
       if (payload.type === "error") {
-        setStatusMessage("Si e verificato un problema durante la risposta.");
+        setIsGenerating(false);
+        setChatStatus({
+          state: "error",
+          title: "Non ho completato la risposta",
+          detail: "Puoi riprovare o riformulare la domanda.",
+        });
         appendMessage({
           role: "assistant",
           text: "Non sono riuscito a completare la risposta. Prova a riformulare la richiesta.",
@@ -160,20 +293,35 @@ function ChatPage() {
         followUpQuestion: assistantPayload.followUpQuestion,
         inferenceNotice: assistantPayload.inferenceNotice,
       });
-      setStatusMessage("Risposta pronta.");
+      setIsGenerating(false);
+      setChatStatus({
+        state: "complete",
+        title: "Risposta completata",
+        detail: "Puoi continuare la conversazione quando vuoi.",
+      });
     };
 
     socket.onerror = () => {
       if (socketRef.current !== socket) return;
       setIsReady(false);
-      setStatusMessage("Connessione temporaneamente non disponibile.");
+      setIsGenerating(false);
+      setChatStatus({
+        state: "error",
+        title: "Connessione non disponibile",
+        detail: "Controlla la rete e avvia una nuova conversazione.",
+      });
     };
 
     socket.onclose = () => {
       if (socketRef.current === socket) {
         socketRef.current = null;
         setIsReady(false);
-        setStatusMessage("La conversazione e stata interrotta.");
+        setIsGenerating(false);
+        setChatStatus({
+          state: "error",
+          title: "Conversazione interrotta",
+          detail: "Avvia una nuova conversazione per riprendere.",
+        });
       }
     };
   }
@@ -194,11 +342,15 @@ function ChatPage() {
   function handleSendMessage(event) {
     event.preventDefault();
     const message = messageDraft.trim();
-    if (!message) return;
+    if (!message || isGenerating) return;
 
     const socket = socketRef.current;
     if (!socket || socket.readyState !== WebSocket.OPEN) {
-      setStatusMessage("La chat non e ancora pronta.");
+      setChatStatus({
+        state: "error",
+        title: "La chat non è ancora pronta",
+        detail: "Attendi la connessione prima di inviare.",
+      });
       return;
     }
 
@@ -212,7 +364,27 @@ function ChatPage() {
     );
     appendMessage({ role: "user", text: message });
     setMessageDraft("");
-    setStatusMessage("Messaggio inviato. Attendi la risposta...");
+    setIsGenerating(true);
+    setChatStatus({
+      state: "thinking",
+      title: "Sto preparando la risposta",
+      detail: "Analizzo la richiesta e cerco le informazioni più utili.",
+    });
+  }
+
+  function handleComposerKeyDown(event) {
+    if (
+      event.key !== "Enter" ||
+      event.shiftKey ||
+      event.nativeEvent.isComposing
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    if (!isGenerating && messageDraft.trim()) {
+      formRef.current?.requestSubmit();
+    }
   }
 
   return (
@@ -233,9 +405,7 @@ function ChatPage() {
         }
       >
         <div className="space-y-4">
-          <div className="rounded-2xl border border-divider bg-subtle px-4 py-3 text-sm text-copy">
-            {statusMessage}
-          </div>
+          <ChatStatus status={chatStatus} />
 
           {serviceUnavailable ? (
             <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
@@ -243,7 +413,7 @@ function ChatPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="min-h-[24rem] space-y-3 rounded-[1.6rem] border border-divider bg-inset p-4">
+              <div className="min-h-[24rem] max-h-[34rem] space-y-3 overflow-y-auto rounded-[1.6rem] border border-divider bg-inset p-4">
                 {messages.length ? (
                   messages.map((message) => (
                     <article
@@ -297,9 +467,15 @@ function ChatPage() {
                     </p>
                   </div>
                 )}
+                {isGenerating ? <AssistantThinking /> : null}
+                <div ref={messagesEndRef} />
               </div>
 
-              <form className="space-y-3" onSubmit={handleSendMessage}>
+              <form
+                ref={formRef}
+                className="space-y-3"
+                onSubmit={handleSendMessage}
+              >
                 <TextArea
                   label="Il tuo messaggio"
                   value={messageDraft}
@@ -307,21 +483,42 @@ function ChatPage() {
                   placeholder="Scrivi qui la tua richiesta..."
                   disabled={!isReady || Boolean(serviceUnavailable)}
                   onChange={setMessageDraft}
+                  onKeyDown={handleComposerKeyDown}
+                  textareaRef={composerRef}
+                  ariaDescribedBy="chat-shortcuts"
+                  ariaKeyShortcuts="/ Enter Shift+Enter"
                 />
-                <div className="flex flex-wrap gap-3">
-                  <PrimaryButton
-                    type="submit"
-                    disabled={!isReady || Boolean(serviceUnavailable)}
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap gap-3">
+                    <PrimaryButton
+                      type="submit"
+                      disabled={
+                        !isReady ||
+                        Boolean(serviceUnavailable) ||
+                        isGenerating ||
+                        !messageDraft.trim()
+                      }
+                      aria-keyshortcuts="Enter"
+                    >
+                      {isGenerating ? "Elaborazione..." : "Invia"}
+                    </PrimaryButton>
+                    <GhostButton
+                      type="button"
+                      onClick={() => setMessageDraft("")}
+                      disabled={!messageDraft}
+                    >
+                      Cancella testo
+                    </GhostButton>
+                  </div>
+                  <div
+                    id="chat-shortcuts"
+                    className="chat-shortcuts"
+                    aria-label="Scorciatoie da tastiera"
                   >
-                    Invia
-                  </PrimaryButton>
-                  <GhostButton
-                    type="button"
-                    onClick={() => setMessageDraft("")}
-                    disabled={!messageDraft}
-                  >
-                    Cancella testo
-                  </GhostButton>
+                    <span><kbd>/</kbd> Scrivi</span>
+                    <span><kbd>Invio</kbd> Invia</span>
+                    <span><kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo</span>
+                  </div>
                 </div>
               </form>
             </div>

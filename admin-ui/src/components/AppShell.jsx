@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { GhostButton, ThemeToggle } from './ui.jsx'
 
@@ -8,9 +8,12 @@ const navigation = [
 ]
 
 function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme, children }) {
+  const { pathname } = useLocation()
+  const isChatPage = pathname === '/chat'
+
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
+    <div className={`app-shell ${isChatPage ? 'app-shell--chat' : ''}`}>
+      <div className="app-shell__frame mx-auto flex max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
         <header className="app-topbar rounded-[2rem] border px-5 py-4 lg:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <NavLink
@@ -60,7 +63,7 @@ function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme,
           </div>
         </header>
 
-        <main className="flex flex-1 flex-col gap-6">{children}</main>
+        <main className="flex min-h-0 flex-1 flex-col gap-6">{children}</main>
       </div>
     </div>
   )

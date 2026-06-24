@@ -11,9 +11,19 @@ export function QuickLink({ href, label }) {
   );
 }
 
-export function SectionCard({ eyebrow, title, subtitle, children, actions }) {
+export function SectionCard({
+  eyebrow,
+  title,
+  subtitle,
+  children,
+  actions,
+  className = "",
+  contentClassName = "",
+}) {
   return (
-    <section className="app-panel rounded-[2rem] border p-5 lg:p-6">
+    <section
+      className={`app-panel rounded-[2rem] border p-5 lg:p-6 ${className}`}
+    >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
           <div className="text-[11px] uppercase tracking-[0.28em] text-muted">
@@ -28,7 +38,7 @@ export function SectionCard({ eyebrow, title, subtitle, children, actions }) {
         </div>
         {actions}
       </div>
-      <div className="mt-5">{children}</div>
+      <div className={`mt-5 ${contentClassName}`}>{children}</div>
     </section>
   );
 }
@@ -264,30 +274,37 @@ export function EmptyState({ title, message }) {
 export function ThemeToggle({ theme, onToggle }) {
   const isDark = theme === "dark";
   const nextThemeLabel = isDark ? "chiaro" : "scuro";
+  const tooltip = `Passa al tema ${nextThemeLabel}`;
 
   return (
     <button
       type="button"
       className="theme-toggle"
       onClick={onToggle}
-      aria-label={`Attiva il tema ${nextThemeLabel}`}
-      title={`Attiva il tema ${nextThemeLabel}`}
+      role="switch"
+      aria-checked={isDark}
+      aria-label={tooltip}
+      data-tooltip={tooltip}
+      title={tooltip}
     >
-      <span className="theme-toggle__icon" aria-hidden="true">
-        {isDark ? (
-          <svg viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M20.2 15.1A8.7 8.7 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z" />
-          </svg>
-        )}
+      <span
+        className="theme-toggle__symbol theme-toggle__symbol--sun"
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+        </svg>
       </span>
-      <span className="theme-toggle__label">
-        {isDark ? "Tema chiaro" : "Tema scuro"}
+      <span
+        className="theme-toggle__symbol theme-toggle__symbol--moon"
+        aria-hidden="true"
+      >
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M20.2 15.1A8.7 8.7 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z" />
+        </svg>
       </span>
+      <span className="theme-toggle__thumb" aria-hidden="true" />
     </button>
   );
 }

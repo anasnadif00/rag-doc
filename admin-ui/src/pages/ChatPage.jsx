@@ -1,4 +1,10 @@
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import {
+  useEffect,
+  useEffectEvent,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import {
   GhostButton,
@@ -139,6 +145,30 @@ function ChatPage() {
       block: "nearest",
     });
   }, [messages, isGenerating]);
+
+  useLayoutEffect(() => {
+    resizeComposer();
+  }, [messageDraft]);
+
+  useEffect(() => {
+    function handleViewportResize() {
+      resizeComposer();
+    }
+
+    window.addEventListener("resize", handleViewportResize);
+    return () => window.removeEventListener("resize", handleViewportResize);
+  }, []);
+
+  function resizeComposer() {
+    const composer = composerRef.current;
+    if (!composer) return;
+
+    const maxHeight = Math.max(72, Math.min(176, window.innerHeight * 0.28));
+    composer.style.height = "0px";
+    const contentHeight = composer.scrollHeight;
+    composer.style.height = `${Math.min(contentHeight, maxHeight)}px`;
+    composer.style.overflowY = contentHeight > maxHeight ? "auto" : "hidden";
+  }
 
   function appendMessage(entry) {
     setMessages((current) => [
@@ -353,15 +383,16 @@ function ChatPage() {
   }
 
   return (
-    <>
+    <div className="chat-page">
       <SectionCard
         title={
           <span className="chat-title">
-            <span>Chatbot</span>
             <span className="chat-title__name">MIA</span>
           </span>
         }
         subtitle="Fai una domanda e ricevi una risposta dall'assistente virtuale."
+        className="chat-panel"
+        contentClassName="chat-panel__body"
         actions={
           <GhostButton
             type="button"
@@ -379,19 +410,18 @@ function ChatPage() {
           </GhostButton>
         }
       >
-        <div>
+        <div className="chat-workspace">
           <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
             {chatStatus.title}. {chatStatus.detail}
           </p>
 
-          {serviceUnavailable ? (
-            <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
-              {serviceUnavailable}
-            </div>
-          ) : (
-            <div className="space-y-3">
-              <div className="h-[clamp(15rem,36vh,22rem)] space-y-3 overflow-y-auto rounded-[1.4rem] border border-divider bg-inset p-3.5">
-                {messages.length ? (
+          <div className="chat-conversation">
+            <div className="chat-messages space-y-3 rounded-[1.4rem] border border-divider bg-inset p-3.5">
+              {serviceUnavailable ? (
+                <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
+                  {serviceUnavailable}
+                </div>
+              ) : messages.length ? (
                   messages.map((message) => (
                     <article
                       key={message.id}
@@ -443,73 +473,72 @@ function ChatPage() {
                       tua richiesta qui sotto.
                     </p>
                   </div>
-                )}
-                {isGenerating ? <AssistantThinking /> : null}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <form
-                ref={formRef}
-                className="chat-composer space-y-2.5"
-                onSubmit={handleSendMessage}
-              >
-                <TextArea
-                  value={messageDraft}
-                  rows={3}
-                  placeholder="Scrivi qui la tua richiesta..."
-                  disabled={!isReady || Boolean(serviceUnavailable)}
-                  onChange={setMessageDraft}
-                  onKeyDown={handleComposerKeyDown}
-                  textareaRef={composerRef}
-                  ariaDescribedBy="chat-shortcuts"
-                  ariaKeyShortcuts="/ Enter Shift+Enter"
-                />
-                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    <PrimaryButton
-                      type="submit"
-                      className="chat-action-button"
-                      disabled={
-                        !isReady ||
-                        Boolean(serviceUnavailable) ||
-                        isGenerating ||
-                        !messageDraft.trim()
-                      }
-                      aria-keyshortcuts="Enter"
-                    >
-                      {isGenerating ? "Elaborazione..." : "Invia"}
-                    </PrimaryButton>
-                    <GhostButton
-                      type="button"
-                      className="chat-action-button"
-                      onClick={() => setMessageDraft("")}
-                      disabled={!messageDraft}
-                    >
-                      Cancella testo
-                    </GhostButton>
-                  </div>
-                  <div
-                    id="chat-shortcuts"
-                    className="chat-shortcuts"
-                    aria-label="Scorciatoie da tastiera"
-                  >
-                    <span>
-                      <kbd>/</kbd> Scrivi
-                    </span>
-                    <span>
-                      <kbd>Invio</kbd> Invia
-                    </span>
-                    <span>
-                      <kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo
-                    </span>
-                  </div>
-                </div>
-              </form>
+              )}
+              {!serviceUnavailable && isGenerating ? <AssistantThinking /> : null}
+              <div ref={messagesEndRef} />
             </div>
-          )}
+
+            <form
+              ref={formRef}
+              className="chat-composer space-y-2.5"
+              onSubmit={handleSendMessage}
+            >
+              <TextArea
+                value={messageDraft}
+                rows={1}
+                placeholder="Scrivi qui la tua richiesta..."
+                disabled={!isReady || Boolean(serviceUnavailable)}
+                onChange={setMessageDraft}
+                onKeyDown={handleComposerKeyDown}
+                textareaRef={composerRef}
+                ariaDescribedBy="chat-shortcuts"
+                ariaKeyShortcuts="/ Enter Shift+Enter"
+              />
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-wrap gap-2">
+                  <PrimaryButton
+                    type="submit"
+                    className="chat-action-button"
+                    disabled={
+                      !isReady ||
+                      Boolean(serviceUnavailable) ||
+                      isGenerating ||
+                      !messageDraft.trim()
+                    }
+                    aria-keyshortcuts="Enter"
+                  >
+                    {isGenerating ? "Elaborazione..." : "Invia"}
+                  </PrimaryButton>
+                  <GhostButton
+                    type="button"
+                    className="chat-action-button"
+                    onClick={() => setMessageDraft("")}
+                    disabled={!messageDraft}
+                  >
+                    Cancella testo
+                  </GhostButton>
+                </div>
+                <div
+                  id="chat-shortcuts"
+                  className="chat-shortcuts"
+                  aria-label="Scorciatoie da tastiera"
+                >
+                  <span>
+                    <kbd>/</kbd> Scrivi
+                  </span>
+                  <span>
+                    <kbd>Invio</kbd> Invia
+                  </span>
+                  <span>
+                    <kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </SectionCard>
-    </>
+    </div>
   );
 }
 

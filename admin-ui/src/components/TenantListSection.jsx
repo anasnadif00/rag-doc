@@ -38,7 +38,7 @@ function TenantListSection({
                 onClick={() => setSelectedTenantId(tenant.id)}
                 className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
                   tenant.id === selectedTenantId
-                    ? 'border-amber-300/40 bg-amber-300/10 shadow-[0_12px_30px_rgba(217,119,6,0.14)]'
+                    ? 'tenant-card--selected border-amber-300/40 bg-amber-300/10 shadow-[0_12px_30px_rgba(217,119,6,0.14)]'
                     : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
                 }`}
               >

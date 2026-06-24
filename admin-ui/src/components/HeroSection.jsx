@@ -2,10 +2,10 @@ import { GhostButton, SectionCard } from './ui.jsx'
 
 function HeroSection({ adminSession, onLogout, logoutInCorso }) {
   return (
-    <header className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(14,20,18,0.94),rgba(27,20,15,0.92))] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+    <header className="app-hero overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(14,20,18,0.94),rgba(27,20,15,0.92))] shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
       <div className="grid gap-6 px-5 py-6 lg:grid-cols-[1.2fr_0.8fr] lg:px-8 lg:py-8">
         <div className="space-y-5">
-          <div className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-amber-200">
+          <div className="brand-badge inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-amber-200">
             Pannello di controllo
           </div>
           <div className="max-w-3xl space-y-3">

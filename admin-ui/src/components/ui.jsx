@@ -1,7 +1,7 @@
 export function QuickLink({ href, label }) {
   return (
     <a
-      className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/10"
+      className="ghost-button inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/10"
       href={href}
       target="_blank"
       rel="noreferrer"
@@ -13,7 +13,7 @@ export function QuickLink({ href, label }) {
 
 export function SectionCard({ eyebrow, title, subtitle, children, actions }) {
   return (
-    <section className="rounded-[2rem] border border-white/10 bg-[linear-gradient(160deg,rgba(17,21,19,0.92),rgba(18,16,13,0.9))] p-5 shadow-[0_16px_60px_rgba(0,0,0,0.22)] lg:p-6">
+    <section className="app-panel rounded-[2rem] border border-white/10 bg-[linear-gradient(160deg,rgba(17,21,19,0.92),rgba(18,16,13,0.9))] p-5 shadow-[0_16px_60px_rgba(0,0,0,0.22)] lg:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
           <div className="text-[11px] uppercase tracking-[0.28em] text-stone-400">{eyebrow}</div>
@@ -40,15 +40,15 @@ export function SectionHeading({ title, subtitle }) {
 
 export function MetricCard({ label, value, detail, accent = 'copper' }) {
   const accentClasses = {
-    copper: 'from-amber-300/25 to-orange-400/5 border-amber-300/20',
-    emerald: 'from-emerald-300/25 to-emerald-400/5 border-emerald-300/20',
-    rose: 'from-rose-300/25 to-rose-400/5 border-rose-300/20',
-    sky: 'from-sky-300/25 to-sky-400/5 border-sky-300/20',
-    amber: 'from-amber-300/25 to-amber-500/5 border-amber-300/20',
+    copper: 'metric-card--primary',
+    emerald: 'metric-card--success',
+    rose: 'metric-card--danger',
+    sky: 'metric-card--info',
+    amber: 'metric-card--warning',
   }
 
   return (
-    <div className={`rounded-[1.6rem] border bg-gradient-to-br p-5 ${accentClasses[accent] || accentClasses.copper}`}>
+    <div className={`metric-card rounded-[1.6rem] border p-5 ${accentClasses[accent] || accentClasses.copper}`}>
       <div className="text-[11px] uppercase tracking-[0.25em] text-stone-400">{label}</div>
       <div className="mt-3 text-3xl text-stone-50">{value}</div>
       <p className="mt-2 text-sm leading-6 text-stone-300">{detail}</p>
@@ -85,7 +85,7 @@ export function TextField({
         autoComplete={autoComplete}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
+        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
       />
       {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
     </label>
@@ -102,7 +102,7 @@ export function TextArea({ label, value, onChange, placeholder = '', rows = 5, h
         placeholder={placeholder}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
+        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
       />
       {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
     </label>
@@ -117,7 +117,7 @@ export function SelectField({ label, value, onChange, options, help = '', disabl
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-60"
+        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -155,7 +155,7 @@ export function PrimaryButton({ children, className = '', ...props }) {
   return (
     <button
       {...props}
-      className={`inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-3 text-sm font-medium text-stone-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`primary-button inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-3 text-sm font-medium text-stone-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       {children}
     </button>
@@ -166,7 +166,7 @@ export function GhostButton({ children, className = '', ...props }) {
   return (
     <button
       {...props}
-      className={`inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/[0.08] disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`ghost-button inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/[0.08] disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       {children}
     </button>
@@ -199,5 +199,34 @@ export function EmptyState({ title, message }) {
       <div className="text-lg text-stone-50">{title}</div>
       <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-stone-400">{message}</p>
     </div>
+  )
+}
+
+export function ThemeToggle({ theme, onToggle }) {
+  const isDark = theme === 'dark'
+  const nextThemeLabel = isDark ? 'chiaro' : 'scuro'
+
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      onClick={onToggle}
+      aria-label={`Attiva il tema ${nextThemeLabel}`}
+      title={`Attiva il tema ${nextThemeLabel}`}
+    >
+      <span className="theme-toggle__icon" aria-hidden="true">
+        {isDark ? (
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+          </svg>
+        ) : (
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M20.2 15.1A8.7 8.7 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z" />
+          </svg>
+        )}
+      </span>
+      <span className="theme-toggle__label">{isDark ? 'Tema chiaro' : 'Tema scuro'}</span>
+    </button>
   )
 }

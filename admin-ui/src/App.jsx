@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import AppShell from './components/AppShell.jsx'
@@ -9,11 +9,40 @@ import { fetchAdminMe, loginAdmin, logoutAdmin } from './lib/api.js'
 import { normalizeBaseUrl } from './lib/dashboard.js'
 
 const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL || '')
+const THEME_STORAGE_KEY = 'rag-doc-theme'
+
+function getInitialTheme() {
+  if (typeof window === 'undefined') return 'light'
+
+  try {
+    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme
+  } catch {
+    // Local storage can be disabled; the system preference still provides a stable default.
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
 
 function App() {
   const [adminSession, setAdminSession] = useState(null)
   const [loadingAdminSession, setLoadingAdminSession] = useState(true)
   const [logoutInCorso, setLogoutInCorso] = useState(false)
+  const [theme, setTheme] = useState(getInitialTheme)
+
+  useLayoutEffect(() => {
+    document.documentElement.dataset.theme = theme
+    document.documentElement.style.colorScheme = theme
+
+    const themeColor = document.querySelector('meta[name="theme-color"]')
+    themeColor?.setAttribute('content', theme === 'dark' ? '#071719' : '#f4f9f9')
+
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    } catch {
+      // The selected theme remains active for the current session.
+    }
+  }, [theme])
 
   useEffect(() => {
     let isActive = true
@@ -73,6 +102,8 @@ function App() {
               adminSession={adminSession}
               loadingAdminSession={loadingAdminSession}
               onLogin={handleLogin}
+              theme={theme}
+              onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))}
             />
           }
         />
@@ -86,6 +117,8 @@ function App() {
                 onLogout={() => {
                   void handleLogout()
                 }}
+                theme={theme}
+                onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))}
               >
                 <AdminPage
                   adminSession={adminSession}
@@ -107,6 +140,8 @@ function App() {
               onLogout={() => {
                 void handleLogout()
               }}
+              theme={theme}
+              onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))}
             >
               <ChatPage />
             </AppShell>

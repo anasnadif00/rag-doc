@@ -24,7 +24,7 @@ function UsageChart({ rows, loading }) {
           return (
             <div key={row.usage_date} className="flex min-w-[64px] flex-1 flex-col items-center gap-3">
               <div
-                className="w-full rounded-t-[1.25rem] border border-amber-300/15 bg-[linear-gradient(180deg,rgba(251,191,36,0.72),rgba(217,119,6,0.22))]"
+                className="usage-bar w-full rounded-t-[1.25rem] border"
                 style={{ height }}
               />
               <div className="space-y-1 text-center">

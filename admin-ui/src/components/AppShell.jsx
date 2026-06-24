@@ -1,17 +1,17 @@
 import { NavLink } from 'react-router-dom'
 
-import { GhostButton } from './ui.jsx'
+import { GhostButton, ThemeToggle } from './ui.jsx'
 
 const navigation = [
   { to: '/admin', label: 'Pannello' },
   { to: '/chat', label: 'Assistenza' },
 ]
 
-function AppShell({ adminSession, logoutInCorso, onLogout, children }) {
+function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme, children }) {
   return (
     <div className="min-h-screen">
       <div className="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
-        <header className="rounded-[2rem] border border-white/10 bg-black/20 px-5 py-4 shadow-[0_14px_50px_rgba(0,0,0,0.2)] backdrop-blur lg:px-6">
+        <header className="app-topbar rounded-[2rem] border border-white/10 bg-black/20 px-5 py-4 shadow-[0_14px_50px_rgba(0,0,0,0.2)] backdrop-blur lg:px-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="text-[11px] uppercase tracking-[0.3em] text-stone-400">Spazio di assistenza</div>
@@ -26,7 +26,7 @@ function AppShell({ adminSession, logoutInCorso, onLogout, children }) {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <nav className="flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/[0.04] p-1">
+              <nav className="app-nav flex flex-wrap gap-2 rounded-full border border-white/10 bg-white/[0.04] p-1">
                 {navigation.map((item) => (
                   <NavLink
                     key={item.to}
@@ -34,8 +34,8 @@ function AppShell({ adminSession, logoutInCorso, onLogout, children }) {
                     className={({ isActive }) =>
                       `rounded-full px-4 py-2 text-sm transition ${
                         isActive
-                          ? 'bg-amber-500 text-stone-950'
-                          : 'text-stone-200 hover:bg-white/[0.08] hover:text-stone-50'
+                          ? 'nav-link-active bg-amber-500 text-stone-950'
+                          : 'nav-link text-stone-200 hover:bg-white/[0.08] hover:text-stone-50'
                       }`
                     }
                   >
@@ -43,6 +43,8 @@ function AppShell({ adminSession, logoutInCorso, onLogout, children }) {
                   </NavLink>
                 ))}
               </nav>
+
+              <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
               {adminSession ? (
                 <div className="flex items-center gap-3">

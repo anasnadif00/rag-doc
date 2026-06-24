@@ -253,13 +253,6 @@ function ChatPage() {
           detail: "Scrivi la tua domanda qui sotto.",
         });
         setSessionId(payload.session_id);
-        appendMessage({
-          role: "assistant",
-          text: "Ciao, sono qui per aiutarti. Scrivimi pure la tua richiesta.",
-          steps: [],
-          followUpQuestion: "",
-          inferenceNotice: "",
-        });
         return;
       }
 
@@ -416,7 +409,7 @@ function ChatPage() {
           </p>
 
           <div className="chat-conversation">
-            <div className="chat-messages space-y-3 rounded-[1.4rem] border border-divider bg-inset p-3.5">
+            <div className="chat-messages">
               {serviceUnavailable ? (
                 <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
                   {serviceUnavailable}
@@ -425,10 +418,10 @@ function ChatPage() {
                   messages.map((message) => (
                     <article
                       key={message.id}
-                      className={`max-w-[92%] rounded-[1.25rem] border px-4 py-2.5 shadow-sm ${
+                      className={`chat-message ${
                         message.role === "user"
-                          ? "ml-auto border-divider-strong bg-accent-soft text-ink"
-                          : "border-divider bg-surface text-ink"
+                          ? "chat-message--user"
+                          : "chat-message--assistant"
                       }`}
                     >
                       <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
@@ -466,11 +459,20 @@ function ChatPage() {
                     </article>
                   ))
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-divider bg-subtle px-5 py-10 text-center">
-                    <div className="text-lg text-ink">Conversazione pronta</div>
-                    <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">
-                      Appena la connessione sara disponibile potrai scrivere la
-                      tua richiesta qui sotto.
+                  <div className="chat-empty">
+                    <div className="chat-empty__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3.5c.45 4.7 2.8 7.05 7.5 7.5-4.7.45-7.05 2.8-7.5 7.5-.45-4.7-2.8-7.05-7.5-7.5 4.7-.45 7.05-2.8 7.5-7.5Z" />
+                        <path d="M19 3v3M20.5 4.5h-3" />
+                      </svg>
+                    </div>
+                    <div className="chat-empty__title">
+                      {isReady ? "Come posso aiutarti?" : "Prepariamo la chat"}
+                    </div>
+                    <p className="chat-empty__copy">
+                      {isReady
+                        ? "Scrivi una richiesta qui sotto per iniziare."
+                        : "Manca solo un istante."}
                     </p>
                   </div>
               )}

@@ -209,33 +209,33 @@ function ChatPage() {
         }
       >
         <div className="space-y-4">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-200">
+          <div className="rounded-2xl border border-divider bg-subtle px-4 py-3 text-sm text-copy">
             {statusMessage}
           </div>
 
           {serviceUnavailable ? (
-            <div className="rounded-2xl border border-amber-300/25 bg-amber-300/10 px-5 py-5 text-sm text-amber-50">
+            <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
               {serviceUnavailable}
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="min-h-[24rem] space-y-3 rounded-[1.6rem] border border-white/10 bg-black/20 p-4">
+              <div className="min-h-[24rem] space-y-3 rounded-[1.6rem] border border-divider bg-inset p-4">
                 {messages.length ? (
                   messages.map((message) => (
                     <article
                       key={message.id}
-                      className={`max-w-[92%] rounded-[1.4rem] border px-4 py-3 shadow-[0_12px_30px_rgba(0,0,0,0.14)] ${
+                      className={`max-w-[92%] rounded-[1.4rem] border px-4 py-3 shadow-sm ${
                         message.role === 'user'
-                          ? 'ml-auto border-amber-300/25 bg-amber-300/12 text-amber-50'
-                          : 'border-white/10 bg-white/[0.05] text-stone-50'
+                          ? 'ml-auto border-divider-strong bg-accent-soft text-ink'
+                          : 'border-divider bg-surface text-ink'
                       }`}
                     >
-                      <div className="text-[11px] uppercase tracking-[0.22em] text-stone-400">
+                      <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
                         {message.role === 'user' ? 'Tu' : 'Assistente'}
                       </div>
                       <p className="mt-2 whitespace-pre-wrap text-sm leading-6">{message.text}</p>
                       {message.role === 'assistant' && Array.isArray(message.steps) && message.steps.length ? (
-                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-stone-100">
+                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-copy">
                           {message.steps.map((step, index) => (
                             <li key={`${message.id}-step-${index}`} className="whitespace-pre-wrap">
                               {step}
@@ -244,21 +244,21 @@ function ChatPage() {
                         </ol>
                       ) : null}
                       {message.role === 'assistant' && message.followUpQuestion ? (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-amber-100">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-accent-ink">
                           Per continuare: {message.followUpQuestion}
                         </p>
                       ) : null}
                       {message.role === 'assistant' && message.inferenceNotice ? (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-stone-300">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-copy">
                           Nota: {message.inferenceNotice}
                         </p>
                       ) : null}
                     </article>
                   ))
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.03] px-5 py-10 text-center">
-                    <div className="text-lg text-stone-50">Conversazione pronta</div>
-                    <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-stone-400">
+                  <div className="rounded-2xl border border-dashed border-divider bg-subtle px-5 py-10 text-center">
+                    <div className="text-lg text-ink">Conversazione pronta</div>
+                    <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">
                       Appena la connessione sara disponibile potrai scrivere la tua richiesta qui sotto.
                     </p>
                   </div>

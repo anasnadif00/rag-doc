@@ -387,8 +387,8 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
         <div
           className={`rounded-2xl border px-4 py-3 text-sm ${
             notice.tone === 'success'
-              ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-100'
-              : 'border-rose-400/30 bg-rose-400/10 text-rose-100'
+              ? 'border-success-border bg-success-soft text-success'
+              : 'border-danger-border bg-danger-soft text-danger'
           }`}
         >
           {notice.message}
@@ -399,7 +399,7 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
         <MetricCard
           label="Stato del servizio"
           value={loadingHealth ? 'Caricamento' : health?.status === 'ok' ? 'Operativo' : 'Non disponibile'}
-          accent={health?.status === 'ok' ? 'emerald' : 'amber'}
+          accent={health?.status === 'ok' ? 'success' : 'neutral'}
           detail={
             health
               ? `${health.knowledge_base_exists ? 'Contenuti disponibili' : 'Contenuti da verificare'} | ${health.lexical_index_exists ? 'Ricerca pronta' : 'Ricerca da aggiornare'}`
@@ -409,19 +409,19 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
         <MetricCard
           label="Aziende"
           value={String(tenants.length)}
-          accent="copper"
+          accent="primary"
           detail={`${activeCount} attive | ${suspendedCount} sospese`}
         />
         <MetricCard
           label="Archivi dedicati"
           value={String(overlayEnabledCount)}
-          accent="sky"
+          accent="info"
           detail="Aziende con archivio dedicato attivo"
         />
         <MetricCard
           label="Protezione"
           value={health?.security_configured ? 'Configurata' : 'Da completare'}
-          accent={health?.security_configured ? 'emerald' : 'rose'}
+          accent={health?.security_configured ? 'success' : 'danger'}
           detail={health?.security_configured ? 'Le impostazioni principali risultano presenti.' : 'Alcune impostazioni di sicurezza richiedono attenzione.'}
         />
       </section>

@@ -21,7 +21,7 @@ function getInitialTheme() {
     // Local storage can be disabled; the system preference still provides a stable default.
   }
 
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return 'light'
 }
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
     document.documentElement.style.colorScheme = theme
 
     const themeColor = document.querySelector('meta[name="theme-color"]')
-    themeColor?.setAttribute('content', theme === 'dark' ? '#071719' : '#f4f9f9')
+    themeColor?.setAttribute('content', theme === 'dark' ? '#161617' : '#f5f5f7')
 
     try {
       window.localStorage.setItem(THEME_STORAGE_KEY, theme)
@@ -155,7 +155,7 @@ function App() {
 function ProtectedAdminRoute({ adminSession, loadingAdminSession, children }) {
   if (loadingAdminSession) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-6 text-center text-stone-200">
+      <div className="flex min-h-screen items-center justify-center px-6 text-center text-copy">
         Verifica dell'accesso in corso...
       </div>
     )

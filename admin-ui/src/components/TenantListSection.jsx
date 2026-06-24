@@ -38,18 +38,18 @@ function TenantListSection({
                 onClick={() => setSelectedTenantId(tenant.id)}
                 className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
                   tenant.id === selectedTenantId
-                    ? 'tenant-card--selected border-amber-300/40 bg-amber-300/10 shadow-[0_12px_30px_rgba(217,119,6,0.14)]'
-                    : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'
+                    ? 'tenant-card--selected'
+                    : 'border-divider bg-surface hover:border-divider-strong hover:bg-subtle'
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <div className="text-lg text-stone-50">{tenant.display_name}</div>
-                    <div className="mt-1 text-xs uppercase tracking-[0.24em] text-stone-400">{tenant.tenant_code}</div>
+                    <div className="text-lg text-ink">{tenant.display_name}</div>
+                    <div className="mt-1 text-xs uppercase tracking-[0.24em] text-muted">{tenant.tenant_code}</div>
                   </div>
                   <StatusBadge status={tenant.status} />
                 </div>
-                <div className="mt-3 flex flex-wrap gap-2 text-xs text-stone-300">
+                <div className="mt-3 flex flex-wrap gap-2 text-xs text-copy">
                   <MiniBadge label={`Livello ${translateStatus(tenant.license_tier)}`} />
                   <MiniBadge label={`Limite ${formatNumber(tenant.license.daily_message_limit)} messaggi/giorno`} />
                   <MiniBadge label={tenant.license.overlay_kb_enabled ? 'Archivio dedicato attivo' : 'Archivio dedicato spento'} />

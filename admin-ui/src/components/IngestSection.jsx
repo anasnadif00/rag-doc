@@ -61,7 +61,7 @@ function IngestSection({ ingestForm, setIngestForm, onSubmit, busyAction, ingest
       </form>
 
       {ingestResult ? (
-        <div className="mt-5 grid gap-3 rounded-2xl border border-white/10 bg-black/20 p-4 md:grid-cols-2">
+        <div className="mt-5 grid gap-3 rounded-2xl border border-divider bg-inset p-4 md:grid-cols-2">
           <MetricMini label="Stato" value={ingestResult.status} />
           <MetricMini label="Archivio" value={ingestResult.collection_name} />
           <MetricMini label="Documenti elaborati" value={String(ingestResult.documents_processed)} />

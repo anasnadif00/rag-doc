@@ -72,7 +72,7 @@ function TenantWorkspace({
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <form className="space-y-4 rounded-2xl border border-white/10 bg-black/15 p-4" onSubmit={onSaveProfile}>
+            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onSaveProfile}>
               <SectionHeading title="Dati azienda" subtitle="Informazioni principali, indirizzi autorizzati e archivio dedicato." />
               <div className="grid gap-4 sm:grid-cols-2">
                 <TextField
@@ -81,11 +81,11 @@ function TenantWorkspace({
                   onChange={(value) => setEditForm((current) => ({ ...current, displayName: value }))}
                 />
                 <label className="block space-y-2">
-                  <span className="text-xs uppercase tracking-[0.18em] text-stone-400">Stato</span>
+                  <span className="text-xs uppercase tracking-[0.18em] text-muted">Stato</span>
                   <select
                     value={editForm.status}
                     onChange={(event) => setEditForm((current) => ({ ...current, status: event.target.value }))}
-                    className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06]"
+                    className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
                   >
                     <option value="active">Attiva</option>
                     <option value="suspended">Sospesa</option>
@@ -116,15 +116,15 @@ function TenantWorkspace({
               </PrimaryButton>
             </form>
 
-            <form className="space-y-4 rounded-2xl border border-white/10 bg-black/15 p-4" onSubmit={onSaveLicense}>
+            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onSaveLicense}>
               <SectionHeading title="Limiti e funzioni" subtitle="Messaggi, accessi e disponibilita previsti per l'azienda selezionata." />
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block space-y-2">
-                  <span className="text-xs uppercase tracking-[0.18em] text-stone-400">Stato servizio</span>
+                  <span className="text-xs uppercase tracking-[0.18em] text-muted">Stato servizio</span>
                   <select
                     value={licenseForm.status}
                     onChange={(event) => setLicenseForm((current) => ({ ...current, status: event.target.value }))}
-                    className="w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06]"
+                    className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
                   >
                     <option value="active">Attivo</option>
                     <option value="suspended">Sospeso</option>
@@ -172,21 +172,21 @@ function TenantWorkspace({
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-            <div className="rounded-2xl border border-white/10 bg-black/15 p-4">
+            <div className="rounded-2xl border border-divider bg-inset p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <SectionHeading
                   title="Andamento utilizzo"
                   subtitle="Consulta il traffico recente per capire l'uso del servizio e prevenire blocchi."
                 />
                 <div className="flex items-center gap-2">
-                  <label className="text-xs uppercase tracking-[0.18em] text-stone-400" htmlFor="usage-window">
+                  <label className="text-xs uppercase tracking-[0.18em] text-muted" htmlFor="usage-window">
                     Periodo
                   </label>
                   <select
                     id="usage-window"
                     value={usageDays}
                     onChange={(event) => setUsageDays(Number(event.target.value))}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm text-stone-100 outline-none"
+                    className="app-field rounded-full border px-3 py-2 text-sm outline-none"
                   >
                     <option value={7}>7 giorni</option>
                     <option value={14}>14 giorni</option>
@@ -202,7 +202,7 @@ function TenantWorkspace({
               <UsageChart rows={usageRows} loading={loadingUsage} />
             </div>
 
-            <form className="space-y-4 rounded-2xl border border-white/10 bg-black/15 p-4" onSubmit={onRotateKey}>
+            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onRotateKey}>
               <SectionHeading
                 title="Aggiorna chiave di accesso"
                 subtitle="Sostituisci la chiave attiva senza uscire dal pannello."

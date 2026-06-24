@@ -37,13 +37,13 @@ function AdminLoginPage({ adminSession, loadingAdminSession, onLogin, theme, onT
       <div className="absolute right-4 top-5 sm:right-6">
         <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       </div>
-      <div className="app-login-panel w-full max-w-md rounded-[2rem] border border-white/10 bg-[linear-gradient(145deg,rgba(15,20,19,0.94),rgba(26,18,15,0.92))] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+      <div className="app-login-panel w-full max-w-md rounded-[2rem] border p-6">
         <div className="space-y-3">
-          <div className="brand-badge inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.28em] text-amber-200">
+          <div className="brand-badge inline-flex items-center rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.28em]">
             Accesso amministratore
           </div>
-          <h1 className="text-4xl leading-tight text-stone-50">Benvenuto</h1>
-          <p className="text-sm leading-7 text-stone-300">
+          <h1 className="text-4xl leading-tight text-ink">Benvenuto</h1>
+          <p className="text-sm leading-7 text-copy">
             Inserisci le tue credenziali per aprire il pannello di gestione.
           </p>
         </div>
@@ -66,7 +66,7 @@ function AdminLoginPage({ adminSession, loadingAdminSession, onLogin, theme, onT
           />
 
           {errore ? (
-            <div className="rounded-2xl border border-rose-300/25 bg-rose-300/10 px-4 py-3 text-sm text-rose-100">
+            <div className="rounded-2xl border border-danger-border bg-danger-soft px-4 py-3 text-sm text-danger">
               {errore}
             </div>
           ) : null}

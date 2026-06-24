@@ -1,11 +1,6 @@
 export function QuickLink({ href, label }) {
   return (
-    <a
-      className="ghost-button inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/10"
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a className="ghost-button inline-flex items-center rounded-full border px-4 py-2 text-sm transition" href={href} target="_blank" rel="noreferrer">
       {label}
     </a>
   )
@@ -13,13 +8,13 @@ export function QuickLink({ href, label }) {
 
 export function SectionCard({ eyebrow, title, subtitle, children, actions }) {
   return (
-    <section className="app-panel rounded-[2rem] border border-white/10 bg-[linear-gradient(160deg,rgba(17,21,19,0.92),rgba(18,16,13,0.9))] p-5 shadow-[0_16px_60px_rgba(0,0,0,0.22)] lg:p-6">
+    <section className="app-panel rounded-[2rem] border p-5 lg:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <div className="text-[11px] uppercase tracking-[0.28em] text-stone-400">{eyebrow}</div>
+          <div className="text-[11px] uppercase tracking-[0.28em] text-muted">{eyebrow}</div>
           <div>
-            <h2 className="text-2xl text-stone-50">{title}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-stone-300">{subtitle}</p>
+            <h2 className="text-2xl text-ink">{title}</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-copy">{subtitle}</p>
           </div>
         </div>
         {actions}
@@ -32,35 +27,35 @@ export function SectionCard({ eyebrow, title, subtitle, children, actions }) {
 export function SectionHeading({ title, subtitle }) {
   return (
     <div>
-      <h3 className="text-lg text-stone-50">{title}</h3>
-      <p className="mt-1 text-sm leading-6 text-stone-400">{subtitle}</p>
+      <h3 className="text-lg text-ink">{title}</h3>
+      <p className="mt-1 text-sm leading-6 text-muted">{subtitle}</p>
     </div>
   )
 }
 
-export function MetricCard({ label, value, detail, accent = 'copper' }) {
+export function MetricCard({ label, value, detail, accent = 'primary' }) {
   const accentClasses = {
-    copper: 'metric-card--primary',
-    emerald: 'metric-card--success',
-    rose: 'metric-card--danger',
-    sky: 'metric-card--info',
-    amber: 'metric-card--warning',
+    primary: 'metric-card--primary',
+    success: 'metric-card--success',
+    danger: 'metric-card--danger',
+    info: 'metric-card--info',
+    neutral: 'metric-card--warning',
   }
 
   return (
-    <div className={`metric-card rounded-[1.6rem] border p-5 ${accentClasses[accent] || accentClasses.copper}`}>
-      <div className="text-[11px] uppercase tracking-[0.25em] text-stone-400">{label}</div>
-      <div className="mt-3 text-3xl text-stone-50">{value}</div>
-      <p className="mt-2 text-sm leading-6 text-stone-300">{detail}</p>
+    <div className={`metric-card rounded-[1.6rem] border p-5 ${accentClasses[accent] || accentClasses.primary}`}>
+      <div className="text-[11px] uppercase tracking-[0.25em] text-muted">{label}</div>
+      <div className="mt-3 text-3xl text-ink">{value}</div>
+      <p className="mt-2 text-sm leading-6 text-copy">{detail}</p>
     </div>
   )
 }
 
 export function MetricMini({ label, value }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
-      <div className="text-[11px] uppercase tracking-[0.22em] text-stone-400">{label}</div>
-      <div className="mt-2 text-lg text-stone-50">{value}</div>
+    <div className="rounded-2xl border border-divider bg-subtle px-4 py-3">
+      <div className="text-[11px] uppercase tracking-[0.22em] text-muted">{label}</div>
+      <div className="mt-2 text-lg text-ink">{value}</div>
     </div>
   )
 }
@@ -77,7 +72,7 @@ export function TextField({
 }) {
   return (
     <label className="block space-y-2">
-      <span className="text-xs uppercase tracking-[0.18em] text-stone-400">{label}</span>
+      <span className="text-xs uppercase tracking-[0.18em] text-muted">{label}</span>
       <input
         type={type}
         value={value}
@@ -85,9 +80,9 @@ export function TextField({
         autoComplete={autoComplete}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
+        className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
       />
-      {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
+      {help ? <span className="block text-xs leading-5 text-faint">{help}</span> : null}
     </label>
   )
 }
@@ -95,16 +90,16 @@ export function TextField({
 export function TextArea({ label, value, onChange, placeholder = '', rows = 5, help = '', disabled = false }) {
   return (
     <label className="block space-y-2">
-      <span className="text-xs uppercase tracking-[0.18em] text-stone-400">{label}</span>
+      <span className="text-xs uppercase tracking-[0.18em] text-muted">{label}</span>
       <textarea
         rows={rows}
         value={value}
         placeholder={placeholder}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition placeholder:text-stone-500 focus:border-amber-300/40 focus:bg-white/[0.06]"
+        className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
       />
-      {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
+      {help ? <span className="block text-xs leading-5 text-faint">{help}</span> : null}
     </label>
   )
 }
@@ -112,12 +107,12 @@ export function TextArea({ label, value, onChange, placeholder = '', rows = 5, h
 export function SelectField({ label, value, onChange, options, help = '', disabled = false }) {
   return (
     <label className="block space-y-2">
-      <span className="text-xs uppercase tracking-[0.18em] text-stone-400">{label}</span>
+      <span className="text-xs uppercase tracking-[0.18em] text-muted">{label}</span>
       <select
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="app-field w-full rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 outline-none transition focus:border-amber-300/40 focus:bg-white/[0.06] disabled:cursor-not-allowed disabled:opacity-60"
+        className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -125,25 +120,27 @@ export function SelectField({ label, value, onChange, options, help = '', disabl
           </option>
         ))}
       </select>
-      {help ? <span className="block text-xs leading-5 text-stone-500">{help}</span> : null}
+      {help ? <span className="block text-xs leading-5 text-faint">{help}</span> : null}
     </label>
   )
 }
 
 export function ToggleField({ label, checked, onChange }) {
   return (
-    <label className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3">
-      <span className="text-sm text-stone-200">{label}</span>
+    <label className="flex items-center justify-between rounded-2xl border border-divider bg-subtle px-4 py-3">
+      <span className="text-sm text-copy">{label}</span>
       <button
         type="button"
+        role="switch"
+        aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`relative inline-flex h-7 w-13 items-center rounded-full border transition ${
-          checked ? 'border-emerald-300/30 bg-emerald-300/20' : 'border-white/10 bg-white/10'
+        className={`relative inline-flex h-7 w-12 items-center rounded-full border transition ${
+          checked ? 'border-accent bg-accent' : 'border-divider bg-inset'
         }`}
       >
         <span
-          className={`h-5 w-10 rounded-full bg-stone-50 transition ${
-            checked ? 'translate-x-3' : 'translate-x-1'
+          className={`h-5 w-5 rounded-full bg-white shadow-sm transition ${
+            checked ? 'translate-x-6' : 'translate-x-1'
           }`}
         />
       </button>
@@ -155,7 +152,7 @@ export function PrimaryButton({ children, className = '', ...props }) {
   return (
     <button
       {...props}
-      className={`primary-button inline-flex items-center justify-center rounded-full bg-amber-500 px-5 py-3 text-sm font-medium text-stone-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`primary-button inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       {children}
     </button>
@@ -166,7 +163,7 @@ export function GhostButton({ children, className = '', ...props }) {
   return (
     <button
       {...props}
-      className={`ghost-button inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-stone-100 transition hover:border-white/20 hover:bg-white/[0.08] disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`ghost-button inline-flex items-center justify-center rounded-full border px-4 py-3 text-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
     >
       {children}
     </button>
@@ -183,21 +180,21 @@ export function StatusBadge({ status }) {
 
   const tone =
     status === 'active'
-      ? 'border-emerald-300/25 bg-emerald-300/10 text-emerald-100'
-      : 'border-rose-300/25 bg-rose-300/10 text-rose-100'
+      ? 'border-success-border bg-success-soft text-success'
+      : 'border-danger-border bg-danger-soft text-danger'
 
   return <span className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.18em] ${tone}`}>{label}</span>
 }
 
 export function MiniBadge({ label }) {
-  return <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">{label}</span>
+  return <span className="rounded-full border border-divider bg-subtle px-3 py-1">{label}</span>
 }
 
 export function EmptyState({ title, message }) {
   return (
-    <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.03] px-5 py-10 text-center">
-      <div className="text-lg text-stone-50">{title}</div>
-      <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-stone-400">{message}</p>
+    <div className="rounded-2xl border border-dashed border-divider bg-subtle px-5 py-10 text-center">
+      <div className="text-lg text-ink">{title}</div>
+      <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted">{message}</p>
     </div>
   )
 }

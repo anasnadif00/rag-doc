@@ -17,7 +17,7 @@ function ModelSettingsSection({
       subtitle="Scegli i modelli usati dal reranking semantico dei chunk e dalla generazione della risposta. Le modifiche valgono per tutte le aziende."
     >
       {loading || !modelForm ? (
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-6 text-sm text-stone-400">
+        <div className="rounded-2xl border border-divider bg-subtle px-5 py-6 text-sm text-muted">
           Caricamento della configurazione dei modelli...
         </div>
       ) : (

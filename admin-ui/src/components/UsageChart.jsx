@@ -2,12 +2,12 @@ import { formatDay, formatNumber } from '../lib/dashboard.js'
 
 function UsageChart({ rows, loading }) {
   if (loading) {
-    return <div className="mt-6 text-sm text-stone-400">Caricamento dello storico in corso...</div>
+    return <div className="mt-6 text-sm text-muted">Caricamento dello storico in corso...</div>
   }
 
   if (!rows.length) {
     return (
-      <div className="mt-6 rounded-2xl border border-dashed border-white/10 bg-white/[0.03] p-5 text-sm text-stone-400">
+      <div className="mt-6 rounded-2xl border border-dashed border-divider bg-subtle p-5 text-sm text-muted">
         Nessun evento registrato nel periodo selezionato.
       </div>
     )
@@ -28,8 +28,8 @@ function UsageChart({ rows, loading }) {
                 style={{ height }}
               />
               <div className="space-y-1 text-center">
-                <div className="text-sm text-stone-50">{formatNumber(totalMessages)}</div>
-                <div className="text-xs uppercase tracking-[0.16em] text-stone-400">{formatDay(row.usage_date)}</div>
+                <div className="text-sm text-ink">{formatNumber(totalMessages)}</div>
+                <div className="text-xs uppercase tracking-[0.16em] text-muted">{formatDay(row.usage_date)}</div>
               </div>
             </div>
           )

@@ -66,7 +66,7 @@ function AssistantThinking() {
       </div>
       <div>
         <div className="text-[11px] uppercase tracking-[0.2em] text-muted">
-          Assistente
+          Mia
         </div>
         <div className="mt-1 flex items-center gap-2 text-sm text-copy">
           <span>Sto elaborando la risposta</span>
@@ -399,7 +399,12 @@ function ChatPage() {
         }
       >
         <div className="chat-workspace">
-          <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          <p
+            className="sr-only"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {chatStatus.title}. {chatStatus.detail}
           </p>
 
@@ -410,68 +415,69 @@ function ChatPage() {
                   {serviceUnavailable}
                 </div>
               ) : messages.length ? (
-                  messages.map((message) => (
-                    <article
-                      key={message.id}
-                      className={`chat-message ${
-                        message.role === "user"
-                          ? "chat-message--user"
-                          : "chat-message--assistant"
-                      }`}
-                    >
-                      <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
-                        {message.role === "user" ? "Tu" : "Assistente"}
-                      </div>
-                      <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
-                        {message.text}
-                      </p>
-                      {message.role === "assistant" &&
-                      Array.isArray(message.steps) &&
-                      message.steps.length ? (
-                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-5 text-copy">
-                          {message.steps.map((step, index) => (
-                            <li
-                              key={`${message.id}-step-${index}`}
-                              className="whitespace-pre-wrap"
-                            >
-                              {step}
-                            </li>
-                          ))}
-                        </ol>
-                      ) : null}
-                      {message.role === "assistant" &&
-                      message.followUpQuestion ? (
-                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-accent-ink">
-                          Per continuare: {message.followUpQuestion}
-                        </p>
-                      ) : null}
-                      {message.role === "assistant" &&
-                      message.inferenceNotice ? (
-                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-copy">
-                          Nota: {message.inferenceNotice}
-                        </p>
-                      ) : null}
-                    </article>
-                  ))
-                ) : (
-                  <div className="chat-empty">
-                    <div className="chat-empty__icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M12 3.5c.45 4.7 2.8 7.05 7.5 7.5-4.7.45-7.05 2.8-7.5 7.5-.45-4.7-2.8-7.05-7.5-7.5 4.7-.45 7.05-2.8 7.5-7.5Z" />
-                        <path d="M19 3v3M20.5 4.5h-3" />
-                      </svg>
+                messages.map((message) => (
+                  <article
+                    key={message.id}
+                    className={`chat-message ${
+                      message.role === "user"
+                        ? "chat-message--user"
+                        : "chat-message--assistant"
+                    }`}
+                  >
+                    <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
+                      {message.role === "user" ? "Tu" : "Assistente"}
                     </div>
-                    <div className="chat-empty__title">
-                      {isReady ? "Come posso aiutarti?" : "Prepariamo la chat"}
-                    </div>
-                    <p className="chat-empty__copy">
-                      {isReady
-                        ? "Scrivi una richiesta qui sotto per iniziare."
-                        : "Manca solo un istante."}
+                    <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
+                      {message.text}
                     </p>
+                    {message.role === "assistant" &&
+                    Array.isArray(message.steps) &&
+                    message.steps.length ? (
+                      <ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-5 text-copy">
+                        {message.steps.map((step, index) => (
+                          <li
+                            key={`${message.id}-step-${index}`}
+                            className="whitespace-pre-wrap"
+                          >
+                            {step}
+                          </li>
+                        ))}
+                      </ol>
+                    ) : null}
+                    {message.role === "assistant" &&
+                    message.followUpQuestion ? (
+                      <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-accent-ink">
+                        Per continuare: {message.followUpQuestion}
+                      </p>
+                    ) : null}
+                    {message.role === "assistant" && message.inferenceNotice ? (
+                      <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-copy">
+                        Nota: {message.inferenceNotice}
+                      </p>
+                    ) : null}
+                  </article>
+                ))
+              ) : (
+                <div className="chat-empty">
+                  <div className="chat-empty__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M12 3.5c.45 4.7 2.8 7.05 7.5 7.5-4.7.45-7.05 2.8-7.5 7.5-.45-4.7-2.8-7.05-7.5-7.5 4.7-.45 7.05-2.8 7.5-7.5Z" />
+                      <path d="M19 3v3M20.5 4.5h-3" />
+                    </svg>
                   </div>
+                  <div className="chat-empty__title">
+                    {isReady ? "Come posso aiutarti?" : "Prepariamo la chat"}
+                  </div>
+                  <p className="chat-empty__copy">
+                    {isReady
+                      ? "Scrivi una richiesta qui sotto per iniziare."
+                      : "Manca solo un istante."}
+                  </p>
+                </div>
               )}
-              {!serviceUnavailable && isGenerating ? <AssistantThinking /> : null}
+              {!serviceUnavailable && isGenerating ? (
+                <AssistantThinking />
+              ) : null}
               <div ref={messagesEndRef} />
             </div>
 

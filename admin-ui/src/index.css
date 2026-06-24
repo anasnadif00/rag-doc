@@ -112,6 +112,7 @@ body,
 }
 
 .app-shell--chat .app-shell__frame {
+  gap: 1rem;
   overflow: hidden;
 }
 
@@ -567,28 +568,6 @@ a {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
-.chat-thinking__dots {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-}
-
-.chat-thinking__dots i {
-  width: 0.28rem;
-  height: 0.28rem;
-  border-radius: 999px;
-  background: var(--accent);
-  animation: chat-dot 1.2s ease-in-out infinite;
-}
-
-.chat-thinking__dots i:nth-child(2) {
-  animation-delay: 140ms;
-}
-
-.chat-thinking__dots i:nth-child(3) {
-  animation-delay: 280ms;
-}
-
 .chat-shortcuts {
   display: flex;
   flex-wrap: wrap;
@@ -634,19 +613,6 @@ a {
 @keyframes chat-bot-orbit {
   to {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes chat-dot {
-  0%,
-  60%,
-  100% {
-    opacity: 0.35;
-    transform: translateY(0);
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-0.2rem);
   }
 }
 

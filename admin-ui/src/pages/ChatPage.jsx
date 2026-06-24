@@ -70,11 +70,6 @@ function AssistantThinking() {
         </div>
         <div className="mt-1 flex items-center gap-2 text-sm text-copy">
           <span>Sto elaborando la risposta</span>
-          <span className="chat-thinking__dots" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
         </div>
       </div>
     </article>

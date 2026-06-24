@@ -47,7 +47,12 @@ function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme,
               <ThemeToggle theme={theme} onToggle={onToggleTheme} />
 
               {adminSession ? (
-                <GhostButton type="button" onClick={onLogout} disabled={logoutInCorso}>
+                <GhostButton
+                  type="button"
+                  className="app-exit-button"
+                  onClick={onLogout}
+                  disabled={logoutInCorso}
+                >
                   {logoutInCorso ? 'Uscita in corso...' : 'Esci'}
                 </GhostButton>
               ) : null}

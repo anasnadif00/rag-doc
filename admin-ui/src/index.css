@@ -222,6 +222,12 @@ a {
   background: var(--surface-hover);
 }
 
+.app-exit-button {
+  padding: 0.55rem 0.85rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
 .app-field {
   color: var(--text-strong);
   border-color: var(--border);
@@ -261,6 +267,62 @@ a {
   font-size: 0.72em;
   font-weight: 700;
   letter-spacing: 0.12em;
+}
+
+.chat-new-button {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+}
+
+.chat-new-button svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chat-new-button::after {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: max-content;
+  max-width: 12rem;
+  padding: 0.4rem 0.6rem;
+  color: var(--accent-contrast);
+  border-radius: 0.5rem;
+  background: var(--text-strong);
+  box-shadow: 0 5px 16px var(--shadow-strong);
+  content: attr(data-tooltip);
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.2rem);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.chat-new-button:hover::after,
+.chat-new-button:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.chat-composer textarea {
+  padding: 0.7rem 0.9rem;
+  font-size: 0.78rem;
+  line-height: 1.15rem;
+}
+
+.chat-action-button {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .chat-thinking {

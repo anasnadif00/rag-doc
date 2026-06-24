@@ -365,12 +365,17 @@ function ChatPage() {
         actions={
           <GhostButton
             type="button"
+            className="chat-new-button"
             onClick={() => void handleRestart()}
             disabled={busyAction === "start"}
+            aria-label="Nuova conversazione"
+            data-tooltip="Nuova conversazione"
+            title="Nuova conversazione"
           >
-            {busyAction === "start"
-              ? "Avvio in corso..."
-              : "Nuova conversazione"}
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 11a8 8 0 1 0-2.3 5.7" />
+              <path d="M20 5v6h-6" />
+            </svg>
           </GhostButton>
         }
       >
@@ -445,7 +450,7 @@ function ChatPage() {
 
               <form
                 ref={formRef}
-                className="space-y-3"
+                className="chat-composer space-y-2.5"
                 onSubmit={handleSendMessage}
               >
                 <TextArea
@@ -459,10 +464,11 @@ function ChatPage() {
                   ariaDescribedBy="chat-shortcuts"
                   ariaKeyShortcuts="/ Enter Shift+Enter"
                 />
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex flex-wrap gap-3">
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap gap-2">
                     <PrimaryButton
                       type="submit"
+                      className="chat-action-button"
                       disabled={
                         !isReady ||
                         Boolean(serviceUnavailable) ||
@@ -475,6 +481,7 @@ function ChatPage() {
                     </PrimaryButton>
                     <GhostButton
                       type="button"
+                      className="chat-action-button"
                       onClick={() => setMessageDraft("")}
                       disabled={!messageDraft}
                     >

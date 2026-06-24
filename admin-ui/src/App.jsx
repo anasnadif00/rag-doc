@@ -112,11 +112,6 @@ function App() {
           element={
             <ProtectedAdminRoute adminSession={adminSession} loadingAdminSession={loadingAdminSession}>
               <AppShell
-                adminSession={adminSession}
-                logoutInCorso={logoutInCorso}
-                onLogout={() => {
-                  void handleLogout()
-                }}
                 theme={theme}
                 onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))}
               >
@@ -135,11 +130,6 @@ function App() {
           path="/chat"
           element={
             <AppShell
-              adminSession={adminSession}
-              logoutInCorso={logoutInCorso}
-              onLogout={() => {
-                void handleLogout()
-              }}
               theme={theme}
               onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))}
             >

@@ -237,12 +237,6 @@ a {
   background: var(--surface-hover);
 }
 
-.app-exit-button {
-  padding: 0.55rem 0.85rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
 .app-field {
   color: var(--text-strong);
   border-color: var(--border);
@@ -326,6 +320,33 @@ a {
     );
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
+  scrollbar-color: color-mix(in srgb, var(--accent) 58%, var(--border)) transparent;
+  scrollbar-width: thin;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  margin-block: 0.75rem;
+  background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  min-height: 3.5rem;
+  border: 0.2rem solid transparent;
+  border-radius: 999px;
+  background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent) 72%, var(--surface)),
+      color-mix(in srgb, var(--accent-text) 68%, var(--accent))
+    )
+    padding-box;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent), var(--accent-text)) padding-box;
 }
 
 .chat-conversation {

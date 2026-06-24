@@ -1,13 +1,13 @@
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { GhostButton, ThemeToggle } from './ui.jsx'
+import { ThemeToggle } from './ui.jsx'
 
 const navigation = [
   { to: '/admin', label: 'Pannello' },
   { to: '/chat', label: 'Assistenza' },
 ]
 
-function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme, children }) {
+function AppShell({ theme, onToggleTheme, children }) {
   const { pathname } = useLocation()
   const isChatPage = pathname === '/chat'
 
@@ -48,17 +48,6 @@ function AppShell({ adminSession, logoutInCorso, onLogout, theme, onToggleTheme,
               </nav>
 
               <ThemeToggle theme={theme} onToggle={onToggleTheme} />
-
-              {adminSession ? (
-                <GhostButton
-                  type="button"
-                  className="app-exit-button"
-                  onClick={onLogout}
-                  disabled={logoutInCorso}
-                >
-                  {logoutInCorso ? 'Uscita in corso...' : 'Esci'}
-                </GhostButton>
-              ) : null}
             </div>
           </div>
         </header>

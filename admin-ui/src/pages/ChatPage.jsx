@@ -425,7 +425,7 @@ function ChatPage() {
                     }`}
                   >
                     <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
-                      {message.role === "user" ? "Tu" : "Assistente"}
+                      {message.role === "user" ? "Tu" : "Mia"}
                     </div>
                     <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
                       {message.text}

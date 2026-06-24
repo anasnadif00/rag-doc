@@ -44,41 +44,6 @@ function normalizeAssistantPayload(payload) {
   };
 }
 
-function ChatStatus({ status }) {
-  const isComplete = status.state === "ready" || status.state === "complete";
-
-  return (
-    <div
-      className={`chat-status chat-status--${status.state}`}
-      role="status"
-      aria-live="polite"
-    >
-      <span className="chat-status__icon" aria-hidden="true">
-        {isComplete ? (
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="m7.5 12.5 3 3 6-7" />
-          </svg>
-        ) : status.state === "error" ? (
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 7.5v5M12 16.5h.01" />
-            <circle cx="12" cy="12" r="8" />
-          </svg>
-        ) : (
-          <span className="chat-status__pulse" />
-        )}
-      </span>
-      <span>
-        <span className="block text-sm font-medium text-ink">
-          {status.title}
-        </span>
-        <span className="mt-0.5 block text-xs leading-5 text-muted">
-          {status.detail}
-        </span>
-      </span>
-    </div>
-  );
-}
-
 function AssistantThinking() {
   return (
     <article className="chat-thinking" role="status" aria-live="polite">
@@ -390,7 +355,12 @@ function ChatPage() {
   return (
     <>
       <SectionCard
-        title="Chatbot MIA"
+        title={
+          <span className="chat-title">
+            <span>Chatbot</span>
+            <span className="chat-title__name">MIA</span>
+          </span>
+        }
         subtitle="Fai una domanda e ricevi una risposta dall'assistente virtuale."
         actions={
           <GhostButton
@@ -404,21 +374,23 @@ function ChatPage() {
           </GhostButton>
         }
       >
-        <div className="space-y-4">
-          <ChatStatus status={chatStatus} />
+        <div>
+          <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+            {chatStatus.title}. {chatStatus.detail}
+          </p>
 
           {serviceUnavailable ? (
             <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
               {serviceUnavailable}
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="min-h-[24rem] max-h-[34rem] space-y-3 overflow-y-auto rounded-[1.6rem] border border-divider bg-inset p-4">
+            <div className="space-y-3">
+              <div className="h-[clamp(15rem,36vh,22rem)] space-y-3 overflow-y-auto rounded-[1.4rem] border border-divider bg-inset p-3.5">
                 {messages.length ? (
                   messages.map((message) => (
                     <article
                       key={message.id}
-                      className={`max-w-[92%] rounded-[1.4rem] border px-4 py-3 shadow-sm ${
+                      className={`max-w-[92%] rounded-[1.25rem] border px-4 py-2.5 shadow-sm ${
                         message.role === "user"
                           ? "ml-auto border-divider-strong bg-accent-soft text-ink"
                           : "border-divider bg-surface text-ink"
@@ -427,13 +399,13 @@ function ChatPage() {
                       <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
                         {message.role === "user" ? "Tu" : "Assistente"}
                       </div>
-                      <p className="mt-2 whitespace-pre-wrap text-sm leading-6">
+                      <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
                         {message.text}
                       </p>
                       {message.role === "assistant" &&
                       Array.isArray(message.steps) &&
                       message.steps.length ? (
-                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-copy">
+                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-5 text-copy">
                           {message.steps.map((step, index) => (
                             <li
                               key={`${message.id}-step-${index}`}
@@ -446,13 +418,13 @@ function ChatPage() {
                       ) : null}
                       {message.role === "assistant" &&
                       message.followUpQuestion ? (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-accent-ink">
+                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-accent-ink">
                           Per continuare: {message.followUpQuestion}
                         </p>
                       ) : null}
                       {message.role === "assistant" &&
                       message.inferenceNotice ? (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-copy">
+                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-copy">
                           Nota: {message.inferenceNotice}
                         </p>
                       ) : null}
@@ -477,9 +449,8 @@ function ChatPage() {
                 onSubmit={handleSendMessage}
               >
                 <TextArea
-                  label="Il tuo messaggio"
                   value={messageDraft}
-                  rows={4}
+                  rows={3}
                   placeholder="Scrivi qui la tua richiesta..."
                   disabled={!isReady || Boolean(serviceUnavailable)}
                   onChange={setMessageDraft}
@@ -515,9 +486,15 @@ function ChatPage() {
                     className="chat-shortcuts"
                     aria-label="Scorciatoie da tastiera"
                   >
-                    <span><kbd>/</kbd> Scrivi</span>
-                    <span><kbd>Invio</kbd> Invia</span>
-                    <span><kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo</span>
+                    <span>
+                      <kbd>/</kbd> Scrivi
+                    </span>
+                    <span>
+                      <kbd>Invio</kbd> Invia
+                    </span>
+                    <span>
+                      <kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo
+                    </span>
                   </div>
                 </div>
               </form>

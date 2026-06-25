@@ -23,6 +23,7 @@ from app.persistence.repositories import (
     TenantRepository,
     UsageRepository,
 )
+from app.tenancy.services import TenantAccessService
 
 
 class ModelSettingsService:
@@ -170,6 +171,11 @@ class TenantAdminService:
     def update_license(self, tenant_id: str, request: TenantLicenseUpdateRequest) -> TenantResponse:
         tenant = self._require_tenant(tenant_id)
         self.tenants.upsert_license(tenant, **request.model_dump(exclude_none=True))
+        TenantAccessService(
+            self.session,
+            self.settings,
+            audit_repository=self.audit,
+        ).refresh_quota_status(tenant)
         self.audit.record(
             tenant_id=tenant.id,
             session_id=None,

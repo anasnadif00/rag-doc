@@ -51,7 +51,11 @@ async def start_web_chat_session(
     try:
         session_context = await auth_service.start_web_chat_session(origin=request.headers.get("origin"))
     except TenantAccessError as exc:
-        raise HTTPException(status_code=exc.status_code, detail=str(exc)) from exc
+        raise HTTPException(
+            status_code=exc.status_code,
+            detail=str(exc),
+            headers={"X-Reason-Code": exc.reason_code},
+        ) from exc
 
     _set_chat_session_cookie(response, settings, session_context.access_token)
     return WebChatSessionResponse(

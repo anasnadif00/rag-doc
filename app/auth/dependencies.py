@@ -73,7 +73,9 @@ def require_session_principal(
         return auth_service.principal_from_session_token(token)
     except (TokenValidationError, TenantAccessError) as exc:
         status_code = getattr(exc, "status_code", status.HTTP_401_UNAUTHORIZED)
-        raise HTTPException(status_code=status_code, detail=str(exc)) from exc
+        reason_code = getattr(exc, "reason_code", None)
+        headers = {"X-Reason-Code": reason_code} if reason_code else None
+        raise HTTPException(status_code=status_code, detail=str(exc), headers=headers) from exc
 
 
 async def require_ws_principal(ticket: str, ws_ticket_service: WSTicketService) -> SessionPrincipal:

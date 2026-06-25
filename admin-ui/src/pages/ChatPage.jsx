@@ -28,6 +28,51 @@ const INITIAL_CHAT_STATUS = {
   detail: "Prepariamo uno spazio sicuro per la conversazione.",
 };
 
+const USAGE_LIMIT_REASON_CODES = new Set([
+  "daily_message_limit",
+  "daily_token_limit",
+]);
+const USAGE_LIMIT_MESSAGE =
+  "Servizio non disponibile: hai superato il limite di utilizzo previsto. Contatta l'amministratore o l'assistenza di sistema.";
+
+function getReasonCode(source) {
+  return (
+    (source && typeof source.reasonCode === "string" && source.reasonCode) ||
+    (source && typeof source.reason_code === "string" && source.reason_code) ||
+    ""
+  );
+}
+
+function isUsageLimitError(source) {
+  const reasonCode = getReasonCode(source);
+  return (
+    USAGE_LIMIT_REASON_CODES.has(reasonCode) ||
+    (source && source.status === 429 && !reasonCode)
+  );
+}
+
+function resolveUnavailableMessage(source) {
+  if (isUsageLimitError(source)) {
+    return USAGE_LIMIT_MESSAGE;
+  }
+  return "Servizio momentaneamente non disponibile. Riprova tra qualche minuto.";
+}
+
+function resolveUnavailableStatus(source) {
+  if (isUsageLimitError(source)) {
+    return {
+      state: "error",
+      title: "Limite di utilizzo raggiunto",
+      detail: "Contatta l'amministratore o l'assistenza di sistema.",
+    };
+  }
+  return {
+    state: "error",
+    title: "Assistente non disponibile",
+    detail: "Riprova tra qualche minuto.",
+  };
+}
+
 function normalizeAssistantPayload(payload) {
   return {
     text:
@@ -195,16 +240,10 @@ function ChatPage() {
       const sessione = await startWebChatSession(API_BASE_URL);
       setSessionId(sessione.session_id);
       await openSocket();
-    } catch {
+    } catch (error) {
       setSessionId(null);
-      setServiceUnavailable(
-        "Servizio momentaneamente non disponibile. Riprova tra qualche minuto.",
-      );
-      setChatStatus({
-        state: "error",
-        title: "Assistente non disponibile",
-        detail: "Riprova tra qualche minuto.",
-      });
+      setServiceUnavailable(resolveUnavailableMessage(error));
+      setChatStatus(resolveUnavailableStatus(error));
     } finally {
       setBusyAction("");
     }
@@ -253,6 +292,14 @@ function ChatPage() {
 
       if (payload.type === "error") {
         setIsGenerating(false);
+        if (isUsageLimitError(payload)) {
+          socketRef.current = null;
+          socket.close(1000, "usage-limit");
+          setIsReady(false);
+          setServiceUnavailable(resolveUnavailableMessage(payload));
+          setChatStatus(resolveUnavailableStatus(payload));
+          return;
+        }
         setChatStatus({
           state: "error",
           title: "Non ho completato la risposta",

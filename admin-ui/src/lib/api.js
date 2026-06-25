@@ -16,6 +16,35 @@ async function parseResponse(response) {
   return response.text()
 }
 
+function extractErrorInfo(payload) {
+  if (payload && typeof payload === 'object') {
+    const reasonCode =
+      typeof payload.reason_code === 'string' ? payload.reason_code : ''
+
+    if ('detail' in payload) {
+      const detail = payload.detail
+      if (typeof detail === 'string' && detail.trim()) {
+        return { message: detail, reasonCode }
+      }
+      if (detail && typeof detail === 'object') {
+        const detailReasonCode =
+          typeof detail.reason_code === 'string' ? detail.reason_code : reasonCode
+        const message =
+          (typeof detail.message === 'string' && detail.message.trim()) ||
+          (typeof detail.detail === 'string' && detail.detail.trim()) ||
+          JSON.stringify(detail)
+        return { message, reasonCode: detailReasonCode }
+      }
+    }
+  }
+
+  if (typeof payload === 'string' && payload.trim()) {
+    return { message: payload, reasonCode: '' }
+  }
+
+  return { message: '', reasonCode: '' }
+}
+
 async function request(baseUrl, path, { method = 'GET', body } = {}) {
   const response = await fetch(buildUrl(baseUrl, path), {
     method,
@@ -28,13 +57,14 @@ async function request(baseUrl, path, { method = 'GET', body } = {}) {
 
   const payload = await parseResponse(response)
   if (!response.ok) {
-    const detail =
-      (payload && typeof payload === 'object' && 'detail' in payload && payload.detail) ||
-      (typeof payload === 'string' ? payload : null) ||
-      `Richiesta non riuscita (${response.status})`
-    const error = new Error(detail)
+    const errorInfo = extractErrorInfo(payload)
+    const error = new Error(
+      errorInfo.message || `Richiesta non riuscita (${response.status})`,
+    )
     error.status = response.status
     error.payload = payload
+    error.reasonCode =
+      response.headers.get('x-reason-code') || errorInfo.reasonCode || ''
     throw error
   }
 

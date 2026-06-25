@@ -24,6 +24,12 @@ from app.tenancy.models import SessionPrincipal
 from app.tenancy.security import hash_user_reference
 from app.tenancy.services import TenantAccessError, TenantAccessService
 
+WEB_CHAT_USAGE_LIMIT_MESSAGE = (
+    "Servizio non disponibile: hai superato il limite di utilizzo previsto. "
+    "Contatta l'amministratore o l'assistenza di sistema."
+)
+USAGE_LIMIT_REASON_CODES = {"daily_message_limit", "daily_token_limit"}
+
 
 @dataclass
 class WebChatSessionContext:
@@ -146,7 +152,19 @@ class AuthService:
         try:
             self._ensure_origin_allowed(tenant.allowed_origins, origin)
             tenant_context = self.access.require_tenant_allowed(tenant.id)
-        except (TokenValidationError, TenantAccessError) as exc:
+        except TokenValidationError as exc:
+            raise TenantAccessError(
+                "Servizio momentaneamente non disponibile.",
+                reason_code="web_chat_unavailable",
+                status_code=503,
+            ) from exc
+        except TenantAccessError as exc:
+            if exc.reason_code in USAGE_LIMIT_REASON_CODES:
+                raise TenantAccessError(
+                    WEB_CHAT_USAGE_LIMIT_MESSAGE,
+                    reason_code=exc.reason_code,
+                    status_code=429,
+                ) from exc
             raise TenantAccessError(
                 "Servizio momentaneamente non disponibile.",
                 reason_code=getattr(exc, "reason_code", "web_chat_unavailable"),

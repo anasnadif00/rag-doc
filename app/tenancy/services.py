@@ -21,6 +21,13 @@ class TenantAccessError(RuntimeError):
         self.status_code = status_code
 
 
+QUOTA_EXCEEDED_STATUS = "quota_exceeded"
+QUOTA_REASON_MESSAGES = {
+    "daily_message_limit": "Quota giornaliera messaggi esaurita per il tenant.",
+    "daily_token_limit": "Quota giornaliera token esaurita per il tenant.",
+}
+
+
 @dataclass
 class UsageSnapshot:
     usage_date: date
@@ -48,7 +55,7 @@ class TenantAccessService:
         tenant = self.tenants.get_tenant(tenant_id)
         if tenant is None:
             raise TenantAccessError("Tenant non trovato.", reason_code="tenant_not_found", status_code=404)
-        if tenant.status not in {"active"}:
+        if tenant.status not in {"active", QUOTA_EXCEEDED_STATUS}:
             raise TenantAccessError(
                 "Tenant non abilitato all'uso del chatbot.",
                 reason_code=f"tenant_{tenant.status}",
@@ -66,27 +73,51 @@ class TenantAccessService:
         tenant = self.require_active_tenant(tenant_id)
         context = self.tenants.to_context(tenant)
         usage_row = self.usage.get_daily_usage(tenant.id, datetime.utcnow().date())
-        if usage_row and context.daily_message_limit and usage_row.messages_in >= context.daily_message_limit:
-            tenant.status = "quota_exceeded"
-            self.session.add(tenant)
-            self.session.commit()
+        quota_reason = self._quota_reason(context, usage_row)
+        if quota_reason:
+            self._set_quota_status(tenant, QUOTA_EXCEEDED_STATUS)
             raise TenantAccessError(
-                "Quota giornaliera messaggi esaurita per il tenant.",
-                reason_code="daily_message_limit",
+                QUOTA_REASON_MESSAGES[quota_reason],
+                reason_code=quota_reason,
                 status_code=429,
             )
+        if tenant.status == QUOTA_EXCEEDED_STATUS:
+            self._set_quota_status(tenant, "active")
+            context = self.tenants.to_context(tenant)
+        return context
+
+    def refresh_quota_status(self, tenant: Tenant) -> TenantContext:
+        context = self.tenants.to_context(tenant)
+        if tenant.status not in {"active", QUOTA_EXCEEDED_STATUS}:
+            return context
+        usage_row = self.usage.get_daily_usage(tenant.id, datetime.utcnow().date())
+        quota_reason = self._quota_reason(context, usage_row)
+        if quota_reason:
+            self._set_quota_status(tenant, QUOTA_EXCEEDED_STATUS, commit=False)
+            return self.tenants.to_context(tenant)
+        if tenant.status == QUOTA_EXCEEDED_STATUS:
+            self._set_quota_status(tenant, "active", commit=False)
+            return self.tenants.to_context(tenant)
+        return context
+
+    def _quota_reason(self, context: TenantContext, usage_row) -> str | None:
+        if usage_row and context.daily_message_limit and usage_row.messages_in >= context.daily_message_limit:
+            return "daily_message_limit"
         if usage_row:
             total_tokens = usage_row.prompt_tokens + usage_row.completion_tokens
             if context.daily_token_limit and total_tokens >= context.daily_token_limit:
-                tenant.status = "quota_exceeded"
-                self.session.add(tenant)
-                self.session.commit()
-                raise TenantAccessError(
-                    "Quota giornaliera token esaurita per il tenant.",
-                    reason_code="daily_token_limit",
-                    status_code=429,
-                )
-        return context
+                return "daily_token_limit"
+        return None
+
+    def _set_quota_status(self, tenant: Tenant, status: str, *, commit: bool = True) -> None:
+        if tenant.status == status:
+            return
+        tenant.status = status
+        self.session.add(tenant)
+        if commit:
+            self.session.commit()
+        else:
+            self.session.flush()
 
 
 class QuotaService:
@@ -171,7 +202,7 @@ class QuotaService:
                 tenant.license.daily_token_limit
                 and total_tokens >= tenant.license.daily_token_limit
             ):
-                tenant.status = "quota_exceeded"
+                tenant.status = QUOTA_EXCEEDED_STATUS
                 self.session.add(tenant)
         self.session.commit()
         return UsageSnapshot(

@@ -464,6 +464,54 @@ def test_web_chat_session_uses_default_tenant_cookie(monkeypatch, tmp_path: Path
         assert after_close.status_code == 401
 
 
+def test_web_chat_quota_error_and_license_increase_reactivation(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path, web_chat_default_tenant_code="web-chat") as client:
+        _login_admin(client)
+        tenant = _create_tenant(
+            client,
+            tenant_code="web-chat",
+            display_name="Assistenza clienti",
+            issuer="urn:web-chat",
+        )
+        limited = client.patch(
+            f"/v1/admin/tenants/{tenant['id']}/license",
+            json={"daily_message_limit": 1},
+        )
+        assert limited.status_code == 200, limited.text
+
+        started = client.post("/v1/chat/web/session")
+        assert started.status_code == 200, started.text
+        ticket = client.post("/v1/chat/ws-ticket")
+        assert ticket.status_code == 200, ticket.text
+
+        with patch(
+            "app.chat.service.TenantAwareRAGService.run_chat_request",
+            return_value=_sample_query_response(),
+        ):
+            with client.websocket_connect(f"/v1/chat/ws?ticket={ticket.json()['ticket']}") as websocket:
+                ready = websocket.receive_json()
+                assert ready["type"] == "ready"
+                websocket.send_json({"message": "Come creo una fattura?", "screen_context": {}})
+                final = websocket.receive_json()
+                assert final["type"] == "final"
+                assert final["usage"]["messages_in"] == 1
+
+        blocked = client.post("/v1/chat/web/session")
+        assert blocked.status_code == 429
+        assert blocked.headers["x-reason-code"] == "daily_message_limit"
+        assert "limite di utilizzo" in blocked.json()["detail"]
+
+        raised_limit = client.patch(
+            f"/v1/admin/tenants/{tenant['id']}/license",
+            json={"daily_message_limit": 1000},
+        )
+        assert raised_limit.status_code == 200, raised_limit.text
+        assert raised_limit.json()["status"] == "active"
+
+        restarted = client.post("/v1/chat/web/session")
+        assert restarted.status_code == 200, restarted.text
+
+
 def test_web_chat_session_returns_graceful_message_when_default_tenant_is_missing(monkeypatch, tmp_path: Path):
     with _configure_platform(monkeypatch, tmp_path, web_chat_default_tenant_code="web-chat") as client:
         response = client.post("/v1/chat/web/session")

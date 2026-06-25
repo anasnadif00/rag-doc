@@ -392,8 +392,9 @@ function ChatPage() {
             title="Nuova conversazione"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20 11a8 8 0 1 0-2.3 5.7" />
-              <path d="M20 5v6h-6" />
+              <path d="M5 6.5A4.5 4.5 0 0 1 9.5 2h5A4.5 4.5 0 0 1 19 6.5v4A4.5 4.5 0 0 1 14.5 15H10l-5 4v-4.5A4.5 4.5 0 0 1 5 6.5Z" />
+              <path d="M12 6v5" />
+              <path d="M9.5 8.5h5" />
             </svg>
           </GhostButton>
         }

@@ -387,15 +387,16 @@ function ChatPage() {
             className="chat-new-button"
             onClick={() => void handleRestart()}
             disabled={busyAction === "start"}
-            aria-label="Nuova conversazione"
-            data-tooltip="Nuova conversazione"
-            title="Nuova conversazione"
+            aria-label="Nuova chat"
+            title="Nuova chat"
           >
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 6.5A4.5 4.5 0 0 1 9.5 2h5A4.5 4.5 0 0 1 19 6.5v4A4.5 4.5 0 0 1 14.5 15H10l-5 4v-4.5A4.5 4.5 0 0 1 5 6.5Z" />
-              <path d="M12 6v5" />
-              <path d="M9.5 8.5h5" />
+              <path d="M6.5 3.75h7.75L19.25 8.75v8.75a2.75 2.75 0 0 1-2.75 2.75h-10a2.75 2.75 0 0 1-2.75-2.75v-11a2.75 2.75 0 0 1 2.75-2.75Z" />
+              <path d="M14 4v4.25h4.25" />
+              <path d="M8 11h4" />
+              <path d="M8 15.75l5.65-5.65a1.35 1.35 0 0 1 1.9 1.9L9.9 17.65l-2.25.7.7-2.6Z" />
             </svg>
+            <span>Nuova chat</span>
           </GhostButton>
         }
       >

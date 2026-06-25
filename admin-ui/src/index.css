@@ -464,6 +464,7 @@ a {
   background: color-mix(in srgb, var(--surface) 92%, var(--surface-soft));
   font-weight: 500;
   white-space: nowrap;
+  margin-top: 2.75rem;
 }
 
 .chat-new-button:hover {
@@ -477,7 +478,6 @@ a {
   stroke-width: 1.85;
   stroke-linecap: round;
   stroke-linejoin: round;
-  margin-top: 0.5rem;
 }
 
 .chat-composer textarea {

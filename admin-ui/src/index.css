@@ -129,12 +129,16 @@ body {
   margin: 0;
   color: var(--text-body);
   background: var(--page-base);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+    "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: color 180ms ease, background-color 180ms ease;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
 }
 
 button,
@@ -192,7 +196,11 @@ a {
 
 .app-hero {
   border-color: var(--accent-border);
-  background: linear-gradient(135deg, var(--surface) 18%, var(--accent-soft) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--surface) 18%,
+    var(--accent-soft) 100%
+  );
   box-shadow: 0 18px 54px var(--shadow-strong);
 }
 
@@ -278,7 +286,11 @@ a {
   color: var(--accent-text);
   border: 1px solid var(--accent-border);
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--surface) 5%, var(--accent-soft) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--surface) 5%,
+    var(--accent-soft) 100%
+  );
   box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 10%, transparent);
   font-size: 0.72em;
   font-weight: 700;
@@ -326,7 +338,8 @@ a {
     );
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
-  scrollbar-color: color-mix(in srgb, var(--accent) 58%, var(--border)) transparent;
+  scrollbar-color: color-mix(in srgb, var(--accent) 58%, var(--border))
+    transparent;
   scrollbar-width: thin;
 }
 
@@ -352,7 +365,8 @@ a {
 }
 
 .chat-messages::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--accent), var(--accent-text)) padding-box;
+  background: linear-gradient(180deg, var(--accent), var(--accent-text))
+    padding-box;
 }
 
 .chat-conversation {
@@ -369,7 +383,8 @@ a {
   border: 1px solid color-mix(in srgb, var(--border) 82%, transparent);
   border-radius: 1.25rem;
   background: color-mix(in srgb, var(--surface) 82%, transparent);
-  box-shadow: 0 8px 28px color-mix(in srgb, var(--shadow-strong) 68%, transparent);
+  box-shadow: 0 8px 28px
+    color-mix(in srgb, var(--shadow-strong) 68%, transparent);
   -webkit-backdrop-filter: saturate(145%) blur(14px);
   backdrop-filter: saturate(145%) blur(14px);
 }
@@ -380,7 +395,8 @@ a {
   padding: 0.85rem 1.1rem;
   border-radius: 1.125rem;
   color: var(--text-strong);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--shadow-strong) 55%, transparent);
+  box-shadow: 0 4px 14px
+    color-mix(in srgb, var(--shadow-strong) 55%, transparent);
 }
 
 .chat-message--assistant {
@@ -461,6 +477,7 @@ a {
   stroke-width: 1.85;
   stroke-linecap: round;
   stroke-linejoin: round;
+  margin-top: 0.5rem;
 }
 
 .chat-composer textarea {
@@ -619,7 +636,10 @@ select option {
   background: var(--surface-inset);
   box-shadow: inset 0 1px 3px var(--shadow);
   cursor: pointer;
-  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
 }
 
 .theme-toggle:hover {
@@ -636,7 +656,9 @@ select option {
   height: 1.65rem;
   place-items: center;
   transform: translateY(-50%);
-  transition: color 160ms ease, opacity 160ms ease;
+  transition:
+    color 160ms ease,
+    opacity 160ms ease;
 }
 
 .theme-toggle__symbol--sun {
@@ -704,7 +726,9 @@ select option {
   opacity: 0;
   pointer-events: none;
   transform: translateY(-0.2rem);
-  transition: opacity 140ms ease, transform 140ms ease;
+  transition:
+    opacity 140ms ease,
+    transform 140ms ease;
 }
 
 .theme-toggle:hover::after,

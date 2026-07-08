@@ -37,7 +37,7 @@ class SessionPrincipal(BaseModel):
 
 
 class AdminPrincipal(BaseModel):
-    subject: str = "provider-admin"
+    subject: str = "provider-admin"   
     user_id: str | None = None
     username: str = "admin"
     display_name: str = "Amministratore"

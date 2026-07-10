@@ -54,7 +54,7 @@ class TenantAwareRAGService(QueryService):
                 answer="Mi serve piu contesto per capire su quale procedura ERP devo guidarti.",
                 steps=[],
                 citations=[],
-                follow_up_question="Quale operazione vuoi completare e in quale schermata o modulo ti trovi?",
+                follow_up_question="Quale operazione vuoi completare, oppure quale campo, documento o errore vuoi gestire?",
                 confidence=0.1,
                 used_screen_context=summary,
                 redaction_notice=redaction.notice,
@@ -88,7 +88,7 @@ class TenantAwareRAGService(QueryService):
                 ),
                 steps=[],
                 citations=[],
-                follow_up_question="Puoi indicarmi il modulo, la schermata o l'errore preciso che stai vedendo?",
+                follow_up_question="Puoi indicarmi l'operazione, il campo, il documento o il testo dell'errore che vuoi gestire?",
                 confidence=0.15,
                 used_screen_context=summary,
                 redaction_notice=redaction.notice,
@@ -116,7 +116,7 @@ class TenantAwareRAGService(QueryService):
         )
         answer_mode = self._resolve_answer_mode(generated, sources, allow_inferred_guidance)
         if answer_mode == "clarification" and not generated.follow_up_question:
-            generated.follow_up_question = "Mi indichi il nome esatto della schermata o il testo dell'errore?"
+            generated.follow_up_question = "Mi indichi l'operazione, il campo, il documento o il testo dell'errore da gestire?"
 
         if answer_mode == "partial_inference" and not generated.inference_notice:
             generated.inference_notice = (

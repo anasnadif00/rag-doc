@@ -9,6 +9,7 @@ from app.api.main import app
 from app.chat.schemas import ConversationMessage
 from app.chat.service import TenantAwareRAGService
 from app.core.config import Settings
+from app.core.prompts import ERP_SYSTEM_PROMPT, build_user_prompt
 from app.domain.schemas import (
     FieldContext,
     GeneratedAnswer,
@@ -194,6 +195,55 @@ def write_lexical_index(path: Path, entries: list[dict]) -> None:
     path.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def assert_browser_friendly_clarification(question: str | None) -> None:
+    assert question is not None
+    lowered = question.lower()
+    assert "operazione" in lowered
+    assert "schermata o modulo" not in lowered
+    assert "in quale schermata" not in lowered
+    assert "nome esatto della schermata" not in lowered
+
+
+def test_prompt_marks_missing_browser_screen_context_as_expected():
+    prompt = build_user_prompt(
+        message="Come creo un ordine?",
+        screen_context=ScreenContext(),
+        query_plan=make_query_plan(
+            semantic_query="Come creo un ordine?",
+            lexical_query_terms=["creo", "ordine"],
+            soft_signals={
+                "module": [],
+                "submenu": [],
+                "screen_id": [],
+                "screen_title": [],
+                "tab_name": [],
+                "field_labels": [],
+                "error_codes": [],
+                "aliases": [],
+            },
+        ),
+        sources=[make_query_source(screen_id=None, screen_title=None, tab_name=None)],
+        max_context_chars=6000,
+    )
+
+    assert "Contesto browser e maschere" in ERP_SYSTEM_PROMPT
+    assert "Non pretendere che l'utente conosca" in ERP_SYSTEM_PROMPT
+    assert "Nota sul contesto browser" in prompt
+    assert "module, screen_title, screen_id e tab_name possono mancare" in prompt
+    assert "Non richiedere la maschera esatta" in prompt
+
+
+def test_query_service_short_empty_context_clarification_is_browser_friendly():
+    service = object.__new__(QueryService)
+    service.settings = make_settings()
+    request = make_query_request(message="Aiuto", screen_context=ScreenContext())
+
+    response = service.run(request)
+
+    assert response.answer_mode == "clarification"
+    assert_browser_friendly_clarification(response.follow_up_question)
+
+
 def test_query_endpoint_success():
     expected = QueryResponse(
         answer="Apri Fatture e compila Cliente e Data documento.",
@@ -356,6 +406,28 @@ def test_query_service_forces_clarification_when_inference_not_allowed():
         assert response.answer_mode == "clarification"
         assert response.steps == []
         assert response.follow_up_question is not None
+
+
+def test_query_service_default_generated_clarification_is_browser_friendly():
+    service = object.__new__(QueryService)
+    service.settings = make_settings()
+    service.retrieval_router = Mock()
+    service.retrieval_router.search.return_value = (make_query_plan(), [make_query_source(role_scope=[])])
+    service.retrieval_router.last_diagnostics = None
+    service.generator = Mock()
+    service.generator.generate.return_value = GeneratedAnswer(
+        answer="Mi serve un dettaglio in piu.",
+        steps=[],
+        confidence=0.2,
+        answer_mode="clarification",
+        follow_up_question=None,
+    )
+
+    response = service.run(make_query_request())
+
+    assert response.answer_mode == "clarification"
+    assert response.steps == []
+    assert_browser_friendly_clarification(response.follow_up_question)
 
 
 def test_retrieval_router_prefers_screen_how_to_over_global_doc(tmp_path: Path):
@@ -601,6 +673,17 @@ def test_tenant_chat_counts_reranker_and_generation_tokens():
     assert search_kwargs["additional_retrievers"] == [
         ("tenant_overlay", service.overlay_retriever)
     ]
+
+
+def test_tenant_chat_short_empty_context_clarification_is_browser_friendly():
+    service = object.__new__(TenantAwareRAGService)
+    service.settings = make_settings()
+    request = make_query_request(message="Aiuto", screen_context=ScreenContext())
+
+    response = service.run_chat_request(request, conversation_history=[])
+
+    assert response.answer_mode == "clarification"
+    assert_browser_friendly_clarification(response.follow_up_question)
 
 
 def test_retrieval_router_semantic_rerank_overrides_screen_context(tmp_path: Path):

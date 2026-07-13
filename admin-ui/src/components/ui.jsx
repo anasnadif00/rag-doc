@@ -285,7 +285,6 @@ export function ThemeToggle({ theme, onToggle }) {
       aria-checked={isDark}
       aria-label={tooltip}
       data-tooltip={tooltip}
-      title={tooltip}
     >
       <span
         className="theme-toggle__symbol theme-toggle__symbol--sun"

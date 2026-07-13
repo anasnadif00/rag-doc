@@ -58,6 +58,8 @@ html[data-theme="light"] {
   --danger-text: #a12b43;
   --danger-soft: #fff1f3;
   --danger-border: #f1c2cb;
+  --tooltip-bg: #1d1d1f;
+  --tooltip-text: #ffffff;
 }
 
 html[data-theme="dark"] {
@@ -88,6 +90,8 @@ html[data-theme="dark"] {
   --danger-text: #ff9eae;
   --danger-soft: #401f27;
   --danger-border: #71404a;
+  --tooltip-bg: #303034;
+  --tooltip-text: #f5f5f7;
 }
 
 * {
@@ -716,9 +720,9 @@ select option {
   right: 0;
   width: max-content;
   padding: 0.4rem 0.6rem;
-  color: var(--accent-contrast);
+  color: var(--tooltip-text);
   border-radius: 0.5rem;
-  background: var(--text-strong);
+  background: var(--tooltip-bg);
   box-shadow: 0 5px 16px var(--shadow-strong);
   content: attr(data-tooltip);
   font-size: 0.68rem;

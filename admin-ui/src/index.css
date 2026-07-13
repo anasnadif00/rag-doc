@@ -645,6 +645,7 @@ select option {
 .theme-toggle:hover {
   border-color: var(--border-strong);
   background: var(--surface-hover);
+  color: var(--text-strong);
 }
 
 .theme-toggle__symbol {

@@ -29,7 +29,7 @@ def get_session_factory(database_url: str | None = None) -> sessionmaker[Session
 
 def init_db() -> None:
     from app.auth.passwords import hash_password
-    from app.persistence.models import AdminUser, AuditEvent, ChatSession, ModelConfiguration, Tenant, TenantAuthKey, TenantLicense, UsageDaily, UsageEvent
+    from app.persistence.models import AdminUser, AuditEvent, ChatSession, ModelConfiguration, Tenant, TenantAuthKey, TenantLicense, TenantUsers, UsageDaily, UsageEvent
     from app.persistence.repositories import AdminUserRepository
 
     settings = get_settings()

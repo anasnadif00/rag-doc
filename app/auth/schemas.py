@@ -54,6 +54,12 @@ class AdminLoginRequest(BaseModel):
     password: str = Field(..., min_length=1, max_length=255)
 
 
+class ChatLoginRequest(BaseModel):
+    tenant_code: str = Field(..., min_length=2, max_length=100)
+    username: str = Field(..., min_length=1, max_length=100)
+    password: str = Field(..., min_length=1, max_length=255)
+
+
 class AdminSessionClaims(BaseModel):
     iss: str
     aud: str
@@ -73,6 +79,21 @@ class AdminSessionResponse(BaseModel):
 class AdminSessionInfoResponse(BaseModel):
     username: str
     display_name: str
+
+
+class ChatSessionInfoResponse(BaseModel):
+    authenticated: bool
+    session_id: str
+    tenant_id: str
+    tenant_code: str
+    tenant_display_name: str
+    username: str
+    display_name: str
+    expires_at: datetime
+
+
+class ChatSessionResponse(ChatSessionInfoResponse):
+    pass
 
 
 class WSTicketResponse(BaseModel):

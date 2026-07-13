@@ -12,10 +12,12 @@ from fastapi.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
 
 from app.api.main import create_app
+from app.auth.passwords import hash_password
 from app.core.config import get_settings
 from app.core.runtime_config import get_runtime_settings
 from app.domain.schemas import QueryResponse, ScreenContext, ScreenContextSummary
 from app.persistence.db import get_engine, get_session_factory
+from app.persistence.repositories import TenantUsersRepository
 from app.tenancy.cache import get_state_store
 from app.tenancy.security import hash_user_reference
 
@@ -121,6 +123,23 @@ def _bootstrap(client: TestClient, private_key_pem: str, tenant: dict, user_id: 
     response = client.post("/v1/auth/bootstrap", json={"bootstrap_token": token})
     assert response.status_code == 200, response.text
     return response.json()
+
+
+def _create_tenant_user(
+    tenant_id: str,
+    *,
+    username: str = "mario.rossi",
+    display_name: str = "Mario Rossi",
+    password: str = "Password123!",
+) -> None:
+    with get_session_factory()() as session:
+        TenantUsersRepository(session).create_user(
+            tenant_id=tenant_id,
+            username=username,
+            display_name=display_name,
+            password_hash=hash_password(password),
+        )
+        session.commit()
 
 
 def _sample_query_response() -> QueryResponse:
@@ -434,6 +453,74 @@ def test_admin_login_rejects_invalid_password(monkeypatch, tmp_path: Path):
         response = client.post("/v1/admin-auth/login", json={"username": "admin", "password": "password-sbagliata"})
         assert response.status_code == 401
         assert response.json()["detail"] == "Credenziali non valide."
+
+
+def test_chat_auth_login_sets_chat_cookie_and_me_uses_tenant_user(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        tenant = _create_tenant(client)
+        _create_tenant_user(tenant["id"])
+
+        anonymous = client.get("/v1/chat-auth/me")
+        assert anonymous.status_code == 401
+
+        login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": "Password123!"},
+        )
+        assert login.status_code == 200, login.text
+        login_payload = login.json()
+        assert login_payload["authenticated"] is True
+        assert login_payload["tenant_code"] == "acme"
+        assert login_payload["username"] == "mario.rossi"
+        assert login_payload["display_name"] == "Mario Rossi"
+        assert get_settings().chat_session_cookie_name in client.cookies
+
+        me = client.get("/v1/chat-auth/me")
+        assert me.status_code == 200, me.text
+        assert me.json()["display_name"] == "Mario Rossi"
+
+        ticket = client.post("/v1/chat/ws-ticket")
+        assert ticket.status_code == 200, ticket.text
+        assert ticket.json()["ticket"]
+
+        logout = client.post("/v1/chat-auth/logout")
+        assert logout.status_code == 204
+
+        after_logout = client.get("/v1/chat-auth/me")
+        assert after_logout.status_code == 401
+
+
+def test_chat_auth_login_rejects_invalid_credentials(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        tenant = _create_tenant(client)
+        _create_tenant_user(tenant["id"])
+
+        response = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": "sbagliata"},
+        )
+        assert response.status_code == 401
+        assert response.headers["x-reason-code"] == "invalid_credentials"
+        assert response.json()["detail"] == "Credenziali non valide."
+
+
+def test_auth_bootstrap_sets_chat_cookie(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        private_key_pem, public_key_pem = _generate_keypair()
+        tenant = _create_tenant(client, public_key_pem)
+        token = _bootstrap_token(private_key_pem, tenant)
+
+        response = client.post("/v1/auth/bootstrap", json={"bootstrap_token": token})
+        assert response.status_code == 200, response.text
+        assert response.json()["tenant_code"] == "acme"
+        assert get_settings().chat_session_cookie_name in client.cookies
+
+        me = client.get("/v1/chat-auth/me")
+        assert me.status_code == 200, me.text
+        assert me.json()["username"] == "mario.rossi"
 
 
 def test_web_chat_session_uses_default_tenant_cookie(monkeypatch, tmp_path: Path):

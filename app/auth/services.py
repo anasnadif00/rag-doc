@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 
 from sqlalchemy.orm import Session
 
+from app.auth.passwords import hash_password, needs_rehash, verify_password
 from app.auth.schemas import BootstrapRequest, BootstrapResponse, SessionClaims, WSTicketPayload, WSTicketResponse
 from app.auth.tokens import (
     TokenValidationError,
@@ -18,7 +19,7 @@ from app.auth.tokens import (
     read_unverified_header,
 )
 from app.core.config import Settings
-from app.persistence.repositories import AuditRepository, ChatSessionRepository, TenantRepository
+from app.persistence.repositories import AuditRepository, ChatSessionRepository, TenantRepository, TenantUsersRepository
 from app.tenancy.cache import AsyncStateStore
 from app.tenancy.models import SessionPrincipal
 from app.tenancy.security import hash_user_reference
@@ -39,12 +40,38 @@ class WebChatSessionContext:
     expires_in: int
 
 
+@dataclass
+class ChatAuthSessionContext:
+    session_id: str
+    access_token: str
+    tenant_id: str
+    tenant_code: str
+    tenant_display_name: str
+    username: str
+    display_name: str
+    expires_at: datetime
+
+
+class ChatAuthenticationError(RuntimeError):
+    def __init__(
+        self,
+        message: str = "Credenziali non valide.",
+        *,
+        status_code: int = 401,
+        reason_code: str = "invalid_credentials",
+    ) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+        self.reason_code = reason_code
+
+
 class AuthService:
     def __init__(self, session: Session, settings: Settings, state_store: AsyncStateStore) -> None:
         self.session = session
         self.settings = settings
         self.state_store = state_store
         self.tenants = TenantRepository(session, settings)
+        self.tenant_users = TenantUsersRepository(session)
         self.sessions = ChatSessionRepository(session)
         self.audit = AuditRepository(session)
         self.access = TenantAccessService(session, settings, audit_repository=self.audit)
@@ -208,6 +235,86 @@ class AuthService:
             expires_in=self.settings.session_ttl_seconds,
         )
 
+    def login_chat_user(
+        self,
+        *,
+        tenant_code: str,
+        username: str,
+        password: str,
+        origin: str | None = None,
+    ) -> ChatAuthSessionContext:
+        self._ensure_security_configured()
+        cleaned_tenant_code = tenant_code.strip()
+        cleaned_username = username.strip()
+        tenant = self.tenants.get_tenant_by_code(cleaned_tenant_code)
+        if tenant is None:
+            self._record_chat_login_attempt(
+                tenant_id=None,
+                username=cleaned_username,
+                decision="deny",
+                reason_code="tenant_not_found",
+            )
+            raise ChatAuthenticationError()
+
+        self._ensure_origin_allowed(tenant.allowed_origins, origin)
+        tenant_context = self.access.require_tenant_allowed(tenant.id)
+        user = self.tenant_users.get_active_user(tenant.id, cleaned_username)
+        user_ref_hash = hash_user_reference(tenant.id, cleaned_username, self.settings.user_hash_salt)
+        if user is None or not verify_password(user.password_hash, password):
+            self._record_chat_login_attempt(
+                tenant_id=tenant.id,
+                username=cleaned_username,
+                user_ref_hash=user_ref_hash,
+                resource_id=user.id if user else None,
+                decision="deny",
+                reason_code="invalid_credentials",
+            )
+            raise ChatAuthenticationError()
+
+        if needs_rehash(user.password_hash):
+            user.password_hash = hash_password(password)
+            self.tenant_users.save(user)
+
+        chat_session = self.sessions.create_session(
+            tenant_id=tenant.id,
+            user_ref_hash=user_ref_hash,
+            mask_id=None,
+            screen_id=None,
+            client_type="web_portal",
+        )
+        access_token, expires_at = issue_session_token(
+            self.settings,
+            tenant_id=tenant.id,
+            user_id=user.username,
+            session_id=chat_session.id,
+            roles=[],
+            mask_id=None,
+            mask_permissions=["chat:use"],
+            company_code=None,
+        )
+        self.audit.record(
+            tenant_id=tenant.id,
+            session_id=chat_session.id,
+            user_ref_hash=user_ref_hash,
+            actor_type="tenant_user",
+            action="login",
+            resource_type="tenant_user",
+            resource_id=user.id,
+            decision="allow",
+            metadata_json={"username": user.username},
+        )
+        self.session.commit()
+        return ChatAuthSessionContext(
+            session_id=chat_session.id,
+            access_token=access_token,
+            tenant_id=tenant.id,
+            tenant_code=tenant_context.tenant_code,
+            tenant_display_name=tenant_context.display_name,
+            username=user.username,
+            display_name=user.display_name,
+            expires_at=expires_at,
+        )
+
     def _principal_from_claims(self, claims: SessionClaims) -> SessionPrincipal:
         tenant_context = self.access.require_tenant_allowed(claims.tid)
         chat_session = self.sessions.get_session(claims.sid)
@@ -237,6 +344,30 @@ class AuthService:
             return
         if origin not in allowed_origins:
             raise TokenValidationError("Origine non autorizzata per il tenant.")
+
+    def _record_chat_login_attempt(
+        self,
+        *,
+        tenant_id: str | None,
+        username: str,
+        decision: str,
+        user_ref_hash: str | None = None,
+        resource_id: str | None = None,
+        reason_code: str | None = None,
+    ) -> None:
+        self.audit.record(
+            tenant_id=tenant_id,
+            session_id=None,
+            user_ref_hash=user_ref_hash,
+            actor_type="tenant_user",
+            action="login",
+            resource_type="tenant_user",
+            resource_id=resource_id,
+            decision=decision,
+            reason_code=reason_code,
+            metadata_json={"username": username},
+        )
+        self.session.commit()
 
 
 class WSTicketService:

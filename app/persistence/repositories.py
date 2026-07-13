@@ -8,7 +8,7 @@ from sqlalchemy import desc, select
 from sqlalchemy.orm import Session
 
 from app.core.config import Settings
-from app.persistence.models import AdminUser, AuditEvent, ChatSession, ModelConfiguration, Tenant, TenantAuthKey, TenantLicense, UsageDaily, UsageEvent
+from app.persistence.models import AdminUser, AuditEvent, ChatSession, ModelConfiguration, Tenant, TenantAuthKey, TenantLicense, TenantUsers, UsageDaily, UsageEvent
 from app.tenancy.models import TenantContext
 
 
@@ -394,3 +394,104 @@ class AuditRepository:
         self.session.add(event)
         self.session.flush()
         return event
+
+
+class TenantUsersRepository:
+    def __init__(self, session: Session) -> None:
+        self.session = session
+
+    def list_users(self, tenant_id: str) -> list[TenantUsers]:
+        return list(
+            self.session.scalars(
+                select(TenantUsers)
+                .where(TenantUsers.tenant_id == tenant_id)
+                .order_by(desc(TenantUsers.created_at))
+            )
+        )
+
+    def get_by_id(self, tenant_id: str, user_id: str) -> TenantUsers | None:
+        return self.session.scalar(
+            select(TenantUsers).where(
+                TenantUsers.tenant_id == tenant_id,
+                TenantUsers.id == user_id,
+            )
+        )
+
+    def get_by_username(self, tenant_id: str, username: str) -> TenantUsers | None:
+        return self.session.scalar(
+            select(TenantUsers).where(
+                TenantUsers.tenant_id == tenant_id,
+                TenantUsers.username == username,
+            )
+        )
+
+    def get_user(self, tenant_id: str, username: str) -> TenantUsers | None:
+        return self.get_by_username(tenant_id, username)
+
+    def get_active_user(self, tenant_id: str, username: str) -> TenantUsers | None:
+        user = self.get_by_username(tenant_id, username)
+        if user is None or user.status != "active":
+            return None
+        if user.expires_at is not None and user.expires_at <= datetime.utcnow():
+            return None
+        return user
+
+    def create_user(
+        self,
+        *,
+        tenant_id: str,
+        username: str,
+        display_name: str,
+        password_hash: str,
+        status: str = "active",
+        expires_at: datetime | None = None,
+    ) -> TenantUsers:
+        user = TenantUsers(
+            tenant_id=tenant_id,
+            username=username,
+            display_name=display_name,
+            password_hash=password_hash,
+            status=status,
+            expires_at=expires_at,
+        )
+        self.session.add(user)
+        self.session.flush()
+        return user
+
+    def update_user(
+        self,
+        user: TenantUsers,
+        *,
+        display_name: str | None = None,
+        status: str | None = None,
+        expires_at: datetime | None = None,
+    ) -> TenantUsers:
+        if display_name is not None:
+            user.display_name = display_name
+        if status is not None:
+            user.status = status
+        if expires_at is not None:
+            user.expires_at = expires_at
+        return self.save(user)
+
+    def rotate_password(
+        self,
+        user: TenantUsers,
+        *,
+        password_hash: str,
+        expires_at: datetime | None = None,
+    ) -> TenantUsers:
+        user.password_hash = password_hash
+        user.rotated_at = datetime.utcnow()
+        if expires_at is not None:
+            user.expires_at = expires_at
+        return self.save(user)
+
+    def set_status(self, user: TenantUsers, status: str) -> TenantUsers:
+        user.status = status
+        return self.save(user)
+
+    def save(self, user: TenantUsers) -> TenantUsers:
+        self.session.add(user)
+        self.session.flush()
+        return user

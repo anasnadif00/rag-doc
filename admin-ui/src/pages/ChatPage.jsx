@@ -13,10 +13,8 @@ import {
   TextArea,
 } from "../components/ui.jsx";
 import {
-  closeChatSession,
   createWebSocketUrl,
   issueWsTicket,
-  startWebChatSession,
 } from "../lib/api.js";
 import { normalizeBaseUrl } from "../lib/dashboard.js";
 
@@ -121,7 +119,7 @@ function AssistantThinking() {
   );
 }
 
-function ChatPage() {
+function ChatPage({ chatSession, onLogout, onSessionExpired }) {
   const socketRef = useRef(null);
   const composerRef = useRef(null);
   const formRef = useRef(null);
@@ -236,12 +234,22 @@ function ChatPage() {
     setIsGenerating(false);
     setMessages([]);
 
+    if (!chatSession?.session_id) {
+      setBusyAction("");
+      onSessionExpired();
+      return;
+    }
+
+
     try {
-      const sessione = await startWebChatSession(API_BASE_URL);
-      setSessionId(sessione.session_id);
+      setSessionId(chatSession.session_id);
       await openSocket();
     } catch (error) {
       setSessionId(null);
+      if (error.status === 401) {
+        onSessionExpired();
+        return;
+      }
       setServiceUnavailable(resolveUnavailableMessage(error));
       setChatStatus(resolveUnavailableStatus(error));
     } finally {
@@ -356,16 +364,18 @@ function ChatPage() {
     };
   }
 
-  async function handleRestart() {
-    if (sessionId) {
-      try {
-        await closeChatSession(API_BASE_URL, sessionId);
-      } catch {
-        // Ignore close errors and start a fresh session anyway.
-      }
+  async function handleLogout() {
+    setBusyAction("logout");
+    try {
+      await onLogout();
+    } finally {
+      setBusyAction("");
     }
+  }
+
+  async function handleRestart() {
     closeSocket("chat-page-new-session");
-    setSessionId(null);
+    setSessionId(chatSession?.session_id || sessionId || null);
     await avviaConversazione();
   }
 
@@ -419,177 +429,196 @@ function ChatPage() {
 
   return (
     <div className="chat-page">
-      <SectionCard
-        title={
-          <span className="chat-title">
-            <span className="chat-title__name">MIA</span>
-          </span>
-        }
-        subtitle="Fai una domanda e ricevi una risposta dall'assistente virtuale."
-        className="chat-panel"
-        contentClassName="chat-panel__body"
-        actions={
-          <GhostButton
-            type="button"
-            className="chat-new-button"
-            onClick={() => void handleRestart()}
-            disabled={busyAction === "start"}
-            aria-label="Nuova chat"
-            title="Nuova chat"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 3H5.75A2.75 2.75 0 0 0 3 5.75v12.5A2.75 2.75 0 0 0 5.75 21h12.5A2.75 2.75 0 0 0 21 18.25V12" />
-              <path d="M17.9 3.55a1.55 1.55 0 0 1 2.2 2.2l-8.8 8.8a2 2 0 0 1-.86.51l-2.6.72.72-2.6a2 2 0 0 1 .51-.86Z" />
-              <path d="m16.5 4.95 2.55 2.55" />
-            </svg>
-            <span>Nuova chat</span>
-          </GhostButton>
-        }
-      >
-        <div className="chat-workspace">
-          <p
-            className="sr-only"
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            {chatStatus.title}. {chatStatus.detail}
-          </p>
-
-          <div className="chat-conversation">
-            <div className="chat-messages">
-              {serviceUnavailable ? (
-                <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
-                  {serviceUnavailable}
+        <SectionCard
+          title={
+            <span className="chat-title">
+              <span className="chat-title__name">MIA</span>
+            </span>
+          }
+          subtitle="Fai una domanda e ricevi una risposta dall'assistente virtuale."
+          className="chat-panel"
+          contentClassName="chat-panel__body"
+          actions={
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="hidden min-w-0 text-right sm:block">
+                <div className="max-w-48 truncate text-xs uppercase tracking-[0.18em] text-muted">
+                  {chatSession?.tenant_display_name || chatSession?.tenant_code || "Chat"}
                 </div>
-              ) : messages.length ? (
-                messages.map((message) => (
-                  <article
-                    key={message.id}
-                    className={`chat-message ${
-                      message.role === "user"
-                        ? "chat-message--user"
-                        : "chat-message--assistant"
-                    }`}
-                  >
-                    <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
-                      {message.role === "user" ? "Tu" : "Mia"}
-                    </div>
-                    <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
-                      {message.text}
-                    </p>
-                    {message.role === "assistant" &&
-                    Array.isArray(message.steps) &&
-                    message.steps.length ? (
-                      <ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-5 text-copy">
-                        {message.steps.map((step, index) => (
-                          <li
-                            key={`${message.id}-step-${index}`}
-                            className="whitespace-pre-wrap"
-                          >
-                            {step}
-                          </li>
-                        ))}
-                      </ol>
-                    ) : null}
-                    {message.role === "assistant" &&
-                    message.followUpQuestion ? (
-                      <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-accent-ink">
-                        Per continuare: {message.followUpQuestion}
-                      </p>
-                    ) : null}
-                    {message.role === "assistant" && message.inferenceNotice ? (
-                      <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-copy">
-                        Nota: {message.inferenceNotice}
-                      </p>
-                    ) : null}
-                  </article>
-                ))
-              ) : (
-                <div className="chat-empty">
-                  <div className="chat-empty__icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M12 3.5c.45 4.7 2.8 7.05 7.5 7.5-4.7.45-7.05 2.8-7.5 7.5-.45-4.7-2.8-7.05-7.5-7.5 4.7-.45 7.05-2.8 7.5-7.5Z" />
-                      <path d="M19 3v3M20.5 4.5h-3" />
-                    </svg>
-                  </div>
-                  <div className="chat-empty__title">
-                    {isReady ? "Come posso aiutarti?" : "Prepariamo la chat"}
-                  </div>
-                  <p className="chat-empty__copy">
-                    {isReady
-                      ? "Scrivi una richiesta qui sotto per iniziare."
-                      : "Manca solo un istante."}
-                  </p>
-                </div>
-              )}
-              {!serviceUnavailable && isGenerating ? (
-                <AssistantThinking />
-              ) : null}
-              <div ref={messagesEndRef} />
-            </div>
-
-            <form
-              ref={formRef}
-              className="chat-composer space-y-2.5"
-              onSubmit={handleSendMessage}
-            >
-              <TextArea
-                value={messageDraft}
-                rows={1}
-                placeholder="Scrivi qui la tua richiesta..."
-                disabled={!isReady || Boolean(serviceUnavailable)}
-                onChange={setMessageDraft}
-                onKeyDown={handleComposerKeyDown}
-                textareaRef={composerRef}
-                ariaDescribedBy="chat-shortcuts"
-                ariaKeyShortcuts="/ Enter Shift+Enter"
-              />
-              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex flex-wrap gap-2">
-                  <PrimaryButton
-                    type="submit"
-                    className="chat-action-button"
-                    disabled={
-                      !isReady ||
-                      Boolean(serviceUnavailable) ||
-                      isGenerating ||
-                      !messageDraft.trim()
-                    }
-                    aria-keyshortcuts="Enter"
-                  >
-                    {isGenerating ? "Elaborazione..." : "Invia"}
-                  </PrimaryButton>
-                  <GhostButton
-                    type="button"
-                    className="chat-action-button"
-                    onClick={() => setMessageDraft("")}
-                    disabled={!messageDraft}
-                  >
-                    Cancella testo
-                  </GhostButton>
-                </div>
-                <div
-                  id="chat-shortcuts"
-                  className="chat-shortcuts"
-                  aria-label="Scorciatoie da tastiera"
-                >
-                  <span>
-                    <kbd>/</kbd> Scrivi
-                  </span>
-                  <span>
-                    <kbd>Invio</kbd> Invia
-                  </span>
-                  <span>
-                    <kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo
-                  </span>
+                <div className="max-w-48 truncate text-sm text-ink">
+                  {chatSession?.display_name || chatSession?.username || "Utente"}
                 </div>
               </div>
-            </form>
+              <GhostButton
+                type="button"
+                className="chat-new-button"
+                onClick={() => void handleRestart()}
+                disabled={busyAction === "start" || busyAction === "logout"}
+                aria-label="Nuova chat"
+                title="Nuova chat"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M12 3H5.75A2.75 2.75 0 0 0 3 5.75v12.5A2.75 2.75 0 0 0 5.75 21h12.5A2.75 2.75 0 0 0 21 18.25V12" />
+                  <path d="M17.9 3.55a1.55 1.55 0 0 1 2.2 2.2l-8.8 8.8a2 2 0 0 1-.86.51l-2.6.72.72-2.6a2 2 0 0 1 .51-.86Z" />
+                  <path d="m16.5 4.95 2.55 2.55" />
+                </svg>
+                <span>Nuova chat</span>
+              </GhostButton>
+              <GhostButton
+                type="button"
+                className="chat-action-button"
+                onClick={() => void handleLogout()}
+                disabled={busyAction === "logout"}
+              >
+                {busyAction === "logout" ? "Uscita..." : "Esci"}
+              </GhostButton>
+            </div>
+          }
+        >
+          <div className="chat-workspace">
+            <p
+              className="sr-only"
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {chatStatus.title}. {chatStatus.detail}
+            </p>
+
+            <div className="chat-conversation">
+              <div className="chat-messages">
+                {serviceUnavailable ? (
+                  <div className="rounded-2xl border border-accent-soft bg-accent-soft px-5 py-5 text-sm text-accent-ink">
+                    {serviceUnavailable}
+                  </div>
+                ) : messages.length ? (
+                  messages.map((message) => (
+                    <article
+                      key={message.id}
+                      className={`chat-message ${
+                        message.role === "user"
+                          ? "chat-message--user"
+                          : "chat-message--assistant"
+                      }`}
+                    >
+                      <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
+                        {message.role === "user" ? "Tu" : "Mia"}
+                      </div>
+                      <p className="mt-1.5 whitespace-pre-wrap text-[13px] leading-5">
+                        {message.text}
+                      </p>
+                      {message.role === "assistant" &&
+                      Array.isArray(message.steps) &&
+                      message.steps.length ? (
+                        <ol className="mt-3 list-decimal space-y-2 pl-5 text-[13px] leading-5 text-copy">
+                          {message.steps.map((step, index) => (
+                            <li
+                              key={`${message.id}-step-${index}`}
+                              className="whitespace-pre-wrap"
+                            >
+                              {step}
+                            </li>
+                          ))}
+                        </ol>
+                      ) : null}
+                      {message.role === "assistant" &&
+                      message.followUpQuestion ? (
+                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-accent-ink">
+                          Per continuare: {message.followUpQuestion}
+                        </p>
+                      ) : null}
+                      {message.role === "assistant" &&
+                      message.inferenceNotice ? (
+                        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-5 text-copy">
+                          Nota: {message.inferenceNotice}
+                        </p>
+                      ) : null}
+                    </article>
+                  ))
+                ) : (
+                  <div className="chat-empty">
+                    <div className="chat-empty__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3.5c.45 4.7 2.8 7.05 7.5 7.5-4.7.45-7.05 2.8-7.5 7.5-.45-4.7-2.8-7.05-7.5-7.5 4.7-.45 7.05-2.8 7.5-7.5Z" />
+                        <path d="M19 3v3M20.5 4.5h-3" />
+                      </svg>
+                    </div>
+                    <div className="chat-empty__title">
+                      {isReady ? "Come posso aiutarti?" : "Prepariamo la chat"}
+                    </div>
+                    <p className="chat-empty__copy">
+                      {isReady
+                        ? "Scrivi una richiesta qui sotto per iniziare."
+                        : "Manca solo un istante."}
+                    </p>
+                  </div>
+                )}
+                {!serviceUnavailable && isGenerating ? (
+                  <AssistantThinking />
+                ) : null}
+                <div ref={messagesEndRef} />
+              </div>
+
+              <form
+                ref={formRef}
+                className="chat-composer space-y-2.5"
+                onSubmit={handleSendMessage}
+              >
+                <TextArea
+                  value={messageDraft}
+                  rows={1}
+                  placeholder="Scrivi qui la tua richiesta..."
+                  disabled={!isReady || Boolean(serviceUnavailable)}
+                  onChange={setMessageDraft}
+                  onKeyDown={handleComposerKeyDown}
+                  textareaRef={composerRef}
+                  ariaDescribedBy="chat-shortcuts"
+                  ariaKeyShortcuts="/ Enter Shift+Enter"
+                />
+                <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex flex-wrap gap-2">
+                    <PrimaryButton
+                      type="submit"
+                      className="chat-action-button"
+                      disabled={
+                        !isReady ||
+                        Boolean(serviceUnavailable) ||
+                        isGenerating ||
+                        !messageDraft.trim()
+                      }
+                      aria-keyshortcuts="Enter"
+                    >
+                      {isGenerating ? "Elaborazione..." : "Invia"}
+                    </PrimaryButton>
+                    <GhostButton
+                      type="button"
+                      className="chat-action-button"
+                      onClick={() => setMessageDraft("")}
+                      disabled={!messageDraft}
+                    >
+                      Cancella testo
+                    </GhostButton>
+                  </div>
+                  <div
+                    id="chat-shortcuts"
+                    className="chat-shortcuts"
+                    aria-label="Scorciatoie da tastiera"
+                  >
+                    <span>
+                      <kbd>/</kbd> Scrivi
+                    </span>
+                    <span>
+                      <kbd>Invio</kbd> Invia
+                    </span>
+                    <span>
+                      <kbd>Maiusc</kbd> + <kbd>Invio</kbd> A capo
+                    </span>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      </SectionCard>
-    </div>
+        </SectionCard>
+      </div>
   );
 }
 

@@ -25,6 +25,31 @@ function AppShell({ theme, onToggleTheme, children }) {
 
             <div className="flex flex-wrap items-center gap-3">
               <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+              <nav
+                className="app-nav inline-flex rounded-full border p-1"
+                aria-label="Sezioni principali"
+              >
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    `nav-link inline-flex rounded-full px-3 py-2 text-sm transition ${
+                      isActive ? "nav-link-active" : ""
+                    }`
+                  }
+                >
+                  Admin
+                </NavLink>
+                <NavLink
+                  to="/chat"
+                  className={({ isActive }) =>
+                    `nav-link inline-flex rounded-full px-3 py-2 text-sm transition ${
+                      isActive ? "nav-link-active" : ""
+                    }`
+                  }
+                >
+                  Chat
+                </NavLink>
+              </nav>
             </div>
           </div>
         </header>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 
 import CreateTenantSection from '../components/CreateTenantSection.jsx'
-import HeroSection from '../components/HeroSection.jsx'
 import IngestSection from '../components/IngestSection.jsx'
 import ModelSettingsSection from '../components/ModelSettingsSection.jsx'
 import TenantListSection from '../components/TenantListSection.jsx'
 import TenantWorkspace from '../components/TenantWorkspace.jsx'
-import { MetricCard } from '../components/ui.jsx'
+import { GhostButton } from '../components/ui.jsx'
 import {
   activateTenant,
   createTenant,
@@ -81,6 +80,16 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     }),
     { messages: 0, promptTokens: 0, completionTokens: 0, wsConnects: 0 },
   )
+  const serviceStatus = loadingHealth ? 'Caricamento' : health?.status === 'ok' ? 'Operativo' : 'Non disponibile'
+  const serviceDetail = health
+    ? `${health.knowledge_base_exists ? 'Contenuti disponibili' : 'Contenuti da verificare'} | ${
+        health.lexical_index_exists ? 'Ricerca pronta' : 'Ricerca da aggiornare'
+      }`
+    : healthError || 'Verifica dello stato in corso.'
+  const securityStatus = health?.security_configured ? 'Configurata' : 'Da completare'
+  const securityDetail = health?.security_configured
+    ? 'Impostazioni principali presenti.'
+    : 'Controlla configurazione e chiavi.'
 
   useEffect(() => {
     let isActive = true
@@ -380,78 +389,58 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
   }
 
   return (
-    <>
-      <HeroSection adminSession={adminSession} onLogout={onLogout} />
+    <div className="admin-page">
+      <header className="admin-page-header">
+        <div>
+          <div className="admin-kicker">Pannello amministratore</div>
+          <h1>Gestione aziende</h1>
+          <p>Configura accessi, limiti, contenuti e modelli senza uscire dal pannello operativo.</p>
+        </div>
+        <div className="admin-page-header__actions">
+          <div className="admin-user-chip">
+            <span>Sessione</span>
+            <strong>{adminSession?.display_name || adminSession?.username || 'Admin'}</strong>
+          </div>
+          <GhostButton type="button" className="admin-logout-button" onClick={onLogout}>
+            Esci
+          </GhostButton>
+        </div>
+      </header>
 
       {notice ? (
-        <div
-          className={`rounded-2xl border px-4 py-3 text-sm ${
-            notice.tone === 'success'
-              ? 'border-success-border bg-success-soft text-success'
-              : 'border-danger-border bg-danger-soft text-danger'
-          }`}
-        >
+        <div className={`admin-notice admin-notice--${notice.tone}`}>
           {notice.message}
         </div>
       ) : null}
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard
-          label="Stato del servizio"
-          value={loadingHealth ? 'Caricamento' : health?.status === 'ok' ? 'Operativo' : 'Non disponibile'}
-          accent={health?.status === 'ok' ? 'success' : 'neutral'}
-          detail={
-            health
-              ? `${health.knowledge_base_exists ? 'Contenuti disponibili' : 'Contenuti da verificare'} | ${health.lexical_index_exists ? 'Ricerca pronta' : 'Ricerca da aggiornare'}`
-              : healthError || 'Stiamo verificando lo stato del servizio.'
-          }
+      <section className="admin-status-strip" aria-label="Stato pannello">
+        <AdminStat
+          label="Servizio"
+          value={serviceStatus}
+          detail={serviceDetail}
+          tone={health?.status === 'ok' ? 'success' : 'neutral'}
         />
-        <MetricCard
+        <AdminStat
           label="Aziende"
           value={String(tenants.length)}
-          accent="primary"
           detail={`${activeCount} attive | ${suspendedCount} sospese`}
+          tone="primary"
         />
-        <MetricCard
+        <AdminStat
           label="Archivi dedicati"
           value={String(overlayEnabledCount)}
-          accent="info"
           detail="Aziende con archivio dedicato attivo"
+          tone="neutral"
         />
-        <MetricCard
+        <AdminStat
           label="Protezione"
-          value={health?.security_configured ? 'Configurata' : 'Da completare'}
-          accent={health?.security_configured ? 'success' : 'danger'}
-          detail={health?.security_configured ? 'Le impostazioni principali risultano presenti.' : 'Alcune impostazioni di sicurezza richiedono attenzione.'}
+          value={securityStatus}
+          detail={securityDetail}
+          tone={health?.security_configured ? 'success' : 'danger'}
         />
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
-        <IngestSection
-          ingestForm={ingestForm}
-          setIngestForm={setIngestForm}
-          onSubmit={handleIngest}
-          busyAction={busyAction}
-          ingestResult={ingestResult}
-        />
-        <CreateTenantSection
-          createForm={createForm}
-          setCreateForm={setCreateForm}
-          onSubmit={handleCreateTenant}
-          busyAction={busyAction}
-        />
-      </section>
-
-      <ModelSettingsSection
-        modelSettings={modelSettings}
-        modelForm={modelForm}
-        setModelForm={setModelForm}
-        loading={loadingModelSettings}
-        busyAction={busyAction}
-        onSubmit={handleSaveModelSettings}
-      />
-
-      <section className="grid gap-6 xl:grid-cols-[0.92fr_1.08fr]">
+      <section className="admin-workbench">
         <TenantListSection
           tenantSearch={tenantSearch}
           setTenantSearch={setTenantSearch}
@@ -489,7 +478,41 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
           }}
         />
       </section>
-    </>
+
+      <section className="admin-operations-grid">
+        <IngestSection
+          ingestForm={ingestForm}
+          setIngestForm={setIngestForm}
+          onSubmit={handleIngest}
+          busyAction={busyAction}
+          ingestResult={ingestResult}
+        />
+        <CreateTenantSection
+          createForm={createForm}
+          setCreateForm={setCreateForm}
+          onSubmit={handleCreateTenant}
+          busyAction={busyAction}
+        />
+        <ModelSettingsSection
+          modelSettings={modelSettings}
+          modelForm={modelForm}
+          setModelForm={setModelForm}
+          loading={loadingModelSettings}
+          busyAction={busyAction}
+          onSubmit={handleSaveModelSettings}
+        />
+      </section>
+    </div>
+  )
+}
+
+function AdminStat({ label, value, detail, tone = 'neutral' }) {
+  return (
+    <div className={`admin-stat admin-stat--${tone}`}>
+      <div className="admin-stat__label">{label}</div>
+      <div className="admin-stat__value">{value}</div>
+      <div className="admin-stat__detail">{detail}</div>
+    </div>
   )
 }
 

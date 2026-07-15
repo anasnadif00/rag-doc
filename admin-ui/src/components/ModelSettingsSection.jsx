@@ -12,16 +12,17 @@ function ModelSettingsSection({
 
   return (
     <SectionCard
+      className="admin-model-section"
       eyebrow="Configurazione AI"
       title="Modelli OpenAI"
       subtitle="Scegli i modelli usati dal reranking semantico dei chunk e dalla generazione della risposta. Le modifiche valgono per tutte le aziende."
     >
       {loading || !modelForm ? (
-        <div className="rounded-2xl border border-divider bg-subtle px-5 py-6 text-sm text-muted">
+        <div className="rounded-xl border border-divider bg-subtle px-4 py-5 text-[13px] text-muted">
           Caricamento della configurazione dei modelli...
         </div>
       ) : (
-        <form className="grid gap-5 lg:grid-cols-[1fr_1fr_auto] lg:items-end" onSubmit={onSubmit}>
+        <form className="grid gap-3 lg:grid-cols-[1fr_1fr_auto] lg:items-end" onSubmit={onSubmit}>
           <SelectField
             label="Modello reranking chunk"
             value={modelForm.rerankModel}

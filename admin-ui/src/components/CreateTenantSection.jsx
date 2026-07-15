@@ -3,12 +3,13 @@ import { PrimaryButton, SectionCard, TextArea, TextField, ToggleField } from './
 function CreateTenantSection({ createForm, setCreateForm, onSubmit, busyAction }) {
   return (
     <SectionCard
+      className="admin-operation-card"
       eyebrow="Nuova azienda"
       title="Crea una nuova azienda"
       subtitle="Inserisci i dati principali, attiva il servizio e definisci i limiti in un solo passaggio."
     >
-      <form className="space-y-4" onSubmit={onSubmit}>
-        <div className="grid gap-4 md:grid-cols-2">
+      <form className="space-y-3" onSubmit={onSubmit}>
+        <div className="grid gap-3 md:grid-cols-2">
           <TextField
             label="Codice azienda"
             value={createForm.tenantCode}
@@ -28,7 +29,7 @@ function CreateTenantSection({ createForm, setCreateForm, onSubmit, busyAction }
           placeholder="https://idp.acme.example"
           onChange={(value) => setCreateForm((current) => ({ ...current, issuer: value }))}
         />
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2">
           <TextField
             label="Livello"
             value={createForm.licenseTier}
@@ -50,7 +51,7 @@ function CreateTenantSection({ createForm, setCreateForm, onSubmit, busyAction }
           onChange={(value) => setCreateForm((current) => ({ ...current, allowedOrigins: value }))}
           help="Inserisci un indirizzo per riga oppure separa con una virgola."
         />
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2">
           <TextField
             label="Codice chiave"
             value={createForm.publicKeyKid}
@@ -71,7 +72,7 @@ function CreateTenantSection({ createForm, setCreateForm, onSubmit, busyAction }
           rows={5}
           onChange={(value) => setCreateForm((current) => ({ ...current, publicKeyPem: value }))}
         />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           <TextField
             label="Messaggi al giorno"
             value={createForm.dailyMessageLimit}
@@ -93,7 +94,7 @@ function CreateTenantSection({ createForm, setCreateForm, onSubmit, busyAction }
             onChange={(value) => setCreateForm((current) => ({ ...current, concurrentSessionsLimit: value }))}
           />
         </div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-2.5 sm:grid-cols-2">
           <ToggleField
             label="Archivio dedicato attivo"
             checked={createForm.overlayKbEnabled}

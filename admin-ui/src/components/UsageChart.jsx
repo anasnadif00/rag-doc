@@ -2,12 +2,12 @@ import { formatDay, formatNumber } from '../lib/dashboard.js'
 
 function UsageChart({ rows, loading }) {
   if (loading) {
-    return <div className="mt-6 text-sm text-muted">Caricamento dello storico in corso...</div>
+    return <div className="mt-4 text-[13px] text-muted">Caricamento dello storico in corso...</div>
   }
 
   if (!rows.length) {
     return (
-      <div className="mt-6 rounded-2xl border border-dashed border-divider bg-subtle p-5 text-sm text-muted">
+      <div className="mt-4 rounded-xl border border-dashed border-divider bg-subtle p-4 text-[13px] text-muted">
         Nessun evento registrato nel periodo selezionato.
       </div>
     )
@@ -16,20 +16,20 @@ function UsageChart({ rows, loading }) {
   const maxMessages = Math.max(...rows.map((row) => row.messages_in + row.messages_out), 1)
 
   return (
-    <div className="mt-6 overflow-x-auto">
-      <div className="flex min-w-[640px] items-end gap-3">
+    <div className="mt-4 overflow-x-auto">
+      <div className="flex min-w-[620px] items-end gap-2.5">
         {rows.map((row) => {
           const totalMessages = row.messages_in + row.messages_out
-          const height = Math.max(18, Math.round((totalMessages / maxMessages) * 180))
+          const height = Math.max(16, Math.round((totalMessages / maxMessages) * 150))
           return (
-            <div key={row.usage_date} className="flex min-w-[64px] flex-1 flex-col items-center gap-3">
+            <div key={row.usage_date} className="flex min-w-[58px] flex-1 flex-col items-center gap-2.5">
               <div
-                className="usage-bar w-full rounded-t-[1.25rem] border"
+                className="usage-bar w-full rounded-t-xl border"
                 style={{ height }}
               />
               <div className="space-y-1 text-center">
-                <div className="text-sm text-ink">{formatNumber(totalMessages)}</div>
-                <div className="text-xs uppercase tracking-[0.16em] text-muted">{formatDay(row.usage_date)}</div>
+                <div className="text-[13px] text-ink">{formatNumber(totalMessages)}</div>
+                <div className="text-[11px] uppercase tracking-[0.12em] text-muted">{formatDay(row.usage_date)}</div>
               </div>
             </div>
           )

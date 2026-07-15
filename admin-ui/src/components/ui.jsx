@@ -22,23 +22,23 @@ export function SectionCard({
 }) {
   return (
     <section
-      className={`app-panel rounded-[2rem] border p-5 lg:p-6 ${className}`}
+      className={`section-card app-panel rounded-[2rem] border p-5 lg:p-6 ${className}`}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="section-card__header flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <div className="text-[11px] uppercase tracking-[0.28em] text-muted">
+          <div className="section-card__eyebrow text-[11px] uppercase tracking-[0.28em] text-muted">
             {eyebrow}
           </div>
           <div>
-            <h2 className="text-2xl text-ink">{title}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-copy">
+            <h2 className="section-card__title text-2xl text-ink">{title}</h2>
+            <p className="section-card__subtitle mt-2 max-w-2xl text-sm leading-6 text-copy">
               {subtitle}
             </p>
           </div>
         </div>
         {actions}
       </div>
-      <div className={`mt-5 ${contentClassName}`}>{children}</div>
+      <div className={`section-card__body mt-5 ${contentClassName}`}>{children}</div>
     </section>
   );
 }
@@ -46,8 +46,8 @@ export function SectionCard({
 export function SectionHeading({ title, subtitle }) {
   return (
     <div>
-      <h3 className="text-lg text-ink">{title}</h3>
-      <p className="mt-1 text-sm leading-6 text-muted">{subtitle}</p>
+      <h3 className="text-base text-ink">{title}</h3>
+      <p className="mt-1 text-[13px] leading-5 text-muted">{subtitle}</p>
     </div>
   );
 }
@@ -76,7 +76,7 @@ export function MetricCard({ label, value, detail, accent = "primary" }) {
 
 export function MetricMini({ label, value }) {
   return (
-    <div className="rounded-2xl border border-divider bg-subtle px-4 py-3">
+    <div className="metric-mini rounded-2xl border border-divider bg-subtle px-4 py-3">
       <div className="text-[11px] uppercase tracking-[0.22em] text-muted">
         {label}
       </div>
@@ -187,7 +187,7 @@ export function SelectField({
 
 export function ToggleField({ label, checked, onChange }) {
   return (
-    <label className="flex items-center justify-between rounded-2xl border border-divider bg-subtle px-4 py-3">
+    <label className="toggle-field flex items-center justify-between rounded-2xl border border-divider bg-subtle px-4 py-3">
       <span className="text-sm text-copy">{label}</span>
       <button
         type="button"
@@ -245,7 +245,7 @@ export function StatusBadge({ status }) {
 
   return (
     <span
-      className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.18em] ${tone}`}
+      className={`status-badge rounded-full border px-3 py-1 text-xs uppercase tracking-[0.18em] ${tone}`}
     >
       {label}
     </span>
@@ -254,7 +254,7 @@ export function StatusBadge({ status }) {
 
 export function MiniBadge({ label }) {
   return (
-    <span className="rounded-full border border-divider bg-subtle px-3 py-1">
+    <span className="mini-badge rounded-full border border-divider bg-subtle px-3 py-1">
       {label}
     </span>
   );

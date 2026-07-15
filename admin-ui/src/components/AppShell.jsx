@@ -5,6 +5,53 @@ import { ThemeToggle } from "./ui.jsx";
 function AppShell({ theme, onToggleTheme, children }) {
   const { pathname } = useLocation();
   const isChatPage = pathname === "/chat";
+  const isAdminPage = pathname.startsWith("/admin");
+
+  if (isAdminPage) {
+    return (
+      <div className="admin-shell">
+        <header className="admin-topbar">
+          <div className="admin-topbar__inner">
+            <NavLink
+              to="/admin"
+              className="admin-brand"
+              aria-label="Magia admin"
+            >
+              <span className="admin-brand__mark">M</span>
+              <span>
+                <strong>Magia</strong>
+                <small>Admin</small>
+              </span>
+            </NavLink>
+
+            <div className="admin-topbar__controls">
+              <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+              <nav className="admin-nav" aria-label="Sezioni principali">
+                <NavLink
+                  to="/admin"
+                  className={({ isActive }) =>
+                    `admin-nav__link ${isActive ? "admin-nav__link--active" : ""}`
+                  }
+                >
+                  Admin
+                </NavLink>
+                <NavLink
+                  to="/chat"
+                  className={({ isActive }) =>
+                    `admin-nav__link ${isActive ? "admin-nav__link--active" : ""}`
+                  }
+                >
+                  Chat
+                </NavLink>
+              </nav>
+            </div>
+          </div>
+        </header>
+
+        <main className="admin-main">{children}</main>
+      </div>
+    );
+  }
 
   return (
     <div className={`app-shell ${isChatPage ? "app-shell--chat" : ""}`}>

@@ -3,12 +3,13 @@ import { MetricMini, PrimaryButton, SectionCard, TextField, ToggleField } from '
 function IngestSection({ ingestForm, setIngestForm, onSubmit, busyAction, ingestResult }) {
   return (
     <SectionCard
+      className="admin-operation-card"
       eyebrow="Contenuti"
       title="Aggiorna contenuti"
       subtitle="Usa questa sezione per ricaricare i materiali, limitare l'operazione a un gruppo specifico o aggiornare la ricerca."
     >
-      <form className="space-y-4" onSubmit={onSubmit}>
-        <div className="grid gap-4 md:grid-cols-2">
+      <form className="space-y-3" onSubmit={onSubmit}>
+        <div className="grid gap-3 md:grid-cols-2">
           <TextField
             label="Numero massimo"
             value={ingestForm.limit}
@@ -23,7 +24,7 @@ function IngestSection({ ingestForm, setIngestForm, onSubmit, busyAction, ingest
             onChange={(value) => setIngestForm((current) => ({ ...current, erpVersion: value }))}
           />
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2">
           <TextField
             label="Tipi di documento"
             value={ingestForm.docTypes}
@@ -38,7 +39,7 @@ function IngestSection({ ingestForm, setIngestForm, onSubmit, busyAction, ingest
             onChange={(value) => setIngestForm((current) => ({ ...current, reviewStatuses: value }))}
           />
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-2.5 sm:grid-cols-3">
           <ToggleField
             label="Ricrea archivio"
             checked={ingestForm.recreateCollection}
@@ -61,7 +62,7 @@ function IngestSection({ ingestForm, setIngestForm, onSubmit, busyAction, ingest
       </form>
 
       {ingestResult ? (
-        <div className="mt-5 grid gap-3 rounded-2xl border border-divider bg-inset p-4 md:grid-cols-2">
+        <div className="admin-subsection mt-4 grid gap-3 md:grid-cols-2">
           <MetricMini label="Stato" value={ingestResult.status} />
           <MetricMini label="Archivio" value={ingestResult.collection_name} />
           <MetricMini label="Documenti elaborati" value={String(ingestResult.documents_processed)} />

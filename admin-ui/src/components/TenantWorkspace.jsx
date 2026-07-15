@@ -34,6 +34,7 @@ function TenantWorkspace({
 }) {
   return (
     <SectionCard
+      className="tenant-workspace-card"
       eyebrow="Dettaglio azienda"
       title={selectedTenant ? selectedTenant.display_name : 'Seleziona un\'azienda'}
       subtitle={
@@ -63,18 +64,18 @@ function TenantWorkspace({
       }
     >
       {selectedTenant && editForm && licenseForm ? (
-        <div className="space-y-6">
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="space-y-5">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <MetricMini label="Chiave attiva" value={selectedTenant.active_kid || 'Nessuna'} />
             <MetricMini label="Indirizzi autorizzati" value={String(selectedTenant.allowed_origins.length)} />
             <MetricMini label="Periodo analizzato" value={`${usageDays} giorni`} />
             <MetricMini label="Connessioni chat" value={formatNumber(usageTotals.wsConnects)} />
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onSaveProfile}>
+          <div className="grid gap-4 xl:grid-cols-2">
+            <form className="admin-subsection space-y-3" onSubmit={onSaveProfile}>
               <SectionHeading title="Dati azienda" subtitle="Informazioni principali, indirizzi autorizzati e archivio dedicato." />
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <TextField
                   label="Nome visualizzato"
                   value={editForm.displayName}
@@ -85,7 +86,7 @@ function TenantWorkspace({
                   <select
                     value={editForm.status}
                     onChange={(event) => setEditForm((current) => ({ ...current, status: event.target.value }))}
-                    className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
+                    className="app-field w-full rounded-xl border px-3 py-2.5 text-[13px] outline-none transition"
                   >
                     <option value="active">Attiva</option>
                     <option value="suspended">Sospesa</option>
@@ -93,7 +94,7 @@ function TenantWorkspace({
                   </select>
                 </label>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <TextField
                   label="Livello"
                   value={editForm.licenseTier}
@@ -116,15 +117,15 @@ function TenantWorkspace({
               </PrimaryButton>
             </form>
 
-            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onSaveLicense}>
+            <form className="admin-subsection space-y-3" onSubmit={onSaveLicense}>
               <SectionHeading title="Limiti e funzioni" subtitle="Messaggi, accessi e disponibilita previsti per l'azienda selezionata." />
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <label className="block space-y-2">
                   <span className="text-xs uppercase tracking-[0.18em] text-muted">Stato servizio</span>
                   <select
                     value={licenseForm.status}
                     onChange={(event) => setLicenseForm((current) => ({ ...current, status: event.target.value }))}
-                    className="app-field w-full rounded-2xl border px-4 py-3 text-sm outline-none transition"
+                    className="app-field w-full rounded-xl border px-3 py-2.5 text-[13px] outline-none transition"
                   >
                     <option value="active">Attivo</option>
                     <option value="suspended">Sospeso</option>
@@ -136,7 +137,7 @@ function TenantWorkspace({
                   onChange={(value) => setLicenseForm((current) => ({ ...current, dailyMessageLimit: value }))}
                 />
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <TextField
                   label="Token al giorno"
                   value={licenseForm.dailyTokenLimit}
@@ -171,8 +172,8 @@ function TenantWorkspace({
             </form>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-            <div className="rounded-2xl border border-divider bg-inset p-4">
+          <div className="grid gap-4 2xl:grid-cols-[minmax(0,1.35fr)_minmax(340px,0.65fr)]">
+            <div className="admin-subsection">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <SectionHeading
                   title="Andamento utilizzo"
@@ -186,7 +187,7 @@ function TenantWorkspace({
                     id="usage-window"
                     value={usageDays}
                     onChange={(event) => setUsageDays(Number(event.target.value))}
-                    className="app-field rounded-full border px-3 py-2 text-sm outline-none"
+                    className="app-field rounded-full border px-3 py-2 text-[13px] outline-none"
                   >
                     <option value={7}>7 giorni</option>
                     <option value={14}>14 giorni</option>
@@ -194,7 +195,7 @@ function TenantWorkspace({
                   </select>
                 </div>
               </div>
-              <div className="mt-4 grid gap-4 sm:grid-cols-3">
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
                 <MetricMini label="Messaggi" value={formatNumber(usageTotals.messages)} />
                 <MetricMini label="Consumo richiesta" value={formatNumber(usageTotals.promptTokens)} />
                 <MetricMini label="Consumo risposta" value={formatNumber(usageTotals.completionTokens)} />
@@ -202,12 +203,12 @@ function TenantWorkspace({
               <UsageChart rows={usageRows} loading={loadingUsage} />
             </div>
 
-            <form className="space-y-4 rounded-2xl border border-divider bg-inset p-4" onSubmit={onRotateKey}>
+            <form className="admin-subsection space-y-3" onSubmit={onRotateKey}>
               <SectionHeading
                 title="Aggiorna chiave di accesso"
                 subtitle="Sostituisci la chiave attiva senza uscire dal pannello."
               />
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 <TextField
                   label="Codice chiave"
                   value={keyForm.kid}
@@ -223,7 +224,7 @@ function TenantWorkspace({
               </div>
               <TextArea
                 label="Chiave pubblica"
-                rows={9}
+                rows={7}
                 value={keyForm.publicKeyPem}
                 placeholder="-----BEGIN PUBLIC KEY-----"
                 onChange={(value) => setKeyForm((current) => ({ ...current, publicKeyPem: value }))}

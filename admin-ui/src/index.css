@@ -756,6 +756,240 @@ a {
   min-width: 0;
 }
 
+.tenant-tabbed-pane {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.82rem;
+  background: var(--surface-inset);
+}
+
+.tenant-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: 0.32rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.tenant-tab-button {
+  min-height: 2.1rem;
+  padding: 0 0.75rem;
+  color: var(--text-body);
+  border: 0;
+  border-radius: 0.58rem;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.tenant-tab-button:hover {
+  color: var(--text-strong);
+  background: var(--surface-hover);
+}
+
+.tenant-tab-button[aria-selected="true"] {
+  color: var(--accent-text);
+  background: var(--accent-selected);
+  box-shadow: inset 0 0 0 1px var(--accent-border);
+}
+
+.tenant-tab-panel {
+  padding: 0.85rem;
+}
+
+.tenant-tab-panel > .admin-subsection,
+.tenant-tab-panel .tenant-user-create-form {
+  background: var(--surface);
+}
+
+.tenant-tab-pane-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.tenant-tab-pane-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.button-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.45rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tenant-user-secret {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, auto) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.72rem;
+  border: 1px solid var(--accent-border);
+  border-radius: 0.72rem;
+  background: color-mix(in srgb, var(--accent-soft) 76%, var(--surface));
+}
+
+.tenant-user-secret__copy span,
+.tenant-user-secret__copy strong {
+  display: block;
+}
+
+.tenant-user-secret__copy span {
+  color: var(--text-faint);
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.tenant-user-secret__copy strong {
+  margin-top: 0.15rem;
+  color: var(--text-strong);
+  font-size: 0.86rem;
+  line-height: 1.15rem;
+}
+
+.tenant-user-secret code {
+  overflow-x: auto;
+  padding: 0.48rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  color: var(--text-strong);
+  background: var(--surface);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.tenant-user-secret__actions,
+.tenant-user-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.tenant-users-loading {
+  padding: 1rem;
+  border: 1px dashed var(--border);
+  border-radius: 0.72rem;
+  color: var(--text-muted);
+  background: var(--surface);
+  font-size: 0.82rem;
+}
+
+.tenant-users-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.72rem;
+  background: var(--surface);
+}
+
+.tenant-users-table {
+  width: 100%;
+  min-width: 46rem;
+  border-collapse: collapse;
+}
+
+.tenant-users-table th,
+.tenant-users-table td {
+  padding: 0.68rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tenant-users-table th {
+  color: var(--text-faint);
+  background: var(--surface-inset);
+  font-size: 0.68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.tenant-users-table td {
+  color: var(--text-body);
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+}
+
+.tenant-users-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tenant-users-table td strong,
+.tenant-users-table td span {
+  display: block;
+}
+
+.tenant-users-table td strong {
+  color: var(--text-strong);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.tenant-users-table td span {
+  margin-top: 0.12rem;
+  color: var(--text-muted);
+  font-size: 0.74rem;
+}
+
+.tenant-user-regenerate-button {
+  white-space: nowrap;
+}
+
+.tenant-user-delete-button {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+  border-radius: 0.62rem;
+  background: var(--danger-soft);
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    opacity 140ms ease;
+}
+
+.tenant-user-delete-button:hover {
+  color: var(--accent-contrast);
+  border-color: var(--danger-text);
+  background: var(--danger-text);
+}
+
+.tenant-user-delete-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.tenant-user-delete-button svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 1100px) {
   .admin-status-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -811,6 +1045,34 @@ a {
 
   .admin-status-strip {
     grid-template-columns: 1fr;
+  }
+
+  .tenant-tab-pane-header,
+  .tenant-tab-pane-actions,
+  .tenant-user-secret {
+    align-items: stretch;
+  }
+
+  .tenant-tab-pane-header,
+  .tenant-user-secret {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .tenant-tab-pane-actions {
+    width: 100%;
+  }
+
+  .tenant-tab-pane-actions > * {
+    flex: 1;
+  }
+
+  .tenant-user-secret__actions {
+    justify-content: stretch;
+  }
+
+  .tenant-user-secret__actions > * {
+    flex: 1;
   }
 }
 

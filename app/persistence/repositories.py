@@ -491,6 +491,10 @@ class TenantUsersRepository:
         user.status = status
         return self.save(user)
 
+    def delete_user(self, user: TenantUsers) -> None:
+        self.session.delete(user)
+        self.session.flush()
+
     def save(self, user: TenantUsers) -> TenantUsers:
         self.session.add(user)
         self.session.flush()

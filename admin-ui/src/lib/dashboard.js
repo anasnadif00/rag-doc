@@ -38,6 +38,13 @@ export function createDefaultKeyForm() {
   }
 }
 
+export function createDefaultTenantUserForm() {
+  return {
+    username: '',
+    displayName: '',
+  }
+}
+
 export function buildCreatePayload(form) {
   return {
     tenant_code: form.tenantCode.trim(),
@@ -112,6 +119,13 @@ export function buildKeyPayload(form) {
   }
 }
 
+export function buildTenantUserPayload(form) {
+  return {
+    username: form.username.trim(),
+    display_name: form.displayName.trim(),
+  }
+}
+
 export function buildIngestPayload(form) {
   const payload = {
     limit: emptyNumberToUndefined(form.limit),
@@ -161,6 +175,23 @@ export function formatNumber(value) {
 
 export function formatDay(value) {
   return new Intl.DateTimeFormat('it-IT', { month: 'short', day: 'numeric' }).format(new Date(value))
+}
+
+export function formatDateTime(value) {
+  if (!value) {
+    return 'Mai'
+  }
+  const parsed = new Date(value)
+  if (Number.isNaN(parsed.getTime())) {
+    return value
+  }
+  return new Intl.DateTimeFormat('it-IT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(parsed)
 }
 
 export function translateStatus(value) {

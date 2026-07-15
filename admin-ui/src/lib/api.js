@@ -200,3 +200,28 @@ export function activateTenant(baseUrl, tenantId) {
 export function fetchTenantUsage(baseUrl, tenantId, days) {
   return request(baseUrl, `/v1/admin/tenants/${tenantId}/usage?days=${days}`);
 }
+
+export function fetchTenantUsers(baseUrl, tenantId) {
+  return request(baseUrl, `/v1/admin/tenants/${tenantId}/users`);
+}
+
+export function createTenantUser(baseUrl, tenantId, payload) {
+  return request(baseUrl, `/v1/admin/tenants/${tenantId}/users`, {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function regenerateTenantUserPassword(baseUrl, tenantId, userId) {
+  return request(
+    baseUrl,
+    `/v1/admin/tenants/${tenantId}/users/${userId}/password/regenerate`,
+    { method: "POST" },
+  );
+}
+
+export function deleteTenantUser(baseUrl, tenantId, userId) {
+  return request(baseUrl, `/v1/admin/tenants/${tenantId}/users/${userId}`, {
+    method: "DELETE",
+  });
+}

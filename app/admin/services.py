@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import secrets
+import string
+
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.auth.passwords import hash_password
 from app.admin.schemas import (
     ModelSettingsResponse,
     ModelSettingsUpdateRequest,
@@ -13,17 +18,28 @@ from app.admin.schemas import (
     TenantLicenseUpdateRequest,
     TenantResponse,
     TenantUpdateRequest,
+    TenantUserCreateRequest,
+    TenantUserResponse,
+    TenantUserSecretResponse,
     TenantUsageDay,
 )
 from app.core.config import Settings
-from app.persistence.models import Tenant, TenantAuthKey
+from app.persistence.models import Tenant, TenantAuthKey, TenantUsers
 from app.persistence.repositories import (
     AuditRepository,
     ModelConfigurationRepository,
     TenantRepository,
+    TenantUsersRepository,
     UsageRepository,
 )
 from app.tenancy.services import TenantAccessService
+
+_TEMP_PASSWORD_SYMBOLS = "!#$%&*+-?"
+_TEMP_PASSWORD_ALPHABET = string.ascii_letters + string.digits + _TEMP_PASSWORD_SYMBOLS
+
+
+class TenantAdminConflictError(ValueError):
+    """Raised when an admin operation conflicts with existing tenant data."""
 
 
 class ModelSettingsService:
@@ -96,6 +112,7 @@ class TenantAdminService:
         self.session = session
         self.settings = settings
         self.tenants = TenantRepository(session, settings)
+        self.tenant_users = TenantUsersRepository(session)
         self.usage = UsageRepository(session)
         self.audit = AuditRepository(session)
 
@@ -224,11 +241,109 @@ class TenantAdminService:
             for row in self.usage.usage_summary(tenant_id, days=days)
         ]
 
+    def list_tenant_users(self, tenant_id: str) -> list[TenantUserResponse]:
+        tenant = self._require_tenant(tenant_id)
+        return [self._to_user_response(user) for user in self.tenant_users.list_users(tenant.id)]
+
+    def create_tenant_user(
+        self,
+        tenant_id: str,
+        request: TenantUserCreateRequest,
+    ) -> TenantUserSecretResponse:
+        tenant = self._require_tenant(tenant_id)
+        username = request.username.strip()
+        display_name = request.display_name.strip()
+        if self.tenant_users.get_by_username(tenant.id, username) is not None:
+            raise TenantAdminConflictError("Utente tenant gia presente.")
+
+        temporary_password = self._generate_temporary_password()
+        try:
+            user = self.tenant_users.create_user(
+                tenant_id=tenant.id,
+                username=username,
+                display_name=display_name,
+                password_hash=hash_password(temporary_password),
+                expires_at=request.expires_at,
+            )
+        except IntegrityError as exc:
+            self.session.rollback()
+            raise TenantAdminConflictError("Utente tenant gia presente.") from exc
+
+        self.audit.record(
+            tenant_id=tenant.id,
+            session_id=None,
+            user_ref_hash=None,
+            actor_type="provider_admin",
+            action="create_tenant_user",
+            resource_type="tenant_user",
+            resource_id=user.id,
+            decision="allow",
+            metadata_json={"username": user.username},
+        )
+        self.session.commit()
+        return TenantUserSecretResponse(
+            user=self._to_user_response(user),
+            temporary_password=temporary_password,
+        )
+
+    def regenerate_tenant_user_password(
+        self,
+        tenant_id: str,
+        user_id: str,
+    ) -> TenantUserSecretResponse:
+        tenant = self._require_tenant(tenant_id)
+        user = self._require_tenant_user(tenant.id, user_id)
+        temporary_password = self._generate_temporary_password()
+        self.tenant_users.rotate_password(
+            user,
+            password_hash=hash_password(temporary_password),
+        )
+        self.audit.record(
+            tenant_id=tenant.id,
+            session_id=None,
+            user_ref_hash=None,
+            actor_type="provider_admin",
+            action="regenerate_tenant_user_password",
+            resource_type="tenant_user",
+            resource_id=user.id,
+            decision="allow",
+            metadata_json={"username": user.username},
+        )
+        self.session.commit()
+        return TenantUserSecretResponse(
+            user=self._to_user_response(user),
+            temporary_password=temporary_password,
+        )
+
+    def delete_tenant_user(self, tenant_id: str, user_id: str) -> None:
+        tenant = self._require_tenant(tenant_id)
+        user = self._require_tenant_user(tenant.id, user_id)
+        username = user.username
+        self.tenant_users.delete_user(user)
+        self.audit.record(
+            tenant_id=tenant.id,
+            session_id=None,
+            user_ref_hash=None,
+            actor_type="provider_admin",
+            action="delete_tenant_user",
+            resource_type="tenant_user",
+            resource_id=user_id,
+            decision="allow",
+            metadata_json={"username": username},
+        )
+        self.session.commit()
+
     def _require_tenant(self, tenant_id: str) -> Tenant:
         tenant = self.tenants.get_tenant(tenant_id)
         if tenant is None:
             raise ValueError("Tenant non trovato.")
         return tenant
+
+    def _require_tenant_user(self, tenant_id: str, user_id: str) -> TenantUsers:
+        user = self.tenant_users.get_by_id(tenant_id, user_id)
+        if user is None:
+            raise ValueError("Utente tenant non trovato.")
+        return user
 
     def _active_key(self, tenant: Tenant) -> TenantAuthKey | None:
         keys = [key for key in tenant.auth_keys if key.status == "active"]
@@ -262,3 +377,27 @@ class TenantAdminService:
                 erp_tools_enabled=license_record.erp_tools_enabled,
             ),
         )
+
+    def _to_user_response(self, user: TenantUsers) -> TenantUserResponse:
+        return TenantUserResponse(
+            id=user.id,
+            tenant_id=user.tenant_id,
+            username=user.username,
+            display_name=user.display_name,
+            status=user.status,
+            rotated_at=user.rotated_at,
+            expires_at=user.expires_at,
+            created_at=user.created_at,
+        )
+
+    def _generate_temporary_password(self) -> str:
+        secure_random = secrets.SystemRandom()
+        characters = [
+            secrets.choice(string.ascii_lowercase),
+            secrets.choice(string.ascii_uppercase),
+            secrets.choice(string.digits),
+            secrets.choice(_TEMP_PASSWORD_SYMBOLS),
+            *(secrets.choice(_TEMP_PASSWORD_ALPHABET) for _ in range(12)),
+        ]
+        secure_random.shuffle(characters)
+        return "".join(characters)

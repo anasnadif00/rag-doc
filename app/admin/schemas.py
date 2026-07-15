@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -103,3 +103,33 @@ class TenantUsageDay(BaseModel):
     prompt_tokens: int
     completion_tokens: int
     ws_connects: int
+
+
+class TenantUserCreateRequest(BaseModel):
+    username: str = Field(..., min_length=1, max_length=100)
+    display_name: str = Field(..., min_length=1, max_length=255)
+    expires_at: datetime | None = None
+
+    @field_validator("username", "display_name")
+    @classmethod
+    def validate_not_blank(cls, value: str) -> str:
+        cleaned_value = value.strip()
+        if not cleaned_value:
+            raise ValueError("Il campo non puo essere vuoto.")
+        return cleaned_value
+
+
+class TenantUserResponse(BaseModel):
+    id: str
+    tenant_id: str
+    username: str
+    display_name: str
+    status: str
+    rotated_at: datetime | None = None
+    expires_at: datetime | None = None
+    created_at: datetime
+
+
+class TenantUserSecretResponse(BaseModel):
+    user: TenantUserResponse
+    temporary_password: str

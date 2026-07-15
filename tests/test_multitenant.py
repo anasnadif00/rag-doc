@@ -491,6 +491,72 @@ def test_chat_auth_login_sets_chat_cookie_and_me_uses_tenant_user(monkeypatch, t
         assert after_logout.status_code == 401
 
 
+def test_admin_tenant_user_lifecycle(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        tenant = _create_tenant(client)
+
+        empty = client.get(f"/v1/admin/tenants/{tenant['id']}/users")
+        assert empty.status_code == 200
+        assert empty.json() == []
+
+        created = client.post(
+            f"/v1/admin/tenants/{tenant['id']}/users",
+            json={"username": "mario.rossi", "display_name": "Mario Rossi"},
+        )
+        assert created.status_code == 200, created.text
+        created_payload = created.json()
+        user = created_payload["user"]
+        first_password = created_payload["temporary_password"]
+        assert user["tenant_id"] == tenant["id"]
+        assert user["username"] == "mario.rossi"
+        assert user["display_name"] == "Mario Rossi"
+        assert user["status"] == "active"
+        assert len(first_password) >= 12
+
+        duplicate = client.post(
+            f"/v1/admin/tenants/{tenant['id']}/users",
+            json={"username": "mario.rossi", "display_name": "Mario Rossi 2"},
+        )
+        assert duplicate.status_code == 409
+
+        login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": first_password},
+        )
+        assert login.status_code == 200, login.text
+
+        regenerated = client.post(
+            f"/v1/admin/tenants/{tenant['id']}/users/{user['id']}/password/regenerate",
+        )
+        assert regenerated.status_code == 200, regenerated.text
+        second_password = regenerated.json()["temporary_password"]
+        assert second_password != first_password
+        assert regenerated.json()["user"]["rotated_at"] is not None
+
+        old_password_login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": first_password},
+        )
+        assert old_password_login.status_code == 401
+
+        new_password_login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": second_password},
+        )
+        assert new_password_login.status_code == 200, new_password_login.text
+
+        deleted = client.delete(f"/v1/admin/tenants/{tenant['id']}/users/{user['id']}")
+        assert deleted.status_code == 204
+        assert client.get(f"/v1/admin/tenants/{tenant['id']}/users").json() == []
+
+        removed_login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": second_password},
+        )
+        assert removed_login.status_code == 401
+
+
 def test_chat_auth_login_rejects_invalid_credentials(monkeypatch, tmp_path: Path):
     with _configure_platform(monkeypatch, tmp_path) as client:
         _login_admin(client)

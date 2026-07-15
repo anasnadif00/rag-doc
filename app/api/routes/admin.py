@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.admin.schemas import (
@@ -13,9 +13,12 @@ from app.admin.schemas import (
     TenantLicenseUpdateRequest,
     TenantResponse,
     TenantUpdateRequest,
+    TenantUserCreateRequest,
+    TenantUserResponse,
+    TenantUserSecretResponse,
     TenantUsageDay,
 )
-from app.admin.services import ModelSettingsService, TenantAdminService
+from app.admin.services import ModelSettingsService, TenantAdminConflictError, TenantAdminService
 from app.auth.dependencies import require_provider_admin
 from app.core.config import Settings, get_settings
 from app.persistence.db import get_db_session
@@ -156,5 +159,64 @@ def tenant_usage(
 ) -> list[TenantUsageDay]:
     try:
         return service.usage_summary(tenant_id, days=days)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get("/tenants/{tenant_id}/users", response_model=list[TenantUserResponse])
+def list_tenant_users(
+    tenant_id: str,
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: TenantAdminService = Depends(get_tenant_admin_service),
+) -> list[TenantUserResponse]:
+    try:
+        return service.list_tenant_users(tenant_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post("/tenants/{tenant_id}/users", response_model=TenantUserSecretResponse)
+def create_tenant_user(
+    tenant_id: str,
+    request: TenantUserCreateRequest,
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: TenantAdminService = Depends(get_tenant_admin_service),
+) -> TenantUserSecretResponse:
+    try:
+        return service.create_tenant_user(tenant_id, request)
+    except TenantAdminConflictError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.post(
+    "/tenants/{tenant_id}/users/{user_id}/password/regenerate",
+    response_model=TenantUserSecretResponse,
+)
+def regenerate_tenant_user_password(
+    tenant_id: str,
+    user_id: str,
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: TenantAdminService = Depends(get_tenant_admin_service),
+) -> TenantUserSecretResponse:
+    try:
+        return service.regenerate_tenant_user_password(tenant_id, user_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.delete(
+    "/tenants/{tenant_id}/users/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_tenant_user(
+    tenant_id: str,
+    user_id: str,
+    _: AdminPrincipal = Depends(require_provider_admin),
+    service: TenantAdminService = Depends(get_tenant_admin_service),
+) -> None:
+    try:
+        service.delete_tenant_user(tenant_id, user_id)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc

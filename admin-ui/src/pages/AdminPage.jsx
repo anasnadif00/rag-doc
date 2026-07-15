@@ -9,10 +9,14 @@ import { GhostButton } from '../components/ui.jsx'
 import {
   activateTenant,
   createTenant,
+  createTenantUser,
+  deleteTenantUser,
   fetchHealth,
   fetchModelSettings,
   fetchTenantUsage,
+  fetchTenantUsers,
   fetchTenants,
+  regenerateTenantUserPassword,
   rotateTenantKey,
   runIngestion,
   suspendTenant,
@@ -40,6 +44,7 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
   const [health, setHealth] = useState(null)
   const [healthError, setHealthError] = useState('')
   const [tenants, setTenants] = useState([])
+  const [tenantUsers, setTenantUsers] = useState([])
   const [modelSettings, setModelSettings] = useState(null)
   const [modelForm, setModelForm] = useState(null)
   const [selectedTenantId, setSelectedTenantId] = useState(null)
@@ -54,9 +59,11 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
   const [tenantSearch, setTenantSearch] = useState('')
   const [loadingHealth, setLoadingHealth] = useState(false)
   const [loadingTenants, setLoadingTenants] = useState(false)
+  const [loadingTenantUsers, setLoadingTenantUsers] = useState(false)
   const [loadingModelSettings, setLoadingModelSettings] = useState(false)
   const [loadingUsage, setLoadingUsage] = useState(false)
   const [busyAction, setBusyAction] = useState('')
+  const [tenantUserSecret, setTenantUserSecret] = useState(null)
   const [notice, setNotice] = useState(null)
 
   const selectedTenant = tenants.find((tenant) => tenant.id === selectedTenantId) || null
@@ -224,6 +231,38 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     }
   }, [onSessionExpired, selectedTenant, usageDays])
 
+  useEffect(() => {
+    if (!selectedTenant) {
+      setTenantUsers([])
+      setTenantUserSecret(null)
+      return
+    }
+
+    let isActive = true
+    setTenantUserSecret(null)
+    setLoadingTenantUsers(true)
+    fetchTenantUsers(API_BASE_URL, selectedTenant.id)
+      .then((payload) => {
+        if (isActive) setTenantUsers(payload)
+      })
+      .catch((error) => {
+        if (!isActive) return
+        if (error.status === 401) {
+          onSessionExpired()
+          return
+        }
+        setTenantUsers([])
+        setNotice({ tone: 'error', message: error.message || 'Non e stato possibile leggere gli utenti tenant.' })
+      })
+      .finally(() => {
+        if (isActive) setLoadingTenantUsers(false)
+      })
+
+    return () => {
+      isActive = false
+    }
+  }, [onSessionExpired, selectedTenant])
+
   async function refreshTenants(preferredTenantId = null) {
     setLoadingTenants(true)
     try {
@@ -243,6 +282,28 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
       setNotice({ tone: 'error', message: error.message || 'Non e stato possibile leggere le aziende.' })
     } finally {
       setLoadingTenants(false)
+    }
+  }
+
+  async function refreshTenantUsers(tenantId = selectedTenant?.id) {
+    if (!tenantId) {
+      setTenantUsers([])
+      return
+    }
+
+    setLoadingTenantUsers(true)
+    try {
+      const payload = await fetchTenantUsers(API_BASE_URL, tenantId)
+      setTenantUsers(payload)
+    } catch (error) {
+      if (error.status === 401) {
+        onSessionExpired()
+        return
+      }
+      setTenantUsers([])
+      setNotice({ tone: 'error', message: error.message || 'Non e stato possibile leggere gli utenti tenant.' })
+    } finally {
+      setLoadingTenantUsers(false)
     }
   }
 
@@ -276,6 +337,28 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     if (!tenant) return
     await refreshTenants(tenant.id)
     setCreateForm(createDefaultCreateForm())
+  }
+
+  async function handleCreateTenantUser(payload) {
+    if (!selectedTenant) return false
+    if (!payload.username || !payload.display_name) {
+      setNotice({ tone: 'error', message: 'Inserisci username e nome visualizzato.' })
+      return false
+    }
+
+    const result = await runAction(
+      'create-tenant-user',
+      () => createTenantUser(API_BASE_URL, selectedTenant.id, payload),
+      'Utente tenant creato. Salva la password temporanea.',
+      "Non e stato possibile creare l'utente tenant.",
+    )
+    if (!result) return false
+    setTenantUserSecret({
+      username: result.user.username,
+      temporaryPassword: result.temporary_password,
+    })
+    await refreshTenantUsers(selectedTenant.id)
+    return true
   }
 
   async function handleSaveModelSettings(event) {
@@ -349,6 +432,48 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
     if (result) {
       await refreshTenants(selectedTenant.id)
       setKeyForm(createDefaultKeyForm())
+    }
+  }
+
+  async function handleRegenerateTenantUserPassword(user) {
+    if (!selectedTenant) return
+    const confirmed = window.confirm(`Rigenerare la password per ${user.username}?`)
+    if (!confirmed) return
+
+    const result = await runAction(
+      `regenerate-tenant-user:${user.id}`,
+      () => regenerateTenantUserPassword(API_BASE_URL, selectedTenant.id, user.id),
+      'Password rigenerata. Salva la nuova password temporanea.',
+      'Non e stato possibile rigenerare la password.',
+    )
+    if (!result) return
+    setTenantUserSecret({
+      username: result.user.username,
+      temporaryPassword: result.temporary_password,
+    })
+    await refreshTenantUsers(selectedTenant.id)
+  }
+
+  async function handleDeleteTenantUser(user) {
+    if (!selectedTenant) return
+    const confirmed = window.confirm(`Eliminare l'utente ${user.username}?`)
+    if (!confirmed) return
+
+    setBusyAction(`delete-tenant-user:${user.id}`)
+    setNotice(null)
+    try {
+      await deleteTenantUser(API_BASE_URL, selectedTenant.id, user.id)
+      setTenantUserSecret(null)
+      setNotice({ tone: 'success', message: 'Utente tenant eliminato.' })
+      await refreshTenantUsers(selectedTenant.id)
+    } catch (error) {
+      if (error.status === 401) {
+        onSessionExpired()
+        return
+      }
+      setNotice({ tone: 'error', message: error.message || "Non e stato possibile eliminare l'utente tenant." })
+    } finally {
+      setBusyAction('')
     }
   }
 
@@ -466,10 +591,20 @@ function AdminPage({ adminSession, onLogout, onSessionExpired }) {
           usageRows={usageRows}
           usageTotals={usageTotals}
           loadingUsage={loadingUsage}
+          tenantUsers={tenantUsers}
+          loadingTenantUsers={loadingTenantUsers}
+          tenantUserSecret={tenantUserSecret}
           busyAction={busyAction}
           onSaveProfile={handleSaveProfile}
           onSaveLicense={handleSaveLicense}
           onRotateKey={handleRotateKey}
+          onCreateTenantUser={handleCreateTenantUser}
+          onRegenerateTenantUserPassword={handleRegenerateTenantUserPassword}
+          onDeleteTenantUser={handleDeleteTenantUser}
+          onDismissTenantUserSecret={() => setTenantUserSecret(null)}
+          onRefreshTenantUsers={() => {
+            void refreshTenantUsers(selectedTenant?.id)
+          }}
           onActivate={() => {
             void handleStatusChange('active')
           }}

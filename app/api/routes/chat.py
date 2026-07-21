@@ -5,6 +5,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response, WebSocket, WebSocketDisconnect, status
 from sqlalchemy.orm import Session
 
+from app.auth.cookies import clear_chat_auth_cookies, set_chat_auth_cookies
 from app.auth.dependencies import get_auth_service, get_ws_ticket_service, require_session_principal
 from app.auth.schemas import WSTicketResponse, WebChatSessionResponse
 from app.auth.services import AuthService, WSTicketService
@@ -17,28 +18,6 @@ from app.tenancy.models import SessionPrincipal
 from app.tenancy.services import TenantAccessError
 
 router = APIRouter(prefix="/v1/chat", tags=["chat"])
-
-
-def _set_chat_session_cookie(response: Response, settings: Settings, token: str) -> None:
-    response.set_cookie(
-        key=settings.chat_session_cookie_name,
-        value=token,
-        max_age=settings.session_ttl_seconds,
-        httponly=True,
-        samesite="strict",
-        secure=settings.web_cookie_secure,
-        path="/",
-    )
-
-
-def _clear_chat_session_cookie(response: Response, settings: Settings) -> None:
-    response.delete_cookie(
-        key=settings.chat_session_cookie_name,
-        httponly=True,
-        samesite="strict",
-        secure=settings.web_cookie_secure,
-        path="/",
-    )
 
 
 @router.post("/web/session", response_model=WebChatSessionResponse)
@@ -57,7 +36,13 @@ async def start_web_chat_session(
             headers={"X-Reason-Code": exc.reason_code},
         ) from exc
 
-    _set_chat_session_cookie(response, settings, session_context.access_token)
+    set_chat_auth_cookies(
+        response,
+        settings,
+        access_token=session_context.access_token,
+        refresh_token=session_context.refresh_token,
+    )
+    response.headers["Cache-Control"] = "no-store"
     return WebChatSessionResponse(
         session_id=session_context.session_id,
         display_name=session_context.display_name,
@@ -89,7 +74,7 @@ async def close_session(
         raise HTTPException(status_code=403, detail="Sessione non coerente con il token.")
     runtime = ChatRuntimeService(session=session, settings=settings, state_store=get_state_store(settings))
     await runtime.close_session(principal)
-    _clear_chat_session_cookie(response, settings)
+    clear_chat_auth_cookies(response, settings)
     return None
 
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -68,6 +69,24 @@ class AdminSessionClaims(BaseModel):
     name: str
     exp: int
     iat: int
+
+
+class RefreshClaims(BaseModel):
+    iss: str
+    aud: str
+    sub: str
+    jti: str
+    fid: str
+    kind: Literal["admin", "chat"]
+    token_type: Literal["refresh"]
+    exp: int
+    iat: int
+    tid: str | None = None
+    sid: str | None = None
+    roles: list[str] = Field(default_factory=list)
+    mask_id: str | None = None
+    mask_permissions: list[str] = Field(default_factory=list)
+    company_code: str | None = None
 
 
 class AdminSessionResponse(BaseModel):

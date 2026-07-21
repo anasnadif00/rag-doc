@@ -41,8 +41,9 @@ def get_ws_ticket_service(
 def get_admin_auth_service(
     session: Session = Depends(get_db_session),
     settings: Settings = Depends(get_settings),
+    state_store=Depends(get_state_store_dependency),
 ) -> AdminAuthService:
-    return AdminAuthService(session=session, settings=settings)
+    return AdminAuthService(session=session, settings=settings, state_store=state_store)
 
 
 def require_provider_admin(

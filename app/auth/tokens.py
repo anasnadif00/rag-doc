@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 import time
+import uuid
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Literal
 
 import jwt
 from jwt import ExpiredSignatureError, InvalidTokenError
+from pydantic import ValidationError
 
-from app.auth.schemas import AdminSessionClaims, BootstrapClaims, SessionClaims
+from app.auth.schemas import AdminSessionClaims, BootstrapClaims, RefreshClaims, SessionClaims
 from app.core.config import Settings
 
 
@@ -133,3 +135,68 @@ def decode_admin_session_token(settings: Settings, token: str) -> AdminSessionCl
     except InvalidTokenError as exc:
         raise TokenValidationError("Sessione amministratore non valida.") from exc
     return AdminSessionClaims.model_validate(payload)
+
+
+def issue_refresh_token(
+    settings: Settings,
+    *,
+    kind: Literal["admin", "chat"],
+    user_id: str,
+    ttl_seconds: int,
+    family_id: str | None = None,
+    tenant_id: str | None = None,
+    session_id: str | None = None,
+    roles: list[str] | None = None,
+    mask_id: str | None = None,
+    mask_permissions: list[str] | None = None,
+    company_code: str | None = None,
+) -> tuple[str, RefreshClaims]:
+    if kind == "chat" and (not tenant_id or not session_id):
+        raise ValueError("I refresh token chat richiedono tenant e sessione.")
+
+    issued_at_ts = int(time.time())
+    payload = {
+        "iss": settings.refresh_jwt_issuer,
+        "aud": settings.refresh_jwt_audience,
+        "sub": user_id,
+        "jti": str(uuid.uuid4()),
+        "fid": family_id or str(uuid.uuid4()),
+        "kind": kind,
+        "token_type": "refresh",
+        "iat": issued_at_ts,
+        "exp": issued_at_ts + ttl_seconds,
+        "tid": tenant_id,
+        "sid": session_id,
+        "roles": roles or [],
+        "mask_id": mask_id,
+        "mask_permissions": mask_permissions or [],
+        "company_code": company_code,
+    }
+    claims = RefreshClaims.model_validate(payload)
+    token = jwt.encode(payload, settings.session_jwt_secret, algorithm=settings.session_jwt_algorithm)
+    return token, claims
+
+
+def decode_refresh_token(
+    settings: Settings,
+    token: str,
+    *,
+    verify_exp: bool = True,
+) -> RefreshClaims:
+    try:
+        payload = jwt.decode(
+            token,
+            settings.session_jwt_secret,
+            audience=settings.refresh_jwt_audience,
+            issuer=settings.refresh_jwt_issuer,
+            algorithms=[settings.session_jwt_algorithm],
+            options={
+                "verify_exp": verify_exp,
+                "require": ["exp", "iat", "jti", "fid", "sub", "kind", "token_type"],
+            },
+        )
+        return RefreshClaims.model_validate(payload)
+    except ExpiredSignatureError as exc:
+        raise TokenValidationError("Refresh token scaduto.") from exc
+    except (InvalidTokenError, ValidationError) as exc:
+        raise TokenValidationError("Refresh token non valido.") from exc

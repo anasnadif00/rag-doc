@@ -28,9 +28,27 @@
 - `mask_permissions`: permissions such as `chat:use`
 - `exp`: short-lived expiry
 
+### Refresh JWT
+
+- `iss`: `rag-doc-api`
+- `aud`: `rag-doc-refresh`
+- `sub`: admin or chat user id
+- `kind`: `admin` or `chat`
+- `jti`: unique token id, rotated at every refresh
+- `fid`: refresh-token family id used for reuse detection
+- `token_type`: `refresh`
+- `tid`, `sid`, roles and mask claims for chat sessions
+- `exp`: refresh expiry; defaults to seven days
+
+Refresh tokens are only stored in dedicated `HttpOnly`, `SameSite=Strict` cookies. Calling
+`POST /v1/admin-auth/refresh` or `POST /v1/chat-auth/refresh` rotates both the access and
+refresh cookies. Reusing a consumed refresh token revokes its complete token family.
+
 ## Redis Keys
 
 - `auth:bootstrap:jti:{jti}`: replay guard
+- `auth:refresh:{kind}:family:{fid}`: current refresh-token id for a rotating family
+- `auth:refresh:{kind}:revoked:{fid}`: refresh family revocation marker
 - `chat:wsticket:{token}`: single-use WebSocket ticket
 - `chat:memory:{tenant_id}:{user_ref_hash}:{session_id}`: ephemeral conversation history
 - `rate:tenant:{tenant_id}:{window}`: tenant burst counter

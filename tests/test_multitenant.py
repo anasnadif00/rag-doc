@@ -13,6 +13,8 @@ from starlette.websockets import WebSocketDisconnect
 
 from app.api.main import create_app
 from app.auth.passwords import hash_password
+from app.auth.refresh import RefreshTokenService
+from app.auth.tokens import TokenValidationError
 from app.core.config import get_settings
 from app.core.runtime_config import get_runtime_settings
 from app.domain.schemas import QueryResponse, ScreenContext, ScreenContextSummary
@@ -50,6 +52,14 @@ def _login_admin(client: TestClient, username: str = "admin", password: str = AD
     response = client.post("/v1/admin-auth/login", json={"username": username, "password": password})
     assert response.status_code == 200, response.text
     return response.json()
+
+
+def _replace_cookie(client: TestClient, name: str, value: str, *, path: str = "/") -> None:
+    matching = [cookie for cookie in client.cookies.jar if cookie.name == name]
+    domain = matching[0].domain if matching else "testserver.local"
+    for cookie in matching:
+        client.cookies.jar.clear(cookie.domain, cookie.path, cookie.name)
+    client.cookies.set(name, value, domain=domain, path=path)
 
 
 def _generate_keypair() -> tuple[str, str]:
@@ -380,6 +390,47 @@ def test_admin_login_protects_admin_routes(monkeypatch, tmp_path: Path):
         assert denied_again.status_code == 401
 
 
+def test_admin_refresh_rotates_cookies_and_restores_access(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        settings = get_settings()
+        initial_access = client.cookies.get(settings.admin_session_cookie_name)
+        initial_refresh = client.cookies.get(settings.admin_refresh_cookie_name)
+        assert initial_access
+        assert initial_refresh
+
+        _replace_cookie(client, settings.admin_session_cookie_name, "access-token-scaduto")
+        assert client.get("/v1/admin/tenants").status_code == 401
+
+        refreshed = client.post("/v1/admin-auth/refresh")
+        assert refreshed.status_code == 200, refreshed.text
+        assert refreshed.headers["cache-control"] == "no-store"
+        assert client.cookies.get(settings.admin_session_cookie_name) != "access-token-scaduto"
+        assert client.cookies.get(settings.admin_refresh_cookie_name) != initial_refresh
+        assert client.get("/v1/admin/tenants").status_code == 200
+
+        _replace_cookie(client, settings.admin_session_cookie_name, "access-token-scaduto")
+        assert client.post("/v1/admin-auth/logout").status_code == 204
+        assert settings.admin_session_cookie_name not in client.cookies
+        assert settings.admin_refresh_cookie_name not in client.cookies
+        assert client.post("/v1/admin-auth/refresh").status_code == 401
+
+
+def test_refresh_token_reuse_revokes_the_rotated_family(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path):
+        settings = get_settings()
+        refresh_tokens = RefreshTokenService(settings, get_state_store(settings))
+
+        issued = asyncio.run(refresh_tokens.issue_admin(user_id="admin-id"))
+        consumed = asyncio.run(refresh_tokens.consume(issued.token, expected_kind="admin"))
+        rotated = asyncio.run(refresh_tokens.rotate(consumed))
+
+        with pytest.raises(TokenValidationError, match="gia utilizzato"):
+            asyncio.run(refresh_tokens.consume(issued.token, expected_kind="admin"))
+        with pytest.raises(TokenValidationError, match="revocata"):
+            asyncio.run(refresh_tokens.consume(rotated.token, expected_kind="admin"))
+
+
 def test_admin_model_settings_are_persisted_and_applied_at_runtime(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("GENERATION_MODEL", "gpt-env-generation")
     monkeypatch.setenv("RERANK_MODEL", "gpt-env-rerank")
@@ -491,6 +542,41 @@ def test_chat_auth_login_sets_chat_cookie_and_me_uses_tenant_user(monkeypatch, t
         assert after_logout.status_code == 401
 
 
+def test_chat_refresh_rotates_cookies_and_restores_access(monkeypatch, tmp_path: Path):
+    with _configure_platform(monkeypatch, tmp_path) as client:
+        _login_admin(client)
+        tenant = _create_tenant(client)
+        _create_tenant_user(tenant["id"])
+        login = client.post(
+            "/v1/chat-auth/login",
+            json={"tenant_code": "acme", "username": "mario.rossi", "password": "Password123!"},
+        )
+        assert login.status_code == 200, login.text
+
+        settings = get_settings()
+        initial_access = client.cookies.get(settings.chat_session_cookie_name)
+        initial_refresh = client.cookies.get(settings.chat_refresh_cookie_name)
+        assert initial_access
+        assert initial_refresh
+
+        _replace_cookie(client, settings.chat_session_cookie_name, "access-token-scaduto")
+        assert client.get("/v1/chat-auth/me").status_code == 401
+
+        refreshed = client.post("/v1/chat-auth/refresh")
+        assert refreshed.status_code == 200, refreshed.text
+        assert refreshed.json()["username"] == "mario.rossi"
+        assert refreshed.headers["cache-control"] == "no-store"
+        assert client.cookies.get(settings.chat_session_cookie_name) != "access-token-scaduto"
+        assert client.cookies.get(settings.chat_refresh_cookie_name) != initial_refresh
+        assert client.get("/v1/chat-auth/me").status_code == 200
+
+        _replace_cookie(client, settings.chat_session_cookie_name, "access-token-scaduto")
+        assert client.post("/v1/chat-auth/logout").status_code == 204
+        assert settings.chat_session_cookie_name not in client.cookies
+        assert settings.chat_refresh_cookie_name not in client.cookies
+        assert client.post("/v1/chat-auth/refresh").status_code == 401
+
+
 def test_admin_tenant_user_lifecycle(monkeypatch, tmp_path: Path):
     with _configure_platform(monkeypatch, tmp_path) as client:
         _login_admin(client)
@@ -583,6 +669,7 @@ def test_auth_bootstrap_sets_chat_cookie(monkeypatch, tmp_path: Path):
         assert response.status_code == 200, response.text
         assert response.json()["tenant_code"] == "acme"
         assert get_settings().chat_session_cookie_name in client.cookies
+        assert get_settings().chat_refresh_cookie_name in client.cookies
 
         me = client.get("/v1/chat-auth/me")
         assert me.status_code == 200, me.text
@@ -605,6 +692,7 @@ def test_web_chat_session_uses_default_tenant_cookie(monkeypatch, tmp_path: Path
         assert session_payload["display_name"] == "Assistenza clienti"
         assert session_payload["session_id"]
         assert get_settings().chat_session_cookie_name in client.cookies
+        assert get_settings().chat_refresh_cookie_name in client.cookies
 
         ticket = client.post("/v1/chat/ws-ticket")
         assert ticket.status_code == 200

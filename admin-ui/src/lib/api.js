@@ -47,15 +47,64 @@ function extractErrorInfo(payload) {
   return { message: "", reasonCode: "" };
 }
 
-async function request(baseUrl, path, { method = "GET", body } = {}) {
-  const response = await fetch(buildUrl(baseUrl, path), {
+const refreshRequests = {
+  admin: null,
+  chat: null,
+};
+
+function authScopeForPath(path) {
+  if (path === "/v1/admin-auth/me" || path.startsWith("/v1/admin/")) {
+    return "admin";
+  }
+  if (
+    path === "/v1/chat-auth/me" ||
+    path === "/v1/chat/ws-ticket" ||
+    path.startsWith("/v1/chat/session/")
+  ) {
+    return "chat";
+  }
+  return null;
+}
+
+function fetchOptions({ method, body }) {
+  return {
     method,
     credentials: "same-origin",
     headers: {
       ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+  };
+}
+
+async function refreshAuthentication(baseUrl, scope) {
+  if (!refreshRequests[scope]) {
+    const path = `/v1/${scope === "admin" ? "admin-auth" : "chat-auth"}/refresh`;
+    refreshRequests[scope] = fetch(buildUrl(baseUrl, path), {
+      method: "POST",
+      credentials: "same-origin",
+    })
+      .then((response) => response.ok)
+      .catch(() => false)
+      .finally(() => {
+        refreshRequests[scope] = null;
+      });
+  }
+  return refreshRequests[scope];
+}
+
+async function request(baseUrl, path, { method = "GET", body } = {}) {
+  const url = buildUrl(baseUrl, path);
+  const options = fetchOptions({ method, body });
+  let response = await fetch(url, options);
+
+  const authScope = authScopeForPath(path);
+  if (response.status === 401 && authScope) {
+    const refreshed = await refreshAuthentication(baseUrl, authScope);
+    if (refreshed) {
+      response = await fetch(url, options);
+    }
+  }
 
   const payload = await parseResponse(response);
   if (!response.ok) {

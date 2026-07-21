@@ -9,7 +9,8 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 
 from app.auth.passwords import hash_password, needs_rehash, verify_password
-from app.auth.schemas import BootstrapRequest, BootstrapResponse, SessionClaims, WSTicketPayload, WSTicketResponse
+from app.auth.refresh import RefreshTokenService
+from app.auth.schemas import BootstrapRequest, BootstrapResponse, RefreshClaims, SessionClaims, WSTicketPayload, WSTicketResponse
 from app.auth.tokens import (
     TokenValidationError,
     decode_bootstrap_token,
@@ -36,6 +37,7 @@ USAGE_LIMIT_REASON_CODES = {"daily_message_limit", "daily_token_limit"}
 class WebChatSessionContext:
     session_id: str
     access_token: str
+    refresh_token: str
     display_name: str
     expires_in: int
 
@@ -44,6 +46,7 @@ class WebChatSessionContext:
 class ChatAuthSessionContext:
     session_id: str
     access_token: str
+    refresh_token: str
     tenant_id: str
     tenant_code: str
     tenant_display_name: str
@@ -75,8 +78,9 @@ class AuthService:
         self.sessions = ChatSessionRepository(session)
         self.audit = AuditRepository(session)
         self.access = TenantAccessService(session, settings, audit_repository=self.audit)
+        self.refresh_tokens = RefreshTokenService(settings, state_store)
 
-    async def bootstrap(self, request: BootstrapRequest, *, origin: str | None = None) -> BootstrapResponse:
+    async def bootstrap(self, request: BootstrapRequest, *, origin: str | None = None) -> tuple[BootstrapResponse, str]:
         self._ensure_security_configured()
         unverified_claims = read_unverified_claims(request.bootstrap_token)
         issuer = str(unverified_claims.get("iss") or "").strip()
@@ -133,6 +137,15 @@ class AuthService:
             mask_permissions=claims.mask_permissions,
             company_code=claims.company_code,
         )
+        refresh = await self.refresh_tokens.issue_chat(
+            user_id=claims.sub,
+            tenant_id=tenant.id,
+            session_id=chat_session.id,
+            roles=claims.roles,
+            mask_id=claims.mask_id,
+            mask_permissions=claims.mask_permissions,
+            company_code=claims.company_code,
+        )
         self.audit.record(
             tenant_id=tenant.id,
             session_id=chat_session.id,
@@ -144,13 +157,16 @@ class AuthService:
             decision="allow",
         )
         self.session.commit()
-        return BootstrapResponse(
-            session_id=chat_session.id,
-            access_token=access_token,
-            expires_in=self.settings.session_ttl_seconds,
-            tenant_id=tenant_context.tenant_id,
-            tenant_code=tenant_context.tenant_code,
-            display_name=tenant_context.display_name,
+        return (
+            BootstrapResponse(
+                session_id=chat_session.id,
+                access_token=access_token,
+                expires_in=self.settings.session_ttl_seconds,
+                tenant_id=tenant_context.tenant_id,
+                tenant_code=tenant_context.tenant_code,
+                display_name=tenant_context.display_name,
+            ),
+            refresh.token,
         )
 
     def principal_from_session_token(self, token: str) -> SessionPrincipal:
@@ -217,6 +233,15 @@ class AuthService:
             mask_permissions=["chat:use"],
             company_code=None,
         )
+        refresh = await self.refresh_tokens.issue_chat(
+            user_id=user_id,
+            tenant_id=tenant.id,
+            session_id=chat_session.id,
+            roles=[],
+            mask_id=None,
+            mask_permissions=["chat:use"],
+            company_code=None,
+        )
         self.audit.record(
             tenant_id=tenant.id,
             session_id=chat_session.id,
@@ -231,11 +256,12 @@ class AuthService:
         return WebChatSessionContext(
             session_id=chat_session.id,
             access_token=access_token,
+            refresh_token=refresh.token,
             display_name=tenant_context.display_name,
             expires_in=self.settings.session_ttl_seconds,
         )
 
-    def login_chat_user(
+    async def login_chat_user(
         self,
         *,
         tenant_code: str,
@@ -292,6 +318,15 @@ class AuthService:
             mask_permissions=["chat:use"],
             company_code=None,
         )
+        refresh = await self.refresh_tokens.issue_chat(
+            user_id=user.username,
+            tenant_id=tenant.id,
+            session_id=chat_session.id,
+            roles=[],
+            mask_id=None,
+            mask_permissions=["chat:use"],
+            company_code=None,
+        )
         self.audit.record(
             tenant_id=tenant.id,
             session_id=chat_session.id,
@@ -307,6 +342,7 @@ class AuthService:
         return ChatAuthSessionContext(
             session_id=chat_session.id,
             access_token=access_token,
+            refresh_token=refresh.token,
             tenant_id=tenant.id,
             tenant_code=tenant_context.tenant_code,
             tenant_display_name=tenant_context.display_name,
@@ -314,6 +350,58 @@ class AuthService:
             display_name=user.display_name,
             expires_at=expires_at,
         )
+
+    async def refresh_chat_session(self, refresh_token: str) -> ChatAuthSessionContext:
+        claims = await self.refresh_tokens.consume(refresh_token, expected_kind="chat")
+        if not claims.tid or not claims.sid:
+            raise TokenValidationError("Refresh token chat non valido.")
+
+        tenant_context = self.access.require_tenant_allowed(claims.tid)
+        chat_session = self.sessions.get_session(claims.sid)
+        if chat_session is None or chat_session.status != "active":
+            raise TenantAccessError("Sessione chat non attiva.", reason_code="session_inactive", status_code=401)
+
+        tenant_user = self.tenant_users.get_active_user(claims.tid, claims.sub)
+        is_anonymous_web_user = claims.sub.startswith("utente-web-")
+        if chat_session.client_type == "web_portal" and not is_anonymous_web_user and tenant_user is None:
+            raise TenantAccessError("Utente chat non attivo.", reason_code="user_inactive", status_code=401)
+
+        access_token, expires_at = issue_session_token(
+            self.settings,
+            tenant_id=claims.tid,
+            user_id=claims.sub,
+            session_id=claims.sid,
+            roles=claims.roles,
+            mask_id=claims.mask_id,
+            mask_permissions=claims.mask_permissions,
+            company_code=claims.company_code,
+        )
+        refresh = await self.refresh_tokens.rotate(claims)
+        self.audit.record(
+            tenant_id=claims.tid,
+            session_id=claims.sid,
+            user_ref_hash=chat_session.user_ref_hash,
+            actor_type="tenant_user",
+            action="refresh",
+            resource_type="session",
+            resource_id=claims.sid,
+            decision="allow",
+        )
+        self.session.commit()
+        return ChatAuthSessionContext(
+            session_id=claims.sid,
+            access_token=access_token,
+            refresh_token=refresh.token,
+            tenant_id=claims.tid,
+            tenant_code=tenant_context.tenant_code,
+            tenant_display_name=tenant_context.display_name,
+            username=claims.sub,
+            display_name=tenant_user.display_name if tenant_user is not None else claims.sub,
+            expires_at=expires_at,
+        )
+
+    async def revoke_refresh(self, token: str | None) -> RefreshClaims | None:
+        return await self.refresh_tokens.revoke(token, expected_kind="chat")
 
     def _principal_from_claims(self, claims: SessionClaims) -> SessionPrincipal:
         tenant_context = self.access.require_tenant_allowed(claims.tid)
